@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+
+</head>
+<body>
+    <header>
+        <a href="#" class="logo"><i class='bx bxs-home'></i>Honey</a>
+        <ul class="navlist">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li class="dropdown">
+                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+
+                <div class="dropdown-content" style="width: 100%;">
+                    <a href="#">Churidar</a>
+                    <a href="#">Kurthis</a>
+                    <a href="#">Saree</a>
+                    <a href="#">Others</a>
+                </div>
+            </li>
+            <li><a href="#review">Our Customer</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            
+            <a href="#"><i class='bx bx-cart'></i></a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+
+        </div>
+    </header>
+
+    <div class="image-grid" style="margin-top: 80px;">
+        <div class="image-container">
+            
+            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 1" class="brightness-adjusted">
+            <div class="text-container">
+                <h2>Large Heading</h2>
+                <p>Short Heading</p>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 2" class="brightness-adjusted">
+            <div class="text-container">
+                <h2>Large Heading</h2>
+                <p>Short Heading</p>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 3" class="brightness-adjusted">
+            <div class="text-container">
+                <h2>Large Heading</h2>
+                <p>Short Heading</p>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 4" class="brightness-adjusted">
+            <div class="text-container">
+                <h2>Large Heading</h2>
+                <p>Short Heading</p>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 5" class="brightness-adjusted">
+            <div class="text-container">
+                <h2>Large Heading</h2>
+                <p>Short Heading</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <div class="word-container">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="button-container" style="margin-top: 20px;">
+                <a href="#" class="solid-button">Click Me</a>
+            </div>
+        </div>
+
+        <div class="picture-container">
+            <img src="https://media.glamourmagazine.co.uk/photos/613897ccfe678a516c68310c/16:9/w_2560%2Cc_limit/gettyimages-1177471689_sf.jpg" alt="Image Description">
+        </div>
+    </div>
+    
+
+    <a href="#" class="scroll"><i class='bx bx-up-arrow-alt'></i>
+    </a>
+
+    
+
+    
+
+    <script src="{% static 'js/script.js' %}"></script>
+    
+</body>
+</html>
