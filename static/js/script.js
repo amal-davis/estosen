@@ -53,3 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sr.reveal('.home-text', { delay: 300 });
     sr.reveal('.home-img', { delay: 400 });
 });
+
+
+
+
