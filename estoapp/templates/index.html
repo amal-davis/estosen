@@ -46,17 +46,19 @@
     </header>
 
 
-    <div class="swiper-container" style="margin-top: 95px;">
+    <div class="swiper-container" style="margin-top: 90px;">
         <div class="swiper-wrapper">
           <div class="swiper-slide" style="width: 100%; height: 600px; position: relative;">
-            
-            <img src="https://img.freepik.com/free-photo/fashion-photo-graceful-brunette-woman-spring-outfit-posing-holding-white-bag_273443-4124.jpg" alt="" style="width: 100%;"  class="brightness-setting">
+            <video id="swiper-video" width="100%" height="100%" class="brightness-setting">
+                <source src="{% static 'videos/River_Flowing_Aerial_shot.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
             <div class="slide-content">
                 <h2>Slide 1 Heading</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestias officia similique quam sunt! Atque aperiam ut ullam officia eaque ea voluptatibus delectus voluptas inventore esse optio, saepe est aspernatur!</p>
-                
-              </div>
+            </div>
         </div>
+        
           <div class="swiper-slide" style="width: 100%; height: 600px;position: relative;">
             <img src="https://img.freepik.com/free-photo/fashion-photo-graceful-brunette-woman-spring-outfit-posing-holding-white-bag_273443-4124.jpg" alt="" style="width: 100%; "  class="brightness-setting">
             <div class="slide-content">
@@ -82,7 +84,7 @@
       </div>
 
 
-      <div class="section-container" style="margin-top: 20px;">
+      <div class="section-container">
         <div class="word-container">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             <div class="button-container" style="margin-top: 20px;">
@@ -96,7 +98,7 @@
     </div>
 
     
-    <div class="image-grid" style="margin-top: 20px;">
+    <div class="image-grid">
         <div class="image-container">
             
             <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 1" class="brightness-adjusted">
@@ -140,7 +142,7 @@
     </div>
 
     
-    <div class="grid-container" style="margin-top: 20px;">
+    <div class="grid-container">
         <!-- Card 1 -->
         <div class="item">
           <img src="https://media.istockphoto.com/id/607763902/photo/fashion-pretty-woman-with-coffee-cup-wearing-black-rock-style.jpg?s=612x612&w=0&k=20&c=u1YZFp_5NctdjYKBjuacH6CXEc4Idu3UFM4Uo2RbOts=" alt="Event Image">
@@ -194,7 +196,7 @@
       <div class="picture-container" style="margin-top: 40px;">
 
         <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+          <img src="https://img.freepik.com/free-photo/inspired-caucasian-lady-white-tshirt-shoes-dreamy-posing-chair-smiling-charming-girl-with-wavy-hair-sitting-purple-background_197531-25635.jpg" alt="Image 1">
           <div class="overlay">Image 1</div>
         </div>
         <div class="card">
@@ -253,9 +255,12 @@
             <a href="#" class="button">Your Button</a>
         </div>
     </div>
-    
+    <div class="center-heading">
+      <h1 style="color: #000B41;">Styling Inspiration</h1>
+      <h2 style="color: #000B41;">Current Trends, Styling Tips and Much More</h2>
+  </div>
 
-    <div class="container-fluid" style="margin-top: 40px;">
+    <div class="container-fluid" style="margin-top: 60px;">
       <div class="content-section">
           <div class="text-content-section">
               <h1>A World Class Hair Company</h1>
@@ -269,7 +274,43 @@
           </div>
       </div>
   </div>
+
+  <section class="shop" id="shop" style="margin-top: 40px;">
+    <div class="middle-text">
+        <h4>Our Shop</h4>
+        <h2>Lets Check Popular Products</h2>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Product Image 1">
+        <h2>Product Name 1</h2>
+        <p class="description">Short description of the product goes here...</p>
+        <p class="price">$99.99</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV81X3RvcF92aWV3X3Bob3RvX29mX2ZvbGRlZF9jbG90aF9vbl9zd2VhdGVyX2luX182YTM5NjU5Yi04YWIxLTQ2YmMtODU1OS1iYTI1ZTU5NjViZTZfMi5wbmc.png" alt="Product Image 2">
+        <h2>Product Name 2</h2>
+        <p class="description">Short description of the product goes here...</p>
+        <p class="price">$199.99</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV81X3RvcF92aWV3X3Bob3RvX29mX2ZvbGRlZF9jbG90aF9vbl9zd2VhdGVyX2luX182YTM5NjU5Yi04YWIxLTQ2YmMtODU1OS1iYTI1ZTU5NjViZTZfMi5wbmc.png" alt="Product Image 3">
+        <h2>Product Name 3</h2>
+        <p class="description">Short description of the product goes here...</p>
+        <p class="price">$299.99</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV81X3RvcF92aWV3X3Bob3RvX29mX2ZvbGRlZF9jbG90aF9vbl9zd2VhdGVyX2luX182YTM5NjU5Yi04YWIxLTQ2YmMtODU1OS1iYTI1ZTU5NjViZTZfMi5wbmc.png" alt="Product Image 4">
+        <h2>Product Name 4</h2>
+        <p class="description">Short description of the product goes here...</p>
+        <p class="price">$399.99</p>
+        <button>Add to Cart</button>
+      </div>
     
+</section>
 
   
     <a href="#" class="scroll"><i class='bx bx-up-arrow-alt'></i>
@@ -289,7 +330,7 @@ var swiper = new Swiper('.swiper-container', {
   spaceBetween: 30,
   loop: true,
   autoplay: {
-    delay: 3000,
+    delay: 5000,
     disableOnInteraction: false,
   },
   pagination: {
@@ -298,12 +339,59 @@ var swiper = new Swiper('.swiper-container', {
     bulletClass: 'swiper-pagination-bullet',
     bulletActiveClass: 'swiper-pagination-bullet-active',
   },
-  speed: 1000,
+  speed: 2000,
   effect: 'slide',
   grabCursor: true,
 });
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    var video = document.getElementById('swiper-video');
+
+    // Mute the video and play it automatically
+    video.muted = true;
+    video.play();
+    
+    // Hide default controls
+    video.controls = false;
+
+    // Optional: Add event listeners or custom controls if needed
+    // video.addEventListener('click', function() {
+    //     if (video.paused) {
+    //         video.play();
+    //     } else {
+    //         video.pause();
+    //     }
+    // });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var mySwiper = new Swiper('.swiper-container', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      loop: true, // Enable loop for a seamless transition between the last and first slides
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      on: {
+        slideChange: function () {
+          var video = document.getElementById('swiper-video');
+          if (video) {
+            video.play();
+          }
+        },
+      },
+    });
+  });
 
 
 

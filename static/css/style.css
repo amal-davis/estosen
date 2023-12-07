@@ -315,7 +315,8 @@ li.dropdown {
   .swiper-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: fill;   
+     
   }
   
   .slide-content {
@@ -325,6 +326,11 @@ li.dropdown {
     transform: translate(-50%, -50%);
     text-align: center;
     color: #FFFF; 
+  }
+  #swiper-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   
   h2, p, button {
@@ -361,10 +367,9 @@ li.dropdown {
   }
   
   .picture-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 97%;
+display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 .container-heading {
     text-align: center;
@@ -400,7 +405,7 @@ li.dropdown {
 
 .card img {
     width: 100%;
-    height: auto;
+    height: 400px;
     display: block;
     transition: transform 0.3s ease; 
 }
@@ -565,6 +570,7 @@ li.dropdown {
 
 .text-content-section h1, h2, p {
     margin: 0;
+    padding-top: 20px;
 }
 
 .text-content-section h1 {
@@ -622,6 +628,87 @@ li.dropdown {
     height: auto;
 }
 
+.center-heading{
+    text-align: center;
+    margin-top: 70px;
+}
+
+.middle-text{
+    text-align: center;
+}
+.middle-text h4{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000B41;
+}
+.middle-text h2{
+    font-size: var(--h2-font);
+    color: #000B41;
+}
+
+.row-btn{
+    text-align: center;
+    margin-top: 6rem;
+}
+.row img:hover{
+    transform: scale(1.1);
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    
+  }
+  
+  .product-card {
+    
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #000B41;
+  padding: 10px;
+  text-align: center;
+  background-color: #000B41;
+  border-radius: 15px;
+  }
+  
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .product-card h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  .product-card .description {
+    font-size: 1em;
+    color: #fffcfc;
+    margin-bottom: 10px;
+  }
+  
+  .product-card .price {
+    font-size: 1.2em;
+    color: #f9f8f8;
+  }
+  
+  .product-card button {
+    background-color: #8B5632;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  
 
 @media screen and (min-width: 768px) {
     .content-section {
@@ -633,7 +720,7 @@ li.dropdown {
     }
 
     .image-container-section {
-        max-width: 50%;
+        max-width: 90%;
         margin-top: 20px; 
         margin-left: 10px; 
     }
@@ -658,7 +745,7 @@ li.dropdown {
 
 @media (max-width: 550px) {
     .main-sections{
-    margin-top: 134px;
+    margin-top: 18px;
 }
 }
 
@@ -690,8 +777,15 @@ li.dropdown {
 
     .left-sections {
         background: linear-gradient(90deg, #8B5632 100%, #023f3f 100%);
+        margin-top: 71px;
     }
 
+    .content-section{
+        margin-top: 40px;
+    }
+    .center-heading{
+        margin-top: 180px;
+    }
     .button {
         width: auto; /* Allow the button to take the natural width on smaller screens */
     }
@@ -701,11 +795,30 @@ li.dropdown {
     
 }
 }
+
+@media (max-width: 300px) {
+   
+    .left-sections{
+        margin-top: 48px;
+        
+    }
+    
+    
+
+}
+@media(max-width:290px){
+    .center-heading{
+        margin-top: 280px;
+    }
+    
+    
+}
+
 @media (max-width: 380px) {
 
     .main-sections {
         flex-direction: column;
-        margin-top: 184px;
+        margin-top: 154px;
         
     }
 }
@@ -713,7 +826,7 @@ li.dropdown {
 
   @media (max-width: 768px) {
     .grid-container {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 2fr; 
     }
 }
 
@@ -723,9 +836,19 @@ li.dropdown {
     }
 }
 
+
+@media (max-width: 768px) {
+    #swiper-video {
+      height: 100%; /* Adjust the height as needed */
+    }
+  }
+
   @media (max-width: 768px) {
     .swiper-slide {
       height: 300px;
+    }
+    .swiper-slide img{
+        height: 100%;
     }
   }
 
@@ -767,13 +890,25 @@ li.dropdown {
 
 @media (max-width: 768px) {
     .picture-container {
-        width: 48%; 
-    }
+        grid-template-columns: repeat(2, 1fr);
+      }
+}
+
+@media (max-width: 840px)   {
+    .picture-container {
+        grid-template-columns: repeat(1, 1fr);
+      }
+}
+
+@media(max-width: 1030px){
+    .picture-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
 }
 
 @media (max-width: 480px) {
     .picture-container {
-        width: 100%; 
+        grid-template-columns: repeat(1, 1fr); 
     }
 }
 
