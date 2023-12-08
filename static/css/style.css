@@ -251,8 +251,8 @@ li.dropdown {
 }
 
 .model-container img {
-    width: 100%;
-    height: auto;
+    width: 600px;
+    height: 400px;
     display: block;
 }
 
@@ -404,7 +404,7 @@ display: grid;
 }
 
 .card img {
-    width: 100%;
+    width: 400px;
     height: 400px;
     display: block;
     transition: transform 0.3s ease; 
@@ -414,7 +414,7 @@ display: grid;
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 400px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px;
@@ -647,62 +647,289 @@ display: grid;
     color: #000B41;
 }
 
-.row-btn{
-    text-align: center;
-    margin-top: 6rem;
+
+  
+  .footer {
+	background-color: #000B41;
+	padding: 80px 0;
+    position: relative;
+
 }
-.row img:hover{
-    transform: scale(1.1);
+
+.container {
+	max-width: 1170px;
+	margin: auto;
 }
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+ul {
+	list-style: none;
+}
+
+.footer-col {
+	width: 25%;
+	padding: 0 15px;
+}
+
+.footer-col h4 {
+	font-size: 18px;
+	color: #FFF;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+}
+
+.footer-col h4::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	background-color: #8B5632;
+	width: 50px;
+	height: 2px;
+}
+
+.footer-col ul li:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+	color: #DDD;
+	display: block;
+	font-size: 1rem;
+	font-weight: 300;
+	text-transform: capitalize;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+	color: #FFF;
+	padding-left: 7px;
+}
+
+.footer-col .social-links a {
+	color: #FFF;
+	background-color: rgba(255, 255, 255, 0.2);
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	text-align: center;
+	margin: 0 10px 10px 0;
+	line-height: 40px;
+	transition: all 0.5s ease;
+}
+
+.footer-col .social-links a:hover {
+	color: #151515;
+	background-color: #FFF;
+}
+
+.footer-bottom {
+    max-width: 1170px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px; /* Adjust this value based on your design */
+    color: #FFF;
+    font-size: 14px;
   }
   
-  .product-card {
-    
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #000B41;
-  padding: 10px;
-  text-align: center;
-  background-color: #000B41;
-  border-radius: 15px;
+  .footer-bottom p:first-child {
+    margin-right: auto; /* Push the first paragraph to the left */
   }
   
-  .product-card img {
-    max-width: 100%;
-    height: auto;
+  .footer-bottom p:last-child {
+    margin-left: auto; /* Push the last paragraph to the right */
   }
   
-  .product-card h2 {
-    font-size: 1.5em;
-    margin: 10px 0;
+  .footer-bottom p {
+    margin: 0;
+    font-size: 16px;
   }
-  
-  .product-card .description {
-    font-size: 1em;
-    color: #fffcfc;
-    margin-bottom: 10px;
-  }
-  
-  .product-card .price {
-    font-size: 1.2em;
-    color: #f9f8f8;
-  }
-  
-  .product-card button {
-    background-color: #8B5632;
+
+
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+*
+{
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body
+{
+    font-family: 'Roboto', sans-serif;
+}
+a
+{
+    text-decoration: none;
+}
+
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+
+.product-card {
+  width: calc(30.33% - 20px); /* Adjust the width based on your design, considering margins */
+  margin: 10px;
+  position: relative;
+  box-shadow: 0 2px 7px #dfdfdf;
+  background: #fafafa;
+}
+
+.badge {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    background: #000B41;
     color: #fff;
-    border: none;
-    padding: 10px 15px;
-    margin-top: 10px;
-    cursor: pointer;
+    padding: 3px 10px;
+}
+
+.product-tumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    padding: 50px;
+    background: #f0f0f0;
+}
+
+.product-tumb img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.product-details {
+    padding: 30px;
+}
+
+.product-catagory {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 18px;
+}
+
+.product-details h4 a {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    color: #363636;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.product-details h4 a:hover {
+    color: #fbb72c;
+}
+
+.product-details p {
+    font-size: 15px;
+    line-height: 22px;
+    margin-bottom: 18px;
+    color: #999;
+}
+
+.product-bottom-details {
+    overflow: hidden;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.product-bottom-details div {
+    float: left;
+    width: 50%;
+}
+
+.product-price {
+    font-size: 18px;
+    color: #fbb72c;
+    font-weight: 600;
+}
+
+.product-price small {
+    font-size: 80%;
+    font-weight: 400;
+    text-decoration: line-through;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.product-links {
+    text-align: right;
+}
+
+.product-links a {
+    display: inline-block;
+    margin-left: 5px;
+    color: #e1e1e1;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.product-links a:hover {
+    color: #fbb72c;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+      width: calc(50% - 20px);
   }
+}
+
+@media (max-width: 576px) {
+  .product-card {
+      width: calc(100% - 20px);
+  }
+}
+
+  @media (max-width: 767px) {
+    .footer-bottom {
+      flex-direction: column;
+      margin: 0;
+    }
   
+    .footer-bottom p {
+      margin-bottom: 10px;
+    }
+  
+    .footer-bottom p:last-child {
+      margin-top: 10px; /* Add space between the two paragraphs */
+    }
+  }
+@media(max-width: 767px) {
+	.footer-col {
+		width: 50%;
+		margin-bottom: 30px;
+	}
+}
+
+@media(max-width: 574px) {
+	.footer-col {
+		width: 100%;
+	}
+}
+
   @media (max-width: 768px) {
     .product-grid {
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -818,8 +1045,10 @@ display: grid;
 
     .main-sections {
         flex-direction: column;
-        margin-top: 154px;
-        
+        margin-top: 60px;    
+    }
+    .center-heading{
+        margin-top: 240px;
     }
 }
 
