@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        <a href="#" class="logo"><i class='bx bxs-home'></i>Honey</a>
+        <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
         <ul class="navlist">
             <li><a href="#home" class="active">Home</a></li>
             <li><a href="#about">About Us</a></li>
@@ -28,11 +28,11 @@
                 <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
 
                 <div class="dropdown-content" style="width: 100%;">
-                    <a href="#">Churidar</a>
-                    <a href="#">Kurthis</a>
-                    <a href="#">Saree</a>
-                    <a href="#">Others</a>
+                  {% for c in categories %}
+                    <a href="#" value="{{ c.name }}">{{ c.name }}</a>
+                    {% endfor %}  
                 </div>
+                
             </li>
             <li><a href="#review">Our Customer</a></li>
             <li><a href="#contact">Contact Us</a></li>
@@ -98,10 +98,10 @@
     </div>
 
     
-    <div class="image-grid">
+    <div class="image-grid" style="margin-top: -19px;">
         <div class="image-container">
             
-            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 1" class="brightness-adjusted">
+            <img src="{% static 'images/parade.png' %}" alt="Image 1" class="brightness-adjusted">
             <div class="text-container">
                 <h2>Large Heading</h2>
                 <p>Short Heading</p>
@@ -109,7 +109,7 @@
         </div>
 
         <div class="image-container">
-            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 2" class="brightness-adjusted">
+            <img src="{% static 'images/parade.png' %}" alt="Image 2" class="brightness-adjusted">
             <div class="text-container">
                 <h2>Large Heading</h2>
                 <p>Short Heading</p>
@@ -117,7 +117,7 @@
         </div>
 
         <div class="image-container">
-            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 3" class="brightness-adjusted">
+            <img src="{% static 'images/parade.png' %}" alt="Image 3" class="brightness-adjusted">
             <div class="text-container">
                 <h2>Large Heading</h2>
                 <p>Short Heading</p>
@@ -125,7 +125,7 @@
         </div>
 
         <div class="image-container">
-            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 4" class="brightness-adjusted">
+            <img src="{% static 'images/parade.png' %}" alt="Image 4" class="brightness-adjusted">
             <div class="text-container">
                 <h2>Large Heading</h2>
                 <p>Short Heading</p>
@@ -133,7 +133,7 @@
         </div>
 
         <div class="image-container">
-            <img src="https://assets.vogue.in/photos/5e5f7ab335619f0008e2decf/2:3/w_2560%2Cc_limit/Priyal_%2520Y%2520_Project%2520Fall%25202020.jpg" alt="Image 5" class="brightness-adjusted">
+            <img src="{% static 'images/parade.png' %}" alt="Image 5" class="brightness-adjusted">
             <div class="text-container">
                 <h2>Large Heading</h2>
                 <p>Short Heading</p>
@@ -145,7 +145,7 @@
     <div class="grid-container">
         <!-- Card 1 -->
         <div class="item">
-          <img src="https://media.istockphoto.com/id/607763902/photo/fashion-pretty-woman-with-coffee-cup-wearing-black-rock-style.jpg?s=612x612&w=0&k=20&c=u1YZFp_5NctdjYKBjuacH6CXEc4Idu3UFM4Uo2RbOts=" alt="Event Image">
+          <img src="{% static 'images/model.png' %}" alt="model_image">
           
         </div>
         
@@ -235,7 +235,7 @@
             <a href="#" class="button">Your Button</a>
         </div>
         <div class="right-section">
-            <img src="https://img.freepik.com/free-photo/glamorous-woman-posing-with-surprised-face-expression_197531-13194.jpg?size=626&ext=jpg&ga=GA1.1.34264412.1699747200&semt=ais" alt="Your Image" class="image">
+            <img src="{% static 'images/shoot.png' %}" alt="Your_Image" class="image">
         </div>
     </div>
 
@@ -270,7 +270,7 @@
               <button onclick="findOutMore()">Find Out More</button>
           </div>
           <div class="image-container-section">
-              <img src="https://img.freepik.com/free-photo/inspired-caucasian-lady-white-tshirt-shoes-dreamy-posing-chair-smiling-charming-girl-with-wavy-hair-sitting-purple-background_197531-25635.jpg" alt="Image Description">
+              <img src="{% static 'images/shooter_image.png' %}" alt="Image_Description">
           </div>
       </div>
   </div>
@@ -294,10 +294,9 @@
       <h4><a href="">Women leather bag</a></h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
       <div class="product-bottom-details">
-        <div class="product-price"><small>$96.00</small>$230.99</div>
+        <div class="product-price">₹230.99</div>
         <div class="product-links">
-          <a href=""><i class="fa fa-heart"></i></a>
-          <a href=""><i class="fa fa-shopping-cart"></i></a>
+          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
         </div>
       </div>
     </div>
@@ -312,10 +311,9 @@
       <h4><a href="">Women leather bag</a></h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
       <div class="product-bottom-details">
-        <div class="product-price"><small>$96.00</small>$230.99</div>
+        <div class="product-price">₹230.99</div>
         <div class="product-links">
-          <a href=""><i class="fa fa-heart"></i></a>
-          <a href=""><i class="fa fa-shopping-cart"></i></a>
+          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
         </div>
       </div>
     </div>
@@ -330,10 +328,9 @@
       <h4><a href="">Women leather bag</a></h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
       <div class="product-bottom-details">
-        <div class="product-price"><small>$96.00</small>$230.99</div>
+        <div class="product-price">₹230.99</div>
         <div class="product-links">
-          <a href=""><i class="fa fa-heart"></i></a>
-          <a href=""><i class="fa fa-shopping-cart"></i></a>
+          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
         </div>
       </div>
     </div>
@@ -356,30 +353,23 @@
     <div class="footer-col">
       <h4>Categories</h4>
       <ul>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">shipping</a></li>
-        <li><a href="#">returns</a></li>
-        <li><a href="#">order status</a></li>
-        <li><a href="#">payment options</a></li>
+        {% for c in categories %}
+        <li><a href="#" value="{{ c.name }}">{{ c.name }}</a></li>
+      {% endfor %}
       </ul>
     </div>
-    <!-- <div class="footer-col">
-      <h4>online shop</h4>
-      <ul>
-        <li><a href="#">download</a></li>
-        <li><a href="#">changelog</a></li>
-        <li><a href="#">github</a></li>
-        <li><a href="#">all version</a></li>
-      </ul>
-    </div> -->
+    
     <div class="footer-col">
       <h4>follow us</h4>
       <div class="social-links">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
+    </div>
+    <div class="footer-col">
+      <img src="{% static 'images/logo.png' %}" alt="Logo">
     </div>
     
   </div>

@@ -33,7 +33,7 @@ header{
     align-items: center;
     justify-content: space-between;
     background: #000B41;
-    padding: 30px 9%;
+    padding: 10px 9%;
     transition: all .50s ease;
 }
 .logo{
@@ -43,10 +43,11 @@ header{
     font-size: 33px;
     font-weight: 700;
 }
-.logo i{
+.logo img{
     vertical-align: middle;
     margin-right: 8px;
     color: var(--main-color);
+    height: 50px;
 }
 .navlist{
     display: flex;
@@ -625,7 +626,7 @@ display: grid;
 
 .image-container-section img {
     width: 100%;
-    height: auto;
+    
 }
 
 .center-heading{
@@ -756,24 +757,7 @@ ul {
   }
 
 
-  @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
-*
-{
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-
-body
-{
-    font-family: 'Roboto', sans-serif;
-}
-a
-{
-    text-decoration: none;
-}
+  
 
 .products-container {
   display: flex;
@@ -825,7 +809,7 @@ a
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #ccc;
+    color: #000B41;
     margin-bottom: 18px;
 }
 
@@ -834,7 +818,7 @@ a
     display: block;
     margin-bottom: 18px;
     text-transform: uppercase;
-    color: #363636;
+    color: #000B41;
     text-decoration: none;
     transition: 0.3s;
 }
@@ -847,7 +831,7 @@ a
     font-size: 15px;
     line-height: 22px;
     margin-bottom: 18px;
-    color: #999;
+    color: #000B41;
 }
 
 .product-bottom-details {
@@ -863,7 +847,7 @@ a
 
 .product-price {
     font-size: 18px;
-    color: #fbb72c;
+    color: #C6935E;
     font-weight: 600;
 }
 
@@ -882,13 +866,13 @@ a
 .product-links a {
     display: inline-block;
     margin-left: 5px;
-    color: #e1e1e1;
+    color: #000B41;
     transition: 0.3s;
     font-size: 17px;
 }
 
 .product-links a:hover {
-    color: #fbb72c;
+    color: #C6935E;
 }
 
 @media (max-width: 768px) {
@@ -995,7 +979,11 @@ a
     
 }
 }
-
+@media (max-width: 450px){
+    .main-sections{
+        margin-top: -70px;
+    }
+}
 @media (max-width: 768px) {
     .main-sections {
         flex-direction: column;
@@ -1045,11 +1033,12 @@ a
 
     .main-sections {
         flex-direction: column;
-        margin-top: 60px;    
+        margin-top: 116px;    
     }
     .center-heading{
-        margin-top: 240px;
+        margin-top: 290px;
     }
+    
 }
 
 

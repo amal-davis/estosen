@@ -17,4 +17,19 @@ import string
 
 
 def index(request):
-    return render(request,'index.html')
+    categories = Category.objects.all()
+    return render(request,'index.html',{'categories':categories})
+
+
+def admin_page(request):
+    return render(request,'admin.html')
+
+
+def category_page(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        data = Category(name=name)
+        data.save()
+        return redirect('category_page')
+    categories = Category.objects.all()
+    return render(request, 'category.html', {'categories': categories})
