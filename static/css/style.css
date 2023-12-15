@@ -234,7 +234,7 @@ li.dropdown {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px;
+   
     background-color: #f6dccb; 
     color: #fff; 
 }
@@ -245,6 +245,7 @@ li.dropdown {
 .word-container p{
     font-size: 18px;
     color: #000B41;
+    padding-left: 30px;
 }
 .model-container {
     width: 45%; 
@@ -252,8 +253,8 @@ li.dropdown {
 }
 
 .model-container img {
-    width: 600px;
-    height: 400px;
+    width: 100%;
+    height:auto;
     display: block;
 }
 
@@ -261,6 +262,7 @@ li.dropdown {
     position: relative;
     overflow: hidden;
     display: inline-block;
+    padding-left: 30px;
 }
 
 .solid-button {
@@ -1091,6 +1093,9 @@ ul {
     .model-container {
         width: 100%; 
         margin-bottom: 20px;
+    }
+    .word-container{
+        padding: 0;
     }
 }
 

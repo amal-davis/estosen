@@ -75,29 +75,57 @@ body{
           </ul>
         </div>
       </nav>
-    <h2 class="text-center" style="margin-top: 20px;">Category Form</h2><br>
-<div class="container-fluid">
-  <form method="post" action="{% url 'category_page' %}" id="categoryForm">
-    <h3 class="alert alert-info text-center mb-5 w-51">
+    
+<div class="container">
+  <form method="post" action="{% url 'category_page' %}" id="categoryForm" enctype="multipart/form-data" style="margin: auto;">
+    <h1 class=" text-center mt-5 w-51">
       Add Category
-    </h3>
+    </h1>
     {% csrf_token %}
-    <input type="text" class="form-control" placeholder="Enter your category" name="name" style="width: 30%;"><br>
-    <button type="submit" class="btn btn" style="background-color: #000B41;color: #ffff;">Submit</button>
+    <label for="name" class="label">Category</label>
+    <input type="text" class="form-control" placeholder="Enter your category" name="name" style="width: 60%;"><br>
+    
+    <label for="name" class="label">Upload Category image</label>
+    <input type="file" class="form-control"  name="image" style="width: 60%;">
+    <button type="submit" class="btn mt-3" style="background-color: #000B41;color: #ffff;">Submit</button>
   </form>
   <br>
+</div>
   <div class="main-content d-flex justify-content-center">
-<div class="w-50">
-  <h3 class="text-center">List Of Categories Added</h3>
-  <ol id="categoryList" class="list-group" style="margin-top: 40px;">
-    {% for category in categories %}
-    <li class="list-group-item">{{ category.name }}</li>
-    {% endfor %}
+<div class="container-fluid" style="margin-top: 40px; padding-bottom: 40%;">
+<h2 class="text-center mt-5">Ctaegory Added</h2>
+<table class="table mt-5">
+<thead class="thead">
+  <tr>
+    <th>Category ID</th>
+    <th>Category</th>
+    <th>Category Image</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody class="tbody">
+  {% for category in categories %}
+  <tr>
+    <td>{{ category.id }}</td>
+    <td>{{ category.name }}</td>
 
-  </ol>
+    {% if category.image %}
+
+    <td><img src="{{ category.image.url }}" alt="categoryimage" style="width: 90px; height: 90px;"></td>
+    
+    {% endif %}
+
+    <td>
+      <a href="{% url 'edit_category' category.id %}" class="btn btn-outline-dark btn-sm">Edit</a>
+      <a href="{% url 'delete_category' category.id %}" class="btn btn-dark btn-sm">Delete</a>
+    </td>
+  </tr>
+</tbody>
+{% endfor %}
+</table>
 </div>
 </div>
-</div>
+
 
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
