@@ -16,6 +16,8 @@ urlpatterns = [
     path('p_edit_form/<int:pk>',views.p_edit_form,name="p_edit_form"),
     path('edit_category/<int:category_id>/', views.edit_category, name='edit_category'),
     path('p_delete_form/<int:pk>',views.p_delete_form,name='p_delete_form'),
+    path('product_search/', views.product_search, name='product_search'),
+    path('product_list',views.product_list,name='product_list'),
 
 
 

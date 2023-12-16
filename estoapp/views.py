@@ -9,6 +9,8 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from django.db.models import Q
+
 
 from .models import *
 import random
@@ -174,5 +176,31 @@ def p_edit_form(request, pk):
     return render(request, 'product_edit.html', {'product': product, 'categories': categories})
 
 
+def product_search(request):
+    if request.method == 'GET':
+        search = request.GET.get('search')
+        products = Product.objects.filter(Q(name__icontains=search) | Q(category__name__icontains=search))
+        return render(request, 'category_page.html', {'products': products})
+    else:
+        return render(request, 'category_page.html')
 
 
+def product_list(request):
+    # Get the sort option from the request
+    sort_option = request.GET.get('sort', 'az')  # Default sort option is A to Z
+
+    # Define the default ordering
+    ordering = 'name'
+
+    # Update ordering based on the sort option
+    if sort_option == 'za':
+        ordering = '-name'  # Z to A
+    elif sort_option == 'low':
+        ordering = 'price'  # Price Low to High
+    elif sort_option == 'high':
+        ordering = '-price'  # Price High to Low
+
+    # Fetch the products from the database, sorted based on the selected option
+    products = Product.objects.all().order_by(ordering)
+
+    return render(request, 'product_list.html', {'products': products, 'sort_option': sort_option})
