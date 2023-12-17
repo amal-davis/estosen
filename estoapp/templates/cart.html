@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+
+    <title>Cart</title>
+</head>
+<style>
+    body{
+        font-family: 'Sulphur Point', sans-serif;
+
+    }
+    a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
+
+.form-control:focus {
+    border-color: #ced4da; /* Set the desired border color when focused */
+    box-shadow: none; /* Remove the box shadow */
+}
+.form-control {
+    border-radius: 0; 
+}
+.btn{
+    border-radius: 0;
+}
+.card{
+  border-radius: 0px;
+}
+</style>
+<body>
+    <header>
+        <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
+        <ul class="navlist">
+            <li><a href="#home" >Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li class="dropdown">
+                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+
+                <div class="dropdown-content" style="width: 100%;">
+                  {% for c in categories %}
+                  <a href="{% url 'categories' category_name=c.name %}">
+                    {{ c.name }}
+                </a>
+                    {% endfor %}  
+                </div>
+                
+            </li>
+            <li><a href="#review">All Products</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            
+            <a href="#" ><i class='bx bx-cart'></i></a>
+            <a href="{% url 'logout' %}"><i class='bx bx-user'></i></a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+
+        </div>
+    </header>  
+
+
+
+    <div class="container-fluid" style="margin-top: 120px; padding-bottom: 70px;">
+      <div class="row">
+          <!-- Cart Items -->
+          <div class="col-md-8">
+              {% for cart in carts %}
+              <div class="card pt-3 mb-3">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                          <div class="row">
+                              <div class="col-4 col-md-2">
+                                  {% with specific_image=cart.product.images.first %}
+                                  {% if specific_image %}
+                                  <img src="{{ specific_image.image.url }}" alt="Product Image" class="card-img-top">
+                                  {% endif %}
+                                  {% endwith %}
+                              </div>
+                              <div class="col-8 col-md-4">
+                                  <h5 style="color: #000B41;">{{ cart.product.name }}</h5>
+                                  <p style="color: #000B41;">{{ cart.product.description }}</p>
+                              </div>
+                              <div class="col-8 col-md-3">
+                                <form action="{% url 'update_cart' cart.id %}" method="post" class="d-inline">
+                                  {% csrf_token %}
+                                  <div class="input-group mb-3 mt-3">
+                                    <input type="number" name="quantity" value="{{ cart.quantity }}" class="form-control">
+                                    <div class="input-group-append">
+                                      <input type="submit" value="+" class="btn btn-sm" style="background-color: #000B41;color: #fff;">
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="col-4 col-md-2">
+                                  <span  style="color: #000B41;">₹{{ cart.subtotal }}</span>
+                              </div>
+                              <div class="col-12 col-md-1">
+                                  <a href="{% url 'remove_from_cart' cart.id %}" class="btn btn-danger btn-sm">Remove</a>
+                              </div>
+                          </div>
+                      </li>
+                      <!-- Repeat for each product -->
+                  </ul>
+              </div>
+              {% empty %}
+              <div class="text-center">
+                  <h4>Your cart is empty</h4>
+              </div>
+              {% endfor %}
+          </div>
+  
+          <!-- Order Summary -->
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-header" style="color: #000B41;">
+                      Order Summary
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                          <div class="d-flex justify-content-between" style="color: #000B41;">
+                              <span>Total</span>
+                              <strong  class="total-price">{{ grand_total }}</strong>
+                          </div>
+                      </li>
+                      <li class="list-group-item">
+                          <button class="btn btn-block" style="background-color: #000B41; color: #fff;">Checkout</button>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+
+    <script>
+    function submitForm() {
+        // Submit the form when the quantity changes
+        document.getElementById('updateCartForm').submit();
+    }
+
+    </script>
+</body>
+</html>

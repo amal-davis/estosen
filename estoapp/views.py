@@ -185,22 +185,127 @@ def product_search(request):
         return render(request, 'category_page.html')
 
 
-def product_list(request):
-    # Get the sort option from the request
-    sort_option = request.GET.get('sort', 'az')  # Default sort option is A to Z
+def signup_page(request):
+    
+    categories = Category.objects.all()
+    return render(request,'signup.html',{'categories':categories})
 
-    # Define the default ordering
-    ordering = 'name'
 
-    # Update ordering based on the sort option
-    if sort_option == 'za':
-        ordering = '-name'  # Z to A
-    elif sort_option == 'low':
-        ordering = 'price'  # Price Low to High
-    elif sort_option == 'high':
-        ordering = '-price'  # Price High to Low
+def login_page(request):
+    
+    categories = Category.objects.all()
+    return render(request,'login.html',{'categories':categories})
 
-    # Fetch the products from the database, sorted based on the selected option
-    products = Product.objects.all().order_by(ordering)
 
-    return render(request, 'product_list.html', {'products': products, 'sort_option': sort_option})
+def usercreate(request):
+    if request.method=='POST':
+        first_name=request.POST['fname']  
+        last_name=request.POST['sname']  
+        username=request.POST['uname']  
+        password=request.POST['password']  
+        cpassword=request.POST['cpassword']
+        email=request.POST['email']
+        phone_no=request.POST['phone_no']  
+
+
+        if password==cpassword:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, 'This user name already exists!')
+                return redirect('signup_page')
+            else:
+                user=User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
+                    password=password,
+                    email=email)
+                user.save()
+                user_profile = UserProfile.objects.create(
+                user=user,
+                phone_number=phone_no)
+                user_profile.save()
+                print('Succeed....')
+        else:
+            messages.info(request,'Password doesnt match!!!!!')
+            print('Password is not matching')
+            return redirect('signup_page')
+        return redirect('login_page')
+    else:
+        return render(request,'signup.html')
+    
+
+def signin(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = auth.authenticate(username=email, password=password)
+        if user is not None:
+            if user.is_staff:
+                login(request,user)
+                return redirect('admin_page')
+            else:
+                login(request,user)
+                auth.login(request,user)
+                # return redirect('')
+                return redirect('index')
+        else:
+            return redirect('login_page')
+    return redirect('login_page')
+
+
+
+
+
+@login_required(login_url='signin')
+def cart(request):
+    carts = Cart.objects.filter(user=request.user)
+    categories = Category.objects.all()
+    total_price = 0
+    grand_total = sum(cart.product.price * cart.quantity for cart in carts)
+
+    for cart in carts:
+        subtotal = cart.product.price * cart.quantity
+        total_price += subtotal
+        cart.subtotal = subtotal
+        # total_quantity += cart.quantity
+
+    return render(request, 'cart.html', {'carts': carts, 'total_price': total_price,'grand_total': grand_total,'categories':categories})
+    
+
+@login_required(login_url='signin')
+def add_to_cart(request, pk):
+    product = Product.objects.filter(id=pk).first()
+    if product:
+        try:
+            cart = Cart.objects.get(user=request.user, product=product)
+            cart.quantity += 1
+            cart.save()
+        except Cart.DoesNotExist:
+            cart = Cart(user=request.user, product=product)
+            cart.save()
+    return redirect('cart')
+
+
+@login_required(login_url='signin')
+def update_cart(request,pk):
+    cart = Cart.objects.filter(id=pk, user=request.user).first()
+    if cart and request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        cart.quantity = quantity
+        cart.save()
+    return redirect('cart')
+
+
+@login_required(login_url='signin')
+def remove_from_cart(request, pk):
+    cart = Cart.objects.filter(id=pk, user=request.user).first()
+    if cart:
+        cart.delete()
+    return redirect('cart')
+
+
+def logout(request):
+	auth.logout(request)
+	return redirect('index')
+
+

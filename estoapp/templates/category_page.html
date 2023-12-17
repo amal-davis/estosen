@@ -30,7 +30,13 @@ body{
 .card{
     border: none;
 }
-    
+.form-control:focus {
+    border-color: #ced4da; /* Set the desired border color when focused */
+    box-shadow: none; /* Remove the box shadow */
+}
+a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
 </style>
 
 <body>
@@ -38,10 +44,10 @@ body{
     <header>
         <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
         <ul class="navlist">
-            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#home" >Home</a></li>
             <li><a href="#about">About Us</a></li>
             <li class="dropdown">
-                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+                <a href="#shop" class="shop-link active">Our Shop <i class='bx bx-chevron-down'></i></a>
 
                 <div class="dropdown-content" style="width: 100%;">
                   {% for c in categories %}
@@ -57,7 +63,7 @@ body{
         </ul>
         <div class="nav-icons">
             
-            <a href="#"><i class='bx bx-cart'></i></a>
+            <a href="{% url 'cart' %}"><i class='bx bx-cart'></i></a>
             <div class="bx bx-menu" id="menu-icon"></div>
 
         </div>
@@ -83,11 +89,11 @@ body{
                 <!-- Sort options -->
                 <div class="d-flex justify-content-end">
                     <label class="mr-2">Sort by:</label>
-                    <select class="form-control" id="sortOptions" name="sort" onchange="this.form.submit()">
-                        <option value="az" {% if sort_option == 'az' %}selected{% endif %}>A to Z</option>
-                        <option value="za" {% if sort_option == 'za' %}selected{% endif %}>Z to A</option>
-                        <option value="low" {% if sort_option == 'low' %}selected{% endif %}>Price Low to High</option>
-                        <option value="high" {% if sort_option == 'high' %}selected{% endif %}>Price High to Low</option>
+                    <select class="form-control" id="sortOptions" onchange="sortProducts()">
+                        <option value="az">A to Z</option>
+                        <option value="za">Z to A</option>
+                        <option value="low">Price Low to High</option>
+                        <option value="high">Price High to Low</option>
                     </select>
                 </div>
             </div>
@@ -95,7 +101,7 @@ body{
     
         <h1 class="text-center" style="color: #000B41;">{{ category_name }}</h1>
     
-        <div class="row">
+        <div class="row"  id="productContainer">
             {% for product in products %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                     <div class="card">
@@ -104,23 +110,22 @@ body{
                                 <img src="{{ specific_image.image.url }}" alt="Product Image" class="card-img-top">
                             {% endif %}
                         {% endwith %}
-                        <div class="card-img-overlay d-flex justify-content-end">
-                            <a href="#" class="card-link text-danger like">
-                                <i class="fas fa-heart"></i>
-                            </a>
-                        </div>
+                        
                         <div class="card-body">
-                            <h4 class="card-title" style="color: #000B41;">{{ product.name }}</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ product.category.name }}</h6>
-                            <p class="card-text" style="color: #000B41;">
+                            <h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2>
+                            <h6 class="card-subtitle mb-2 text-muted" style="font-size: 18px;">{{ product.category.name }}</h6>
+                            <p class="card-text" style="color: #000B41; font-size: 18px;">
                                 {{ product.description }}
                             </p>
     
                             <div class="buy d-flex justify-content-between align-items-center">
-                                <div class="price text-success"><h5 class="mt-4">{{ product.price }}</h5></div>
+                                <div class="price text-success"><h5 class="mt-4">₹{{ product.price }}</h5></div>
                                 {% if product.status != 'Out of stock' %}
-                                    <a href="#" class="btn mt-3" style="background-color: #000B41; color: #fff; cursor: pointer;"><i style="cursor: pointer;" class="fas fa-shopping-cart"></i> Add to Cart</a>
-                                {% else %}
+                                <form method="POST" action="{% url 'add_to_cart' pk=product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn" style="background-color: #000B41; color: #fff;"><i class='bx bx-cart'></i>Add to Cart</button>
+                                  </form>
+                                    {% else %}
                                     <span class="out-of-stock-text" style="color: rgb(245, 35, 35);">Out of Stock!</span>
                                 {% endif %}
                             </div>
@@ -140,8 +145,46 @@ body{
 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
+        <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+
     <script>
         
+
+        function sortProducts() {
+    var container = document.getElementById('productContainer');
+    var products = Array.from(container.getElementsByClassName('col-12'));
+
+    var sortOption = document.getElementById('sortOptions').value;
+
+    products.sort(function(a, b) {
+        var aValue, bValue;
+
+        if (sortOption === 'az' || sortOption === 'za') {
+            // Sort by product name
+            aValue = a.querySelector('.card-title').textContent.toLowerCase();
+            bValue = b.querySelector('.card-title').textContent.toLowerCase();
+        } else {
+            // Sort by product price
+            aValue = parseFloat(a.querySelector('.price h5').textContent.replace(/[^0-9.]/g, ''));
+            bValue = parseFloat(b.querySelector('.price h5').textContent.replace(/[^0-9.]/g, ''));
+        }
+
+        // Compare and return the appropriate value based on the sorting option
+        if (sortOption === 'za' || sortOption === 'high') {
+            return bValue - aValue;
+        } else {
+            return aValue - bValue;
+        }
+    });
+
+    // Clear the current products in the container
+    container.innerHTML = '';
+
+    // Append the sorted products to the container
+    products.forEach(function(product) {
+        container.appendChild(product);
+    });
+}
     </script>
 
 </body>
