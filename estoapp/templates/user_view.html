@@ -9,11 +9,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
-    <title>Edit The Products</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <title>Customers</title>
 </head>
 <style>
     body{
-    font-family: 'Sulphur Point', sans-serif;
+        font-family: 'Sulphur Point', sans-serif;
+
+    }
+    a:hover {
+    text-decoration: none; /* Remove the underline on hover */
 }
 </style>
 <body>
@@ -72,48 +77,36 @@
           </ul>
         </div>
       </nav>
+    <div class="container-fluid" style="margin-top:40px;">
+<h2 class="text-center"> Customers</h2>
     
-<div class="container mt-5 p-3">
-<div class="heading">
-    <h1 class="text-center">Edit The Product</h1>
-</div>
-
-
-
-    <form method="post" action="/p_edit_form/{{ product.id }}" enctype="multipart/form-data" id="f2">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" value="{{ product.name }}" id="name" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-control" id="category" name="select" required>
-                {% for i in categories %}
-                <option value="{{ i.id }}" {% if product.category_id == i.id %}selected{% endif %}>{{ i.name }}</option>
+        <table class="table" style="margin-top:40px;">
+            <thead>
+                <tr>
+                    <th>CUSTOMER ID</th>
+                    <th>USERNAME</th>
+                    <th>PHONE</th>
+                    <th>EMAIL</th>
+                    <th>ADDRESS</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in users %}
+                <tr>
+                    <td>{{ profile.id }}</td>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.phone_number }}</td>
+                    <td>{{ profile.user.email }}</td>
+                    <td>{{ profile.address }}</td>
+                    <td>
+                        
+                        <a href="{% url 'ad_userdelete' profile.id %}" class="btn btn-dark btn-sm">Delete</a>
+                    </td>
+                </tr>
                 {% endfor %}
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description">{{ product.description }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" value="{{ product.price }}" id="price" name="price" required>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" value="{{ product.image }}" id="image" name="file" multiple>
-        </div>
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="text" name="quantity" id="quantity" value="{{ product.quantity }}" class="form-control "  required>
-        </div>
-        
-        <button class="btn btn-primary   w-70" type="submit" style="background-color: #000B41; color: #ffff;">Update</button>
-    </form>
-</div>
-
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

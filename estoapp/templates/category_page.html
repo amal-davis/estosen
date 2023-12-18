@@ -37,6 +37,62 @@ body{
 a:hover {
     text-decoration: none; /* Remove the underline on hover */
 }
+.dropdown-menu {
+    position: absolute;
+    display: none;
+    margin-top: -5px;
+    left: auto;
+    right: 0; /* Adjust this value based on your design */
+    top: 100%;
+}
+        .dropdown-menu.show {
+            display: block;
+        }
+
+            
+
+            .dropdown-toggle {
+                cursor: pointer;
+            }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #C6935E;
+    color: #fff;
+}
+.cart-link {
+    position: relative;
+}
+
+.cart-quantity-badge {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    background-color: #D91212;
+    color: white;
+    border-radius: 90%;
+    padding: 5px;
+    font-size: 10px;
+}
+
+
 </style>
 
 <body>
@@ -47,25 +103,33 @@ a:hover {
             <li><a href="#home" >Home</a></li>
             <li><a href="#about">About Us</a></li>
             <li class="dropdown">
-                <a href="#shop" class="shop-link active">Our Shop <i class='bx bx-chevron-down'></i></a>
-
+                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
                 <div class="dropdown-content" style="width: 100%;">
-                  {% for c in categories %}
-                  <a href="{% url 'categories' category_name=c.name %}">
-                    {{ c.name }}
-                </a>
+                    {% for c in categories %}
+                        <a href="{% url 'categories' category_name=c.name %}">
+                            {{ c.name }}
+                        </a>
                     {% endfor %}  
                 </div>
-                
             </li>
             <li><a href="#review">All Products</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <div class="nav-icons">
-            
-            <a href="{% url 'cart' %}"><i class='bx bx-cart'></i></a>
-            <div class="bx bx-menu" id="menu-icon"></div>
+            <a href="{% url 'cart' %}" class="cart-link">
+                <i class='bx bx-cart'></i>
+                <span class="cart-quantity-badge">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
 
+            </a>
+            <a href="#" class="dropdown-togglese">
+                <i class='bx bx-user'></i>
+            </a>
+            <div class="dropdown-menu" style="background-color: #000B41;">
+                <a href="#" class="dropdown-item">Orders</a>
+                <a href="#" class="dropdown-item">Wishlist</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+            </div>
+            <div class="bx bx-menu" id="menu-icon"></div>
         </div>
     </header>
     
@@ -112,7 +176,7 @@ a:hover {
                         {% endwith %}
                         
                         <div class="card-body">
-                            <h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2>
+                            <a href="{% url 'product_detail' pk=product.pk %}"><h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2></a>
                             <h6 class="card-subtitle mb-2 text-muted" style="font-size: 18px;">{{ product.category.name }}</h6>
                             <p class="card-text" style="color: #000B41; font-size: 18px;">
                                 {{ product.description }}
@@ -146,6 +210,8 @@ a:hover {
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
         <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     <script>
         
@@ -185,6 +251,28 @@ a:hover {
         container.appendChild(product);
     });
 }
+
+
+$(document).ready(function() {
+    $(".dropdown-togglese").click(function() {
+        $(".dropdown-menu").toggleClass("show");
+    });
+
+    // Close dropdown menu if clicked outside
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown-menu').length &&
+            !$(e.target).closest('.dropdown-togglese').length) {
+            $(".dropdown-menu").removeClass("show");
+        }
+    });
+
+    // Close dropdown menu if clicking on the cart link
+    $(".cart-link").click(function(e) {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+        $(".dropdown-menu").removeClass("show");
+    });
+});
+
     </script>
 
 </body>

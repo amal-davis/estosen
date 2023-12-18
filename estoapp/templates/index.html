@@ -18,34 +18,84 @@
 
 
 </head>
-<body>
-    <header>
-        <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
-        <ul class="navlist">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li class="dropdown">
-                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+<style>
+  .dropdown-menu {
+    position: absolute;
+    display: none;
+    margin-top: -5px;
+    left: auto;
+    right: 0; /* Adjust this value based on your design */
+    top: 100%;
+}
+        .dropdown-menu.show {
+            display: block;
+        }
 
-                <div class="dropdown-content" style="width: 100%;">
-                  {% for c in categories %}
-                  <a href="{% url 'categories' category_name=c.name %}">
-                    {{ c.name }}
-                </a>
-                    {% endfor %}  
-                </div>
-                
-            </li>
-            <li><a href="#review">All Products</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-        </ul>
-        <div class="nav-icons">
             
-            <a href="#"><i class='bx bx-cart'></i></a>
-            <div class="bx bx-menu" id="menu-icon"></div>
 
+            .dropdown-toggle {
+                cursor: pointer;
+            }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #C6935E;
+    color: #fff;
+}
+</style>
+<body>
+  <header>
+    <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
+    <ul class="navlist">
+        <li><a href="#home" >Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li class="dropdown">
+            <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+            <div class="dropdown-content" style="width: 100%;">
+                {% for c in categories %}
+                    <a href="{% url 'categories' category_name=c.name %}">
+                        {{ c.name }}
+                    </a>
+                {% endfor %}  
+            </div>
+        </li>
+        <li><a href="#review">All Products</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="nav-icons">
+        <a href="{% url 'cart' %}" class="cart-link">
+            <i class='bx bx-cart'></i>
+            <span class="cart-quantity">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
+
+        </a>
+        <a href="#" class="dropdown-togglese">
+            <i class='bx bx-user'></i>
+        </a>
+        <div class="dropdown-menu" style="background-color: #000B41;">
+            <a href="#" class="dropdown-item">Orders</a>
+            <a href="#" class="dropdown-item">Wishlist</a>
+            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
         </div>
-    </header>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </div>
+</header>
 
 
     <div class="swiper-container" style="margin-top: 90px;">
@@ -394,6 +444,8 @@
     <script src="{% static 'js/script.js' %}"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 <script>
          // Initialize Swiper
@@ -466,6 +518,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  $(document).ready(function() {
+    $(".dropdown-togglese").click(function() {
+        $(".dropdown-menu").toggleClass("show");
+    });
+
+    // Close dropdown menu if clicked outside
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown-menu').length &&
+            !$(e.target).closest('.dropdown-togglese').length) {
+            $(".dropdown-menu").removeClass("show");
+        }
+    });
+
+    // Close dropdown menu if clicking on the cart link
+    $(".cart-link").click(function(e) {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+        $(".dropdown-menu").removeClass("show");
+    });
+});
 
 
 </script>

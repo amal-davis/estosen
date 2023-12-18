@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>esto-sen</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+
+</head>
+<style>
+    body{
+    font-family: 'Sulphur Point', sans-serif;
+}
+    
+.like {
+  font-size: 1.5rem;
+}
+.card{
+    border: none;
+}
+.form-control:focus {
+    border-color: #ced4da; /* Set the desired border color when focused */
+    box-shadow: none; /* Remove the box shadow */
+}
+a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
+.dropdown-menu {
+    position: absolute;
+    display: none;
+    margin-top: -5px;
+    left: auto;
+    right: 0; /* Adjust this value based on your design */
+    top: 100%;
+}
+        .dropdown-menu.show {
+            display: block;
+        }
+
+            
+
+            .dropdown-toggle {
+                cursor: pointer;
+            }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #C6935E;
+    color: #fff;
+}
+.cart-link {
+    position: relative;
+}
+
+.cart-quantity-badge {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    background-color: #D91212;
+    color: white;
+    border-radius: 90%;
+    padding: 5px;
+    font-size: 9.8px;
+}
+/* Add your custom CSS here */
+.product-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .price {
+            color: #e53935;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .star-rating i {
+            color: #ffd700; /* Star color */
+        }
+        
+  .swiper {
+      width: 300px;
+      height: 300px;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 50%;
+      height: 20%;
+      object-fit: cover;
+    }
+
+    
+    .swiper {
+      width: 100%;
+      height: 100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mySwiper2 {
+      height: 70%;
+      width: 90%;
+    }
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+</style>
+<body>
+    <header>
+        <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
+        <ul class="navlist">
+            <li><a href="#home" >Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li class="dropdown">
+                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+                <div class="dropdown-content" style="width: 100%;">
+                    {% for c in categories %}
+                        <a href="{% url 'categories' category_name=c.name %}">
+                            {{ c.name }}
+                        </a>
+                    {% endfor %}  
+                </div>
+            </li>
+            <li><a href="#review">All Products</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="{% url 'cart' %}" class="cart-link">
+                <i class='bx bx-cart'></i>
+                <span class="cart-quantity-badge">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
+
+            </a>
+            <a href="#" class="dropdown-togglese">
+                <i class='bx bx-user'></i>
+            </a>
+            <div class="dropdown-menu" style="background-color: #000B41;">
+                <a href="#" class="dropdown-item">Orders</a>
+                <a href="#" class="dropdown-item">Wishlist</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+            </div>
+            <div class="bx bx-menu" id="menu-icon"></div>
+        </div>
+    </header>
+
+    <div class="container-fluid" style="margin-top: 120px;">
+<div class="row">
+    <div class="col-md-6">
+        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+            <div class="swiper-wrapper">
+                <!-- Loop through your uploaded images and set the src attribute accordingly -->
+                {% for image in product.images.all %}
+                    <div class="swiper-slide">
+                        <img src="{{ image.image.url }}" alt="Uploaded Image">
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        
+        <div thumbsSlider="" class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <!-- Loop through your uploaded images and set the src attribute accordingly -->
+                {% for image in product.images.all %}
+                    <div class="swiper-slide">
+                        <img src="{{ image.image.url }}" alt="Uploaded Image">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+        <h1 class="product-title" style="color: #000B41; font-size: 25px;">{{ product.name }}</h1>
+        <div class="star-rating mb-2">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            (5 Reviews)
+        </div>
+        <p class="price" id="price" data-base-price="{{ product.price }}">{{ product.price }}</p>
+
+        <p  style="color: #000B41;">{{ product.description }}</p>
+        <!-- Add to Cart Form -->
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-25">
+            </div>
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+            <button type="button" class="btn btn-success">Buy Now</button>
+        </form>
+    </div>
+</div>
+
+</div>
+        
+    <!-- Additional Information Section -->
+    <!-- ... -->
+  
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+
+    <script>
+     $(document).ready(function() {
+    $(".dropdown-togglese").click(function() {
+        $(".dropdown-menu").toggleClass("show");
+    });
+
+    // Close dropdown menu if clicked outside
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown-menu').length &&
+            !$(e.target).closest('.dropdown-togglese').length) {
+            $(".dropdown-menu").removeClass("show");
+        }
+    });
+
+    // Close dropdown menu if clicking on the cart link
+    $(".cart-link").click(function(e) {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+        $(".dropdown-menu").removeClass("show");
+    });
+});
+
+
+var swiper = new Swiper(".mySwiper", {
+      loop: true,
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      loop: true,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      thumbs: {
+        swiper: swiper,
+      },
+    });
+    </script>
+</body>
+</html>

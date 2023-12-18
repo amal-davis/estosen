@@ -131,7 +131,7 @@ li.dropdown {
     position: absolute;
     top: 100%; /* Position the dropdown below the parent li */
     left: 0;
-    width: 200px; /* Adjust the width as needed */
+    width: 300px; /* Adjust the width as needed */
     background-color: #000B41;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;

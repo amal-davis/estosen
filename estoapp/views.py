@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.db.models import Sum
+
 
 
 from .models import *
@@ -20,7 +22,10 @@ import string
 
 def index(request):
     categories = Category.objects.all()
-    return render(request,'index.html',{'categories':categories})
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    return render(request,'index.html',{'cart_quantity': total_quantity,'categories':categories,'carts': carts,})
 
 
 def admin_page(request):
@@ -67,7 +72,10 @@ def categories(request, category_name):
     categories = Category.objects.all()
     category = get_object_or_404(Category, name=category_name)
     products = Product.objects.filter(category=category)
-    context = {'category_name': category_name, 'products': products,'categories':categories}
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    context = {'category_name': category_name, 'cart_quantity': total_quantity, 'products': products,'categories':categories}
     return render(request, 'category_page.html', context)
 
 
@@ -261,6 +269,7 @@ def cart(request):
     carts = Cart.objects.filter(user=request.user)
     categories = Category.objects.all()
     total_price = 0
+    total_quantity = carts.aggregate(Sum('quantity'))['quantity__sum'] or 0
     grand_total = sum(cart.product.price * cart.quantity for cart in carts)
 
     for cart in carts:
@@ -269,7 +278,8 @@ def cart(request):
         cart.subtotal = subtotal
         # total_quantity += cart.quantity
 
-    return render(request, 'cart.html', {'carts': carts, 'total_price': total_price,'grand_total': grand_total,'categories':categories})
+
+    return render(request, 'cart.html', {'carts': carts, 'subtotal':subtotal, 'total_price': total_price, 'grand_total': grand_total, 'categories': categories, 'cart_quantity': total_quantity})
     
 
 @login_required(login_url='signin')
@@ -309,3 +319,22 @@ def logout(request):
 	return redirect('index')
 
 
+def UserDetails(request):
+    user_detail = UserProfile.objects.all()
+    categories = Category.objects.all()
+    return render(request,'user_view.html',{'users':user_detail,'categories':categories})
+
+
+def ad_userdelete(request,pk):
+    edit= UserProfile.objects.get(id=pk)
+    edit.delete()
+    return redirect('UserDetails')
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    return render(request, 'product_detail.html', {'product': product,'cart_quantity': total_quantity,'categories':categories,'carts': carts,})
