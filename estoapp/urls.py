@@ -28,7 +28,7 @@ urlpatterns = [
     path('logout',views.logout,name='logout'),
     path('UserDetails',views.UserDetails,name='UserDetails'),
     path('ad_userdelete/<int:pk>',views.ad_userdelete,name='ad_userdelete'),
-    path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
 
 
     

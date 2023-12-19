@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.db.models import Sum
+from django.db.models import Avg
+
 
 
 
@@ -330,11 +332,28 @@ def ad_userdelete(request,pk):
     edit.delete()
     return redirect('UserDetails')
 
-
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    categories = Category.objects.all()
+@login_required(login_url='signin')
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    reviews = Review.objects.filter(product=product)  # Remove the [:1] filter
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
-    return render(request, 'product_detail.html', {'product': product,'cart_quantity': total_quantity,'categories':categories,'carts': carts,})
+
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+
+        if rating and comment:
+            review = Review.objects.create(
+                product=product,
+                user=request.user,
+                rating=rating,
+                comment=comment
+            )
+
+            return redirect('product_detail', product_id=product_id)
+
+    return render(request, 'product_detail.html', {'product': product, 'cart_quantity': total_quantity, 'reviews': reviews, 'average_rating': average_rating})

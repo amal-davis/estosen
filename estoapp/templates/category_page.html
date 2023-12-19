@@ -176,7 +176,7 @@ a:hover {
                         {% endwith %}
                         
                         <div class="card-body">
-                            <a href="{% url 'product_detail' pk=product.pk %}"><h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2></a>
+                            <a href="{% url 'product_detail' product_id=product.id %}"><h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2></a>
                             <h6 class="card-subtitle mb-2 text-muted" style="font-size: 18px;">{{ product.category.name }}</h6>
                             <p class="card-text" style="color: #000B41; font-size: 18px;">
                                 {{ product.description }}

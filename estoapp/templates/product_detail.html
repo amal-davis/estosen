@@ -165,6 +165,32 @@ a:hover {
       height: 100%;
       object-fit: cover;
     }
+    .star-rating {
+    display: inline-block;
+    font-size: 24px; /* Adjust the font size as needed */
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    display: inline-block;
+    padding: 0 5px;
+    cursor: pointer;
+    color: #ddd; /* Default star color */
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #ffcc00; /* Hover and selected star color */
+}
+.review {
+    margin-bottom: 10px; /* Adjust the margin as needed for the desired separation */
+    border-bottom: 1px solid #000B41; /* Optional: Add a border-bottom for further separation */
+    padding-bottom: 10px; /* Optional: Add padding at the bottom for spacing */
+}
   
 </style>
 <body>
@@ -255,9 +281,52 @@ a:hover {
             <button type="submit" class="btn btn-primary">Add to Cart</button>
             <button type="button" class="btn btn-success">Buy Now</button>
         </form>
+
+        <form method="post" action="{% url 'product_detail' product_id=product.id %}" style="margin-top: 40px;">
+            {% csrf_token %}
+            
+            <!-- Rating Input as stars -->
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">&#9733;</label>
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">&#9733;</label>
+            </div>
+            
+            <!-- Comment Input -->
+            <label for="id_comment">Comment:</label>
+            <textarea class="form-control" name="comment" id="id_comment" placeholder=""></textarea>
+            
+            <button class="btn btn-dark mt-4" type="submit">Submit Review</button>
+        </form>
     </div>
 </div>
+    
+</div>
 
+    
+</div>
+<div class="container">
+    <h2 style="color: #000B41;" class="text-center">Reviews</h2>
+    {% for review in reviews %}
+    <div class="review">
+        <p style="color: #000B41;">{{ review.user }}</p>
+        <p style="color: #000B41;">Rating:
+            {% for _ in range(review.rating) %}
+                &#9733; <!-- Star icon -->
+            {% endfor %}
+        </p>
+            
+        </p>
+        <p style="color: #000B41;">{{ review.comment }}</p>
+    </div>
+{% endfor %}
 </div>
         
     <!-- Additional Information Section -->
