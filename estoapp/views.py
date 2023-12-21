@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 from django.db.models import Sum
 from django.db.models import Avg
+from django import template
 
 
 
@@ -88,18 +89,31 @@ def productpage(request):
         price = request.POST['price']
         select = request.POST['select']
         quantity = request.POST['quantity']
+        has_sizes = request.POST.get('has_sizes')
 
         try:
             quantity = int(quantity)
         except ValueError:
-            # Handle the case where quantity is not a valid integer
-            # Set a default value for quantity or raise an error, depending on your requirements
             quantity = 0
 
         category = Category.objects.get(id=select)
 
-        # Create the product
+        # Create the product without saving it yet
         product = Product(name=name, category=category, description=description, price=price, quantity=quantity)
+        
+        # Save the product to get an ID
+        product.save()
+
+        # Handle sizes
+        if has_sizes:
+            sizes_input = request.POST.get('sizes', '')
+            sizes_list = [size.strip() for size in sizes_input.split(',')]
+            
+            for size in sizes_list:
+                product_size, created = ProductSize.objects.get_or_create(size=size)
+                product.sizes.add(product_size)
+
+        # Save the product again to update many-to-many relationships
         product.save()
 
         # Handle multiple file uploads
@@ -108,15 +122,13 @@ def productpage(request):
             image.save()
             product.images.add(image)
 
-        # Set status to 'Out of stock' if quantity is explicitly set to 0
+        # Set status based on quantity
         if product.quantity == 0:
             product.status = 'Out of stock'
+        elif product.quantity < 5:
+            product.status = 'Limited stock'
         else:
-            # Update status based on quantity
-            if product.quantity < 5:
-                product.status = 'Limited stock'
-            else:
-                product.status = 'In stock'
+            product.status = 'In stock'
 
         product.save()
 
@@ -125,7 +137,6 @@ def productpage(request):
     categories = Category.objects.all()
     product_detail = Product.objects.all()
     return render(request, 'ad_product.html', {'categories': categories, 'product': product_detail})
-
 
 def p_delete_form(request,pk):
     edit=Product.objects.get(id=pk)
@@ -273,15 +284,15 @@ def cart(request):
     total_price = 0
     total_quantity = carts.aggregate(Sum('quantity'))['quantity__sum'] or 0
     grand_total = sum(cart.product.price * cart.quantity for cart in carts)
+    subtotal = 0  # Initialize subtotal here
 
     for cart in carts:
-        subtotal = cart.product.price * cart.quantity
-        total_price += subtotal
-        cart.subtotal = subtotal
-        # total_quantity += cart.quantity
+        cart.subtotal = cart.product.price * cart.quantity
+        total_price += cart.subtotal
+        subtotal += cart.subtotal
 
+    return render(request, 'cart.html', {'carts': carts, 'subtotal': subtotal, 'total_price': total_price, 'grand_total': grand_total, 'categories': categories, 'cart_quantity': total_quantity})
 
-    return render(request, 'cart.html', {'carts': carts, 'subtotal':subtotal, 'total_price': total_price, 'grand_total': grand_total, 'categories': categories, 'cart_quantity': total_quantity})
     
 
 @login_required(login_url='signin')
@@ -335,10 +346,12 @@ def ad_userdelete(request,pk):
 @login_required(login_url='signin')
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    reviews = Review.objects.filter(product=product)  # Remove the [:1] filter
+    reviews = Review.objects.filter(product=product)
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
+    categories = Category.objects.all()
+    available_sizes = product.sizes.all()  # Get the sizes associated with the product
 
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
 
@@ -356,4 +369,56 @@ def product_detail(request, product_id):
 
             return redirect('product_detail', product_id=product_id)
 
-    return render(request, 'product_detail.html', {'product': product, 'cart_quantity': total_quantity, 'reviews': reviews, 'average_rating': average_rating})
+    return render(request, 'product_detail.html', {'product': product, 'cart_quantity': total_quantity, 'reviews': reviews, 'average_rating': average_rating, 'categories': categories, 'available_sizes': available_sizes})
+
+
+
+
+def review_details(request):
+    user_detail = UserProfile.objects.all()
+    categories = Category.objects.all()
+    review = Review.objects.all()
+    return render(request,'admin_review.html',{'users':user_detail,'categories':categories,'review':review})
+
+
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    
+    if request.method == 'POST':
+        review.delete()
+        messages.success(request, 'Review deleted successfully.')
+    
+    return redirect('review_details')
+
+
+def allproducts(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    # wishlist = Wishlist.objects.filter(user=request.user).first()
+    return render(request, 'all_products.html', {'products': products,'cart_quantity': total_quantity, 'categories': categories})
+
+
+@login_required(login_url='signin')
+def add_to_cart_details(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    user = request.user
+    cart_item = Cart.objects.filter(user=user, product=product).first()
+
+    if request.method == 'POST':
+        selected_size_id = request.POST.get('size')
+        quantity = int(request.POST.get('quantity', 1))
+        
+        # Assuming you have a ProductSize model for sizes
+        selected_size = ProductSize.objects.get(id=selected_size_id) if selected_size_id else None
+
+        if cart_item:
+            cart_item.quantity += quantity
+            cart_item.update_quantity_and_total()
+        else:
+            Cart.objects.create(user=user, product=product, quantity=quantity, size=selected_size)
+
+        return redirect('cart')  # Replace 'your_app:view_cart' with the actual URL name for your cart page
+

@@ -15,6 +15,15 @@ class Image_section(models.Model):
     image = models.ImageField(upload_to='product_images/')
 
 
+class ProductSize(models.Model):
+    size = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.size
+
+
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
@@ -23,6 +32,7 @@ class Product(models.Model):
     images = models.ManyToManyField(Image_section, blank=True)
     status = models.CharField(max_length=20, default='In stock')  # Default status is 'In stock'
     quantity = models.CharField(max_length=255,null=True,blank=True)
+    sizes = models.ManyToManyField(ProductSize, blank=True)
     
     def __str__(self):
         return self.name
@@ -36,6 +46,16 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    size = models.ForeignKey(ProductSize, on_delete=models.SET_NULL, null=True, blank=True)
+
+
+    def update_quantity_and_total(self):
+        self.quantity += 1
+        self.save()
+
+        # Update grand total based on the updated quantity and product price
+        self.product.refresh_from_db()  # Refresh the product instance to get the latest price
+        self.save()
 
 
 class Review(models.Model):

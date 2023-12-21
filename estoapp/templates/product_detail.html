@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{% static 'css/category.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
 
 
 </head>
@@ -96,7 +98,7 @@ a:hover {
             font-weight: bold;
         }
         .price {
-            color: #e53935;
+            color: #8B5632;
             font-size: 18px;
             font-weight: bold;
         }
@@ -104,93 +106,106 @@ a:hover {
             color: #ffd700; /* Star color */
         }
         
-  .swiper {
-      width: 300px;
-      height: 300px;
-    }
-
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .swiper-slide img {
-      display: block;
-      width: 50%;
-      height: 20%;
-      object-fit: cover;
-    }
-
-    
-    .swiper {
-      width: 100%;
-      height: 100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .swiper-slide {
-      background-size: cover;
-      background-position: center;
-    }
-
-    .mySwiper2 {
-      height: 70%;
-      width: 90%;
-    }
-
-    .mySwiper {
-      height: 20%;
-      box-sizing: border-box;
-      padding: 10px 0;
-    }
-
-    .mySwiper .swiper-slide {
-      width: 25%;
-      height: 100%;
-      opacity: 0.4;
-    }
-
-    .mySwiper .swiper-slide-thumb-active {
-      opacity: 1;
-    }
-
-    .swiper-slide img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .star-rating {
-    display: inline-block;
-    font-size: 24px; /* Adjust the font size as needed */
+  /* Main Swiper */
+.mySwiper2 {
+  height: 70%;
+  width: 90%;
+  margin-bottom: 20px; /* Add a margin to create space between the main swiper and thumb swiper */
 }
 
-.star-rating input[type="radio"] {
-    display: none;
+.mySwiper2 .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.star-rating label {
-    display: inline-block;
-    padding: 0 5px;
-    cursor: pointer;
-    color: #ddd; /* Default star color */
+.mySwiper2 .swiper-slide img {
+  width: 95%;
+  height: 95%;
+  object-fit: cover;
 }
 
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {
-    color: #ffcc00; /* Hover and selected star color */
+/* Thumb Swiper */
+.mySwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+  margin-top: 10px; /* Add margin to create space between thumb swiper and content below */
+}
+
+.mySwiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.mySwiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Adjust the overall layout of the container */
+.swiper-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+    .rating {
+ 
+  border: none;
+  float: left;
+}
+
+.rating > label {
+  color: #90A0A3;
+  float: right;
+}
+
+.rating > label:before {
+  margin: 5px;
+  font-size: 1.5em;
+  font-family: FontAwesome;
+  content: "\f005";
+  display: inline-block;
+}
+
+.rating > input {
+  display: none;
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: #f7f026;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label {
+  color: #f7f026;
 }
 .review {
     margin-bottom: 10px; /* Adjust the margin as needed for the desired separation */
     border-bottom: 1px solid #000B41; /* Optional: Add a border-bottom for further separation */
     padding-bottom: 10px; /* Optional: Add padding at the bottom for spacing */
 }
+.form-control {
+    border-radius: 0; 
+}
+.btn{
+    border-radius: 0;
+}
+.size-button.selected {
+        background-color: #8B5632 !important;
+        color: #fff !important;
+    }
   
 </style>
 <body>
@@ -209,7 +224,7 @@ a:hover {
                     {% endfor %}  
                 </div>
             </li>
-            <li><a href="#review">All Products</a></li>
+            <li><a href="{% url 'allproducts' %}">All Products</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <div class="nav-icons">
@@ -250,7 +265,7 @@ a:hover {
                 <!-- Loop through your uploaded images and set the src attribute accordingly -->
                 {% for image in product.images.all %}
                     <div class="swiper-slide">
-                        <img src="{{ image.image.url }}" alt="Uploaded Image">
+                        <img src="{{ image.image.url }}" alt="Uploaded Image" class="swiper-image">
                     </div>
                 {% endfor %}
             </div>
@@ -269,41 +284,67 @@ a:hover {
             <i class="fas fa-star"></i>
             (5 Reviews)
         </div>
-        <p class="price" id="price" data-base-price="{{ product.price }}">{{ product.price }}</p>
+        <p class="price" id="price" data-base-price="{{ product.price }}">₹{{ product.price }}</p>
 
-        <p  style="color: #000B41;">{{ product.description }}</p>
+
+        <p  style="color: #000B41; font-size: 19px;">{{ product.description }}</p>
         <!-- Add to Cart Form -->
-        <form action="#" method="POST">
+        
             <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-25">
-            </div>
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-            <button type="button" class="btn btn-success">Buy Now</button>
-        </form>
+                <form action="{% url 'add_to_cart_details' pk=product.id %}" method="POST" id="add-to-cart-form" class="d-inline">
+                    {% csrf_token %}
 
+                <div id="quantity-container">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-25">
+                </div>
+                
+                <!-- Add to Cart Form -->
+                <div class="form-group" style="margin-top: 40px;">
+                
+                        {% if available_sizes %}
+                        <label for="size" style="color: #000B41;">Select Size:</label>
+                        <div style="padding-bottom: 40px;">
+                            {% for size in available_sizes %}
+                                <button type="button" class="size-button btn btn-sm" style="background-color: #000B41; color: #fff;" data-size-id="{{ size.id }}">{{ size.size }}</button>
+                            {% endfor %}
+                            <input type="hidden" name="size" id="selected_size" value="">
+                        </div>
+                        {% endif %}
+                
+                        <button type="submit" class="btn" style="background-color: #C6935E; color: #fff;">Add to Cart</button>
+                    </form>
+                    
+                    <button type="button" class="btn" style="background-color: #000B41; color: #fff;">Buy Now</button>
+                </div>
+        </div>
+<div class="review-heading" style="margin-top: 60px;">
+
+<h2 class="text-align" style="color: #000B41;">Add A Review</h2>
+
+</div>
         <form method="post" action="{% url 'product_detail' product_id=product.id %}" style="margin-top: 40px;">
             {% csrf_token %}
             
             <!-- Rating Input as stars -->
-            <div class="star-rating">
-                <input type="radio" id="star5" name="rating" value="5">
-                <label for="star5">&#9733;</label>
-                <input type="radio" id="star4" name="rating" value="4">
-                <label for="star4">&#9733;</label>
-                <input type="radio" id="star3" name="rating" value="3">
-                <label for="star3">&#9733;</label>
-                <input type="radio" id="star2" name="rating" value="2">
-                <label for="star2">&#9733;</label>
-                <input type="radio" id="star1" name="rating" value="1">
-                <label for="star1">&#9733;</label>
-            </div>
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5" />
+                <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+                <input type="radio" id="star1" name="rating" value="1" />
+                <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+              </div>
             
             <!-- Comment Input -->
             <label for="id_comment">Comment:</label>
-            <textarea class="form-control" name="comment" id="id_comment" placeholder=""></textarea>
+            <textarea class="form-control" name="comment" id="id_comment" placeholder="Add a review"></textarea>
             
-            <button class="btn btn-dark mt-4" type="submit">Submit Review</button>
+            <button class="btn  mt-4" type="submit" style="background-color: #000B41; color: #fff;">Submit Review</button>
         </form>
     </div>
 </div>
@@ -313,18 +354,17 @@ a:hover {
     
 </div>
 <div class="container">
+
     <h2 style="color: #000B41;" class="text-center">Reviews</h2>
     {% for review in reviews %}
     <div class="review">
-        <p style="color: #000B41;">{{ review.user }}</p>
-        <p style="color: #000B41;">Rating:
-            {% for _ in range(review.rating) %}
-                &#9733; <!-- Star icon -->
-            {% endfor %}
-        </p>
+        <h4 style="color: #000B41; font-size: 18px;">{{ review.user }}</h4>
+        <h4 style="color: #000B41; font-size: 18px;">{{ review.created_at }}</h4>
+        <h4 style="color: #000B41; font-size: 18px;">Rating: {{ review.rating }}
+
             
-        </p>
-        <p style="color: #000B41;">{{ review.comment }}</p>
+        </h4>
+        <h4 style="color: #0e0f0e ; font-size: 18px;">{{ review.comment }}</h4>
     </div>
 {% endfor %}
 </div>
@@ -347,8 +387,9 @@ a:hover {
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 
 
@@ -392,6 +433,51 @@ var swiper = new Swiper(".mySwiper", {
         swiper: swiper,
       },
     });
+
+
+
+    $(document).ready(function() {
+  // Get the base price from the data attribute
+  var basePrice = parseFloat($('#price').data('base-price'));
+
+  // Function to update the displayed price
+  function updatePrice() {
+    var quantity = $('#quantity').val();
+    var totalPrice = basePrice * quantity;
+    $('#price').text(totalPrice.toFixed(2)); // Update the displayed price
+  }
+
+  // Attach the updatePrice function to the change event of the quantity input
+  $('#quantity').on('input', updatePrice);
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sizeButtons = document.querySelectorAll('.size-button');
+    const selectedSizeInput = document.getElementById('selected_size');
+    const quantityInput = document.getElementById('quantity');
+
+    sizeButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Set the value of the hidden input to the selected size
+            selectedSizeInput.value = this.getAttribute('data-size-id');
+
+            // Change background and text color for the selected button
+            sizeButtons.forEach(function (btn) {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        });
+    });
+
+    // Add an event listener to update the quantity input value before form submission
+    document.getElementById('add-to-cart-form').addEventListener('submit', function () {
+        // Set the quantity input value directly
+        quantityInput.value = document.getElementById('quantity').value;
+    });
+});
     </script>
 </body>
 </html>

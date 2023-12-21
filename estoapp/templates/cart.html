@@ -108,7 +108,7 @@
                     {% endfor %}  
                 </div>
             </li>
-            <li><a href="#review">All Products</a></li>
+            <li><a href="{% url 'allproducts' %}">All Products</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <div class="nav-icons">
@@ -148,10 +148,16 @@
                                   {% endif %}
                                   {% endwith %}
                               </div>
-                              <div class="col-8 col-md-4">
-                                  <h5 style="color: #000B41;">{{ cart.product.name }}</h5>
-                                  <p style="color: #000B41;">{{ cart.product.description }}</p>
-                              </div>
+                              
+                                <div class="col-8 col-md-4">
+                                    <a href="{% url 'product_detail' product_id=cart.product.id %}">
+                                        <h5 style="color: #000B41;">{{ cart.product.name }}</h5>
+                                        <p style="color: #000B41;">{{ cart.product.description }}</p>
+                                    </a>
+
+                                </div>
+                            
+                              
                               <div class="col-8 col-md-3">
                                 <form action="{% url 'update_cart' cart.id %}" method="post" class="d-inline">
                                   {% csrf_token %}
@@ -176,7 +182,7 @@
               </div>
               {% empty %}
               <div class="text-center">
-                  <h4>Your cart is empty</h4>
+                  <h4 style="color: #000B41;">Your cart is empty</h4>
               </div>
               {% endfor %}
           </div>

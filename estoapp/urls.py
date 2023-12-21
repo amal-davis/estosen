@@ -29,6 +29,10 @@ urlpatterns = [
     path('UserDetails',views.UserDetails,name='UserDetails'),
     path('ad_userdelete/<int:pk>',views.ad_userdelete,name='ad_userdelete'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('review_details',views.review_details,name='review_details'),
+    path('delete_review/<int:review_id>/', views.delete_review, name='delete_review'),
+    path('allproducts',views.allproducts,name='allproducts'),
+    path('add_to_cart_details/<int:pk>/', views.add_to_cart_details, name='add_to_cart_details'),
 
 
     

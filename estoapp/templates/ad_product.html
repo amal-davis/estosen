@@ -89,8 +89,17 @@
             </select>
           </div>
           <div class="mb-3">
+            <label for="has_sizes" class="form-label">Product has sizes</label>
+            <input type="checkbox" id="has_sizes" name="has_sizes">
+        </div>
+    
+        <div class="mb-3" id="size_options" style="display: none;">
+            <label for="sizes" class="form-label">Sizes</label>
+            <input type="text" class="form-control form-control-sm" id="sizes" name="sizes" placeholder="Enter sizes (comma-separated)"  style="width: 50%;">
+        </div>
+          <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control form-control-sm" id="description" name="description" style="width: 50%;"></textarea>
+            <textarea class="form-control form-control-sm" id="description" name="description" required style="width: 50%;"></textarea>
           </div>
           <div class="mb-3">
             <label for="price" class="form-label">Price</label>
@@ -154,6 +163,11 @@
 
 
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
+<script>
+  document.getElementById('has_sizes').addEventListener('change', function () {
+        var sizeOptions = document.getElementById('size_options');
+        sizeOptions.style.display = this.checked ? 'block' : 'none';
+    });
+</script>
 </body>
 </html>
