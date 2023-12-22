@@ -230,8 +230,7 @@ a:hover {
         <div class="nav-icons">
             <a href="{% url 'cart' %}" class="cart-link">
                 <i class='bx bx-cart'></i>
-                <span class="cart-quantity-badge">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
-
+                <span class="cart-quantity-badge">{% if cart_quantity is not None %}{{ cart_quantity }}{% else %}0{% endif %}</span>
             </a>
             <a href="#" class="dropdown-togglese">
                 <i class='bx bx-user'></i>
@@ -302,20 +301,22 @@ a:hover {
                 <!-- Add to Cart Form -->
                 <div class="form-group" style="margin-top: 40px;">
                 
-                        {% if available_sizes %}
-                        <label for="size" style="color: #000B41;">Select Size:</label>
-                        <div style="padding-bottom: 40px;">
-                            {% for size in available_sizes %}
-                                <button type="button" class="size-button btn btn-sm" style="background-color: #000B41; color: #fff;" data-size-id="{{ size.id }}">{{ size.size }}</button>
-                            {% endfor %}
-                            <input type="hidden" name="size" id="selected_size" value="">
-                        </div>
-                        {% endif %}
+                    {% if available_sizes %}
+                    <label for="size" style="color: #000B41;">Select Size:</label>
+                    <div style="padding-bottom: 40px;">
+                        {% for size in available_sizes %}
+                        <button type="button" class="size-button btn btn-sm {% if forloop.first %}selected{% endif %}"
+                            style="background-color: #000B41; color: #fff;" data-size-id="{{ size.id }}">{{ size.size }}</button>
+                        {% endfor %}
+                        <input type="hidden" name="size" id="selected_size" value="">
+                    </div>
+                    {% endif %}
                 
                         <button type="submit" class="btn" style="background-color: #C6935E; color: #fff;">Add to Cart</button>
-                    </form>
                     
-                    <button type="button" class="btn" style="background-color: #000B41; color: #fff;">Buy Now</button>
+                    
+                    <button type="submit" class="btn" style="background-color: #000B41; color: #fff;">Buy Now</button>
+                </form>
                 </div>
         </div>
 <div class="review-heading" style="margin-top: 60px;">
@@ -458,6 +459,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const sizeButtons = document.querySelectorAll('.size-button');
     const selectedSizeInput = document.getElementById('selected_size');
     const quantityInput = document.getElementById('quantity');
+
+    // Check if a size is already selected
+    let sizeSelected = false;
+    sizeButtons.forEach(function (button) {
+        if (button.classList.contains('selected')) {
+            sizeSelected = true;
+        }
+    });
+
+    // If no size is selected, trigger a click on the first size button
+    if (!sizeSelected && sizeButtons.length > 0) {
+        sizeButtons[0].click();
+    }
 
     sizeButtons.forEach(function (button) {
         button.addEventListener('click', function () {

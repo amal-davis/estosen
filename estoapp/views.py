@@ -13,6 +13,8 @@ from django.db.models import Q
 from django.db.models import Sum
 from django.db.models import Avg
 from django import template
+from django.http import JsonResponse
+import razorpay
 
 
 
@@ -295,18 +297,28 @@ def cart(request):
 
     
 
+def get_first_available_size(product):
+    if product.sizes.exists():
+        return product.sizes.first()
+    return None
+
 @login_required(login_url='signin')
 def add_to_cart(request, pk):
     product = Product.objects.filter(id=pk).first()
+
     if product:
+        size = get_first_available_size(product)
+
         try:
-            cart = Cart.objects.get(user=request.user, product=product)
+            cart = Cart.objects.get(user=request.user, product=product, size=size)
             cart.quantity += 1
             cart.save()
         except Cart.DoesNotExist:
-            cart = Cart(user=request.user, product=product)
+            cart = Cart(user=request.user, product=product, size=size)
             cart.save()
+
     return redirect('cart')
+
 
 
 @login_required(login_url='signin')
@@ -421,4 +433,93 @@ def add_to_cart_details(request, pk):
             Cart.objects.create(user=user, product=product, quantity=quantity, size=selected_size)
 
         return redirect('cart')  # Replace 'your_app:view_cart' with the actual URL name for your cart page
+    
+
+def checkout_page(request):
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    return render(request,'checkout.html',{'categories':categories,'cart_quantity': total_quantity})
+
+
+def checkout_view(request):
+    user = request.user
+    cart_items = Cart.objects.filter(user=user)
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        address = request.POST.get('adress')
+        pincode = request.POST.get('pincode')
+        state = request.POST.get('statae')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone_no')
+
+        # Check if the 'address' field is not empty
+        if address:
+            # Create a list to store order instances
+            orders = []
+
+            # Create an order for each item in the cart
+            for cart_item in cart_items:
+                order = Order.objects.create(
+                    user=user,
+                    product=cart_item.product,
+                    quantity=cart_item.quantity,
+                    total_price=cart_item.product.price * cart_item.quantity,
+                    name=name,
+                    address=address,
+                    pincode=pincode,
+                    state=state,
+                    email=email,
+                    phone=phone,
+                )
+                orders.append(order)
+
+            # Clear the user's cart after creating orders
+            cart_items.delete()
+
+            # Print debug statement
+            print("Order created successfully")
+
+            # Redirect to the confirmation page with the list of orders
+            return render(request, 'confirmation.html', {'orders': orders, 'categories': categories})
+
+        else:
+            # Print debug statement
+            print("Address is empty")
+
+            # Handle the case where 'address' is empty
+            return render(request, 'checkout.html', {'cart_items': cart_items, 'categories': categories, 'error_message': 'Address cannot be empty'})
+
+    return render(request, 'checkout.html', {'cart_items': cart_items, 'categories': categories})
+
+
+def confirmation_page(request):
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+
+    # Retrieve the latest order for the current user based on the creation timestamp
+    latest_order = Order.objects.filter(user=user).latest('id')
+
+    # Retrieve messages
+    order_messages = messages.get_messages(request)
+
+    total_sum = sum(order.total_price for order in Order.objects.filter(user=user))
+    print("Total Sum:", total_sum) 
+    print("Total Price of Latest Order:", latest_order.total_price)
+
+    context = {
+        'order': latest_order,
+        'categories': categories,
+        'cart_quantity': total_quantity,
+        'order_messages': order_messages,
+        'total_sum': total_sum
+    }
+
+    return render(request, 'confirmation.html', context)
+
 

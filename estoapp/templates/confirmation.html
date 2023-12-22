@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+    <title>Confirm Your Product </title>
+</head>
+<style>
+    body{
+        font-family: 'Sulphur Point', sans-serif;
+
+    }
+    .form-control:focus {
+    border-color: #ced4da; /* Set the desired border color when focused */
+    box-shadow: none; /* Remove the box shadow */
+}
+.form-control {
+    border-radius: 0; 
+}
+a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    display: none;
+    margin-top: -5px;
+    left: auto;
+    right: 0; /* Adjust this value based on your design */
+    top: 100%;
+}
+        .dropdown-menu.show {
+            display: block;
+        }
+
+            
+
+            .dropdown-toggle {
+                cursor: pointer;
+            }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #C6935E;
+    color: #fff;
+}
+.cart-link {
+    position: relative;
+}
+
+.cart-quantity-badge {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    background-color: #D91212;
+    color: white;
+    border-radius: 90%;
+    padding: 5px;
+    font-size: 9.8px;
+}
+.btn{
+    border-radius: 0;
+}
+
+</style>
+<body>
+    <header>
+        <a href="#" class="logo"><img src="{% static 'images/logo.png' %}" alt="log_image"></a>
+        <ul class="navlist">
+            <li><a href="#home" >Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li class="dropdown">
+                <a href="#shop" class="shop-link">Our Shop <i class='bx bx-chevron-down'></i></a>
+                <div class="dropdown-content" style="width: 100%;">
+                    {% for c in categories %}
+                        <a href="{% url 'categories' category_name=c.name %}">
+                            {{ c.name }}
+                        </a>
+                    {% endfor %}  
+                </div>
+            </li>
+            <li><a href="{% url 'allproducts' %}">All Products</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="{% url 'cart' %}" class="cart-link">
+                <i class='bx bx-cart'></i>
+                <span class="cart-quantity-badge">{% if cart_quantity is not None %}{{ cart_quantity }}{% else %}0{% endif %}</span>
+            </a>
+            <a href="#" class="dropdown-togglese">
+                <i class='bx bx-user'></i>
+            </a>
+            <div class="dropdown-menu" style="background-color: #000B41;">
+                <a href="#" class="dropdown-item">Orders</a>
+                <a href="#" class="dropdown-item">Wishlist</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+            </div>
+            <div class="bx bx-menu" id="menu-icon"></div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 120px;">
+        
+        <h2 style="color: #000B41;" class="text-center">Your Order Details</h2>
+    
+        <table class="table" style="margin-top:40px;" id="order-table">
+
+            <thead>
+                <tr>
+                    <th>PRODUCT</th>
+                    <th>PRODUCT NAME</th>
+                    <th>QUANTITY</th>
+                    <th>SIZE</th>
+                    <th>PRICE</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr data-product-id="{{ order.product.id }}">
+                    <td>
+                        {% with specific_image=order.product.images.first %}
+                            {% if specific_image %}
+                                <img src="{{ specific_image.image.url }}" alt="Product Image" class="card-img-top" style="width: 100px; height: 100px;">
+                            {% endif %}
+                            {% endwith %}
+                    </td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.size }}</td>
+                    <td class="product-price">₹{{ order.total_price }}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4 style="color: #000B41;">Total Price: ₹<span id="total-sum"></span></h4>
+        <h2 style="color: #000B41;" class="text-center">Your Information</h2>
+        <!-- Display user information here -->
+        <table class="table" style="margin-top:40px;">
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>ADRESS</th>
+                    <th>POSTAL CODE</th>
+                    <th>STATE</th>
+                    <th>EMAIL</th>
+                    <th>PHONE</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>{{ orders.0.name }}</td>
+                    <td>{{ orders.0.address }}</td>
+                    <td>{{ orders.0.pincode }}</td>
+                    <td>{{ orders.0.state }}</td>
+                    <td>{{ orders.0.email }}</td>
+                    <td>{{ orders.0.phone }}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    
+        <!-- Proceed to Payment Button -->
+        <form method="post" action="">
+            {% csrf_token %}
+            <input style="background-color: #000B41; color: #fff;" type="submit" class="btn " value="Proceed and Pay">
+        </form>
+    </div>
+
+    
+
+
+
+
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+    <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+    $(".dropdown-togglese").click(function() {
+        $(".dropdown-menu").toggleClass("show");
+    });
+
+    // Close dropdown menu if clicked outside
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown-menu').length &&
+            !$(e.target).closest('.dropdown-togglese').length) {
+            $(".dropdown-menu").removeClass("show");
+        }
+    });
+
+    // Close dropdown menu if clicking on the cart link
+    $(".cart-link").click(function(e) {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+        $(".dropdown-menu").removeClass("show");
+    });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+        calculateTotalSum();
+
+        function calculateTotalSum() {
+            var totalSum = 0;
+            var productRows = document.querySelectorAll('#order-table tbody tr');
+
+            productRows.forEach(function (row) {
+                var priceCell = row.querySelector('.product-price');
+                var price = parseFloat(priceCell.textContent.replace('₹', '').trim());
+                totalSum += price;
+            });
+
+            document.getElementById('total-sum').textContent = totalSum.toFixed(2);
+        }
+    });
+    </script>
+</body>
+</html>

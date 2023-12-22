@@ -33,6 +33,10 @@ urlpatterns = [
     path('delete_review/<int:review_id>/', views.delete_review, name='delete_review'),
     path('allproducts',views.allproducts,name='allproducts'),
     path('add_to_cart_details/<int:pk>/', views.add_to_cart_details, name='add_to_cart_details'),
+    path('checkout_page',views.checkout_page,name='checkout_page'),
+    path('checkout_view',views.checkout_view,name='checkout_view'),
+    path('confirmation_page',views.confirmation_page,name='confirmation_page'),
+    path('add_to_cart/<int:pk>/', views.add_to_cart, name='add_to_cart'),
 
 
     

@@ -89,7 +89,7 @@ a:hover {
     color: white;
     border-radius: 90%;
     padding: 5px;
-    font-size: 10px;
+    font-size: 9.8px;
 }
 
 
@@ -118,8 +118,7 @@ a:hover {
         <div class="nav-icons">
             <a href="{% url 'cart' %}" class="cart-link">
                 <i class='bx bx-cart'></i>
-                <span class="cart-quantity-badge">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
-
+                <span class="cart-quantity-badge">{% if cart_quantity is not None %}{{ cart_quantity }}{% else %}0{% endif %}</span>
             </a>
             <a href="#" class="dropdown-togglese">
                 <i class='bx bx-user'></i>
