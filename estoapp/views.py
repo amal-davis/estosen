@@ -523,3 +523,13 @@ def confirmation_page(request):
     return render(request, 'confirmation.html', context)
 
 
+def model_registration(request):
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    return render(request,'model_registration.html',{'categories':categories,'cart_quantity': total_quantity})
+
+
+def model_dashboard(request):
+    return render(request,'model_dashboard.html')

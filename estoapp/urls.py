@@ -37,6 +37,8 @@ urlpatterns = [
     path('checkout_view',views.checkout_view,name='checkout_view'),
     path('confirmation_page',views.confirmation_page,name='confirmation_page'),
     path('add_to_cart/<int:pk>/', views.add_to_cart, name='add_to_cart'),
+    path('model_registration',views.model_registration,name='model_registration'),
+    path('model_dashboard',views.model_dashboard,name='model_dashboard'),
 
 
     
