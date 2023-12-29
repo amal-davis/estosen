@@ -140,7 +140,7 @@ a:hover {
                   <h1 style="color: #000B41;">Register</h1>
                 </div>
               </div>
-              <form action="{% url 'usercreate' %}" method="post" enctype="multipart/form-data">
+              <form action="{% url 'modelcreate' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
               <div class="row align-items-center">
@@ -184,7 +184,8 @@ a:hover {
                     <label for="id_image" style="color: #000B41;">Upload Your Images</label>
                   <input type="file" name="image" class="form-control" id="id_image" multiple>
                 </div>
-              </div>              <div class="row align-items-center mt-4">
+              </div>              
+              <div class="row align-items-center mt-4">
                 <div class="col">
                   <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>

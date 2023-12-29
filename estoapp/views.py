@@ -30,7 +30,11 @@ def index(request):
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
-    return render(request,'index.html',{'cart_quantity': total_quantity,'categories':categories,'carts': carts,})
+    products = Product.objects.all()[:3]
+
+    # Fetch all categories
+    
+    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products})
 
 
 def admin_page(request):
@@ -262,17 +266,24 @@ def signin(request):
         email = request.POST['email']
         password = request.POST['password']
         user = auth.authenticate(username=email, password=password)
+
         if user is not None:
             if user.is_staff:
-                login(request,user)
+                login(request, user)
                 return redirect('admin_page')
             else:
-                login(request,user)
-                auth.login(request,user)
-                # return redirect('')
-                return redirect('index')
+                if ModelProfile.objects.filter(user=user).exists():
+                    # Redirect to the model dashboard
+                    login(request, user)
+                    return redirect('model_dashboard')
+                else:
+                    # Regular user, redirect to the index page
+                    login(request, user)
+                    return redirect('index')
         else:
+            messages.error(request, 'Invalid credentials. Please try again.')
             return redirect('login_page')
+
     return redirect('login_page')
 
 
@@ -355,7 +366,7 @@ def ad_userdelete(request,pk):
     edit.delete()
     return redirect('UserDetails')
 
-@login_required(login_url='signin')
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
@@ -532,4 +543,106 @@ def model_registration(request):
 
 
 def model_dashboard(request):
-    return render(request,'model_dashboard.html')
+    # Check if the user is authenticated
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
+    if request.user.is_authenticated:
+        try:
+            # Retrieve the model profile associated with the user
+            model_profile = ModelProfile.objects.get(user=request.user)
+
+            # Retrieve only images associated with the current model profile
+            model_images = model_profile.images.all()
+
+            return render(request, 'model_dashboard.html', {'model_profile': model_profile, 'model_images': model_images,'categories':categories,'cart_quantity': total_quantity})
+        except ModelProfile.DoesNotExist:
+            # If the user doesn't have a model profile, handle accordingly
+            return render(request, 'model_dashboard.html', {'error_message': 'Model profile not found.'})
+    else:
+        # If the user is not authenticated, redirect to the login page
+        return redirect('login_page')
+
+
+def modelcreate(request):
+    if request.method == 'POST':
+        # Extract model registration data from the form
+        first_name = request.POST['fname']
+        last_name = request.POST['sname']
+        username = request.POST['uname']
+        password = request.POST['password']
+        cpassword = request.POST['cpassword']
+        email = request.POST['email']
+        phone_no = request.POST['phone_no']
+
+        # Additional model-specific fields
+        age = request.POST['age']
+        height = request.POST['height']
+
+        if password == cpassword:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, 'This username already exists!')
+                return redirect('model_signup_page')
+            else:
+                user = User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
+                    password=password,
+                    email=email
+                )
+                user.save()
+
+                model_profile = ModelProfile.objects.create(
+                    user=user,
+                    phone_number=phone_no,
+                    age=age,
+                    height=height
+                )
+                model_profile.save()
+
+                # Handle model image uploads
+                for file in request.FILES.getlist('image'):
+                    image = ModelImage(image=file)
+                    image.save()
+                    model_profile.images.add(image)
+
+                print('Model Registration Succeed....')
+        else:
+            messages.info(request,'Password doesnt match!!!!!')
+            print('Password is not matching')
+            return redirect('model_registration')
+        
+        return redirect('login_page')
+    else:
+        return render(request, 'model_registration.html')
+
+
+def model_edit(request,pk):
+    if request.method == 'POST':
+        model = ModelProfile.objects.get(id=pk)
+        user = model.user
+        user.first_name = request.POST.get('fname')
+        user.last_name = request.POST.get('sname')
+        user.email = request.POST.get('email')
+        user.username = request.POST.get('uname')
+        model.phone_number = request.POST.get('phone_no')
+        model.age = request.POST.get('age')
+        model.height = request.POST.get('height')
+        old_images = list(model.images.all())
+        new_images = request.FILES.getlist('image')
+        if old_images and not new_images:
+            # Keep the existing images
+            model.images.set(old_images)
+        elif new_images:
+            # Update the images
+            new_image_objects = [ModelImage.objects.create(image=image) for image in new_images]
+            model.images.set(new_image_objects)
+        model.save()
+        user.save()
+        return redirect('model_dashboard')
+    model = ModelProfile.objects.get(id=pk)
+    return render(request,'model_edit.html',{'user':model})
+
+

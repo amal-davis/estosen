@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esto Sen</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
 
 
 
@@ -59,6 +60,40 @@
     background-color: #C6935E;
     color: #fff;
 }
+
+.cart-link {
+    position: relative;
+}
+
+.cart-quantity-badge {
+    position: absolute;
+    top: -20px;
+    right: 5px;
+    background-color: #D91212;
+    color: white;
+    border-radius: 90%;
+    padding: 5px;
+    font-size: 9.8px;
+}
+
+
+a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
+.btn{
+      border-radius: 0;
+  }
+  .swiper-pagination-bullet {
+    width: 20px;
+    height: 9px;
+    background-color: #000B41; /* Change the color of the '-' */
+    margin: 0 5px; /* Adjust the spacing between each '-' */
+    cursor: pointer;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background-color: rgb(252, 252, 255); /* Change the color of the active '-' */
+  }
 </style>
 <body>
   <header>
@@ -82,7 +117,7 @@
     <div class="nav-icons">
         <a href="{% url 'cart' %}" class="cart-link">
             <i class='bx bx-cart'></i>
-            <span class="cart-quantity">{% if cart_quantity %}{{ cart_quantity }}{% endif %}</span>
+            <span class="cart-quantity-badge">{% if cart_quantity is not None %}{{ cart_quantity }}{% else %}0{% endif %}</span>
 
         </a>
         <a href="#" class="dropdown-togglese">
@@ -98,425 +133,376 @@
 </header>
 
 
-    <div class="swiper-container" style="margin-top: 90px;">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" style="width: 100%; height: 600px; position: relative;">
-            <video id="swiper-video" width="100%" height="100%" class="brightness-setting">
-                <source src="{% static 'videos/River_Flowing_Aerial_shot.mp4' %}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="slide-content">
-                <h2>Slide 1 Heading</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur molestias officia similique quam sunt! Atque aperiam ut ullam officia eaque ea voluptatibus delectus voluptas inventore esse optio, saepe est aspernatur!</p>
+
+  <div class="swiper mySwiper" style="margin-top: 95px;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <img src="{% static 'images/Blurred_people_third_cover.png' %}" />
+            <div class="centered-content">
+              <h1>Your Heading 1</h1>
+              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates iusto eaque animi magnam similique repudiandae hic eos aut ullam illum, incidunt temporibus deleniti eum, velit tempora saepe repellendus doloribus est.</p>
+              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
             </div>
+          </div>
         </div>
-        
-          <div class="swiper-slide" style="width: 100%; height: 600px;position: relative;">
-            <img src="https://img.freepik.com/free-photo/fashion-photo-graceful-brunette-woman-spring-outfit-posing-holding-white-bag_273443-4124.jpg" alt="" style="width: 100%; "  class="brightness-setting">
-            <div class="slide-content">
-                <h2>Slide 1 Heading</h2>
-                <p>Slide 1 Paragraph</p>
-                
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <img src="{% static 'images/Blurred_Traffic_second_image.png' %}" />
+            <div class="centered-content">
+              <h1>Your Heading 2</h1>
+              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta exercitationem harum, corrupti quibusdam, dicta quod labore optio eum molestias quasi saepe! Beatae id officiis sequi iure dolor illum odit aperiam.</p>
+              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <img src="{% static 'images/Blurred_people_third_cover.png' %}" />
+            <div class="centered-content">
+              <h1>Your Heading 3</h1>
+              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum sapiente dicta error earum labore, necessitatibus eligendi officiis optio vel! Praesentium commodi illo quasi culpa, doloremque quae illum incidunt recusandae perspiciatis.</p>
+              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <img src="{% static 'images/Blurred_Traffic_second_image.png' %}" />
+            <div class="centered-content">
+              <h1>Your Heading 4</h1>
+              <p class="mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, maxime facere? Neque praesentium qui exercitationem quaerat, explicabo quis, suscipit incidunt dolorem amet ipsam ipsum quae hic. Porro maiores ab ullam!</p>
+              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div> -->
+      <div class="swiper-pagination"></div>
+    </div>
+
+<div class="container-fluid bg-custom-color py-5 mt-3" >
+  <div class="row "style="padding: 20px;">
+      <div class="col-lg-6">
+          <div class="p-4">
+              <p class="font-size-18 text-dark">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <div class="button-container mt-4">
+                  <a href="#" class="btn solid-button" style="background-color: #C6935E;color: #fff; ">Click Me</a>
               </div>
-        </div>
-          <div class="swiper-slide" style="width: 100%; height: 600px;position: relative;">
-            <img src="https://img.freepik.com/free-photo/fashion-photo-graceful-brunette-woman-spring-outfit-posing-holding-white-bag_273443-4124.jpg" alt="" style="width: 100%; "  class="brightness-setting">
-            <div class="slide-content">
-                <h2>Slide 1 Heading</h2>
-                <p>Slide 1 Paragraph</p>
-                
-              </div>
-        </div>
-        </div>
-        <div class="swiper-pagination">
-            <span class="swiper-pagination-bullet"></span>
-            <span class="swiper-pagination-bullet"></span>
-            <span class="swiper-pagination-bullet"></span>
           </div>
       </div>
 
-
-      <div class="section-container">
-        <div class="word-container">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <div class="button-container" style="margin-top: 20px;">
-                <a href="#" class="solid-button">Click Me</a>
-            </div>
-        </div>
-
-        <div class="model-container">
-            <img src="{% static 'images/container_image.png' %}" alt="Image Description">
-        </div>
-    </div>
-
-    
-    <div class="image-grid">
-        <div class="image-container">
-            
-            <img src="{% static 'images/parade.png' %}" alt="Image 1" class="brightness-adjusted">
-            <div class="text-container">
-                <h2>Large Heading</h2>
-                <p>Short Heading</p>
-            </div>
-        </div>
-
-        <div class="image-container">
-            <img src="{% static 'images/parade.png' %}" alt="Image 2" class="brightness-adjusted">
-            <div class="text-container">
-                <h2>Large Heading</h2>
-                <p>Short Heading</p>
-            </div>
-        </div>
-
-        <div class="image-container">
-            <img src="{% static 'images/parade.png' %}" alt="Image 3" class="brightness-adjusted">
-            <div class="text-container">
-                <h2>Large Heading</h2>
-                <p>Short Heading</p>
-            </div>
-        </div>
-
-        <div class="image-container">
-            <img src="{% static 'images/parade.png' %}" alt="Image 4" class="brightness-adjusted">
-            <div class="text-container">
-                <h2>Large Heading</h2>
-                <p>Short Heading</p>
-            </div>
-        </div>
-
-        <div class="image-container">
-            <img src="{% static 'images/parade.png' %}" alt="Image 5" class="brightness-adjusted">
-            <div class="text-container">
-                <h2>Large Heading</h2>
-                <p>Short Heading</p>
-            </div>
-        </div>
-    </div>
-
-    
-    <div class="grid-container">
-        <!-- Card 1 -->
-        <div class="item">
-          <img src="{% static 'images/model.png' %}" alt="model_image">
-          
-        </div>
-        
-        <!-- Card 2 -->
-        <div class="content-item" style="background-color: #000B41; padding: 20px; color: white; text-align: center;">
-            <div class="content-wrapper" style="margin-top: 70px;">
-                <h1>Fashion Modeling Headings</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias unde corrupti ex minus placeat, nostrum expedita tenetur officiis perspiciatis autem harum ad beatae totam molestiae laboriosam, quas, nulla ut quod!.</p>
-                <a href="#" class="styled-link">Read More</a>
-            </div>
-        </div>
-        
-        <!-- Card 3 -->
-        <div class="item">
-          <img src="https://img.freepik.com/premium-photo/aesthetic-desktop-wallpaper-8k-photography-background_882954-12025.jpg" alt="Event Image">
-          
-        </div>
-        
-        <!-- ... other cards ... -->
-        <div class="content-item" style="background-color:#C6935E;padding: 20px; color: white; text-align: center;">
-          
-            <div class="content-wrapper" style="margin-top: 70px;">
-                <h1>Fashion Modeling Headings</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias unde corrupti ex minus placeat, nostrum expedita tenetur officiis perspiciatis autem harum ad beatae totam molestiae laboriosam, quas, nulla ut quod!.</p>
-                <a href="#" class="styled-link">Read More</a>
-            </div>
-        </div>
-        <div class="item">
-            <img src="https://img.freepik.com/free-photo/inspired-caucasian-lady-white-tshirt-shoes-dreamy-posing-chair-smiling-charming-girl-with-wavy-hair-sitting-purple-background_197531-25635.jpg" alt="Event Image">
-           
-          </div>
-          <div class="content-item" style="background-color: #8B5632;padding: 20px; color: white; text-align: center;">
-            <div class="content-wrapper" style="margin-top: 70px;">
-                <h1>Fashion Modeling Headings</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias unde corrupti ex minus placeat, nostrum expedita tenetur officiis perspiciatis autem harum ad beatae totam molestiae laboriosam, quas, nulla ut quod!.</p>
-                <a href="#" class="styled-link">Read More</a>
-            </div>
-          
-          </div>
-      </div>
-
-
-
-    <div class="container-heading">
-        <h1>Our Models</h1>
-      </div>
-    
-      <div class="picture-container" style="margin-top: 40px;">
-
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
-          <div class="overlay">Image 1</div>
-        </div>
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 2">
-          <div class="overlay">Image 2</div>
-        </div>
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 3">
-          <div class="overlay">Image 3</div>
-        </div>
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 4">
-          <div class="overlay">Image 4</div>
-        </div>
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 5">
-          <div class="overlay">Image 5</div>
-        </div>
-        <div class="card">
-          <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 6">
-          <div class="overlay">Image 6</div>
-        </div>
-      </div>
-
-
-      
-
-      <div class="main-section" style="margin-top: 40px;">
-        <div class="left-section">
-            <div class="heading">
-                <h1>Fashion Heading</h1>
-            </div>
-            <div class="paragraph">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum beatae sunt voluptatem facere blanditiis earum exercitationem nobis quam reiciendis eum obcaecati tempora tempore quae pariatur sapiente voluptate, sed totam explicabo.</p>
-            </div>
-            <a href="#" class="button">Your Button</a>
-        </div>
-        <div class="right-section">
-            <img src="{% static 'images/shoot.png' %}" alt="Your_Image" class="image">
-        </div>
-    </div>
-
-    <div class="main-sections">
-        <div class="left-sections">
-            <img src="https://img.freepik.com/free-photo/interested-fashionable-woman-trendy-fluffy-outfit-looking-away-with-gently-smile_197531-7092.jpg" alt="Your Image" class="image">
-
-        </div>
-        <div class="right-sections">
-
-            <div class="heading">
-                <h1>Fashion Heading</h1>
-            </div>
-            <div class="paragraph">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum beatae sunt voluptatem facere blanditiis earum exercitationem nobis quam reiciendis eum obcaecati tempora tempore quae pariatur sapiente voluptate, sed totam explicabo.</p>
-            </div>
-            <a href="#" class="button">Your Button</a>
-        </div>
-    </div>
-    <div class="center-heading">
-      <h1 style="color: #000B41;">Styling Inspiration</h1>
-      <h2 style="color: #000B41;">Current Trends, Styling Tips and Much More</h2>
-  </div>
-
-    <div class="container-fluid" style="margin-top: 60px;">
-      <div class="content-section">
-          <div class="text-content-section">
-              <h1>A World Class Hair Company</h1>
-              <div class="underline-section"></div>
-              <h2>Bespoke colour services, beautiful hairdressing</h2>
-              <p>Chillwave narwhal dreamcatcher iPhone, mixtape sriracha polaroid farm-to-table forage. Tumeric taxidermy church-key migas viral. Four dollar toast before they sold out pinterest keytar, messenger bag cliche edison bulb DIY cray pork belly fashion axe hella 3 wolf moon prism. PBR&B plaid letterpress small batch enamel pin selfies butcher chicharrones YOLO.</p>
-              <button onclick="findOutMore()">Find Out More</button>
-          </div>
-          <div class="image-container-section">
-              <img src="{% static 'images/shooter_image.png' %}" alt="Image_Description">
-          </div>
+      <div class="col-lg-6">
+          <img src="https://img.freepik.com/free-photo/interested-fashionable-woman-trendy-fluffy-outfit-looking-away-with-gently-smile_197531-7092.jpg" alt="Image Description" class="img-fluid">
       </div>
   </div>
-
-  <section class="shop" id="shop" style="margin-top: 40px;">
-    <div class="middle-text">
-        <h4>Our Shop</h4>
-        <h2>Lets Check Popular Products</h2>
-    </div>
-    
-</section>
-
-<div class="products-container" id="products-container" style="margin-top: 40px;">
-  <div class="product-card">
-    <div class="badge">Hot</div>
-    <div class="product-tumb">
-      <img src="https://i.imgur.com/xdbHo4E.png" alt="">
-    </div>
-    <div class="product-details">
-      <span class="product-catagory">Women,bag</span>
-      <h4><a href="">Women leather bag</a></h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-      <div class="product-bottom-details">
-        <div class="product-price">₹230.99</div>
-        <div class="product-links">
-          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="product-card">
-    <div class="badge">Hot</div>
-    <div class="product-tumb">
-      <img src="https://i.imgur.com/xdbHo4E.png" alt="">
-    </div>
-    <div class="product-details">
-      <span class="product-catagory">Women,bag</span>
-      <h4><a href="">Women leather bag</a></h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-      <div class="product-bottom-details">
-        <div class="product-price">₹230.99</div>
-        <div class="product-links">
-          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="product-card">
-    <div class="badge">Hot</div>
-    <div class="product-tumb">
-      <img src="https://i.imgur.com/xdbHo4E.png" alt="">
-    </div>
-    <div class="product-details">
-      <span class="product-catagory">Women,bag</span>
-      <h4><a href="">Women leather bag</a></h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-      <div class="product-bottom-details">
-        <div class="product-price">₹230.99</div>
-        <div class="product-links">
-          <a href=""><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
 </div>
 
-<footer class="footer" style="margin-top: 40px;">
-  <div class="container row">
-    <div class="footer-col">
-      <h4>company</h4>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">All Products</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Categories</h4>
-      <ul>
-        {% for c in categories %}
-        <li><a href="{% url 'categories' category_name=c.name %}">{{ c.name }}</a></li>
-      {% endfor %}
-      </ul>
-    </div>
-    
-    <div class="footer-col">
-      <h4>follow us</h4>
-      <div class="social-links">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+
+<div class="container-fluid mt-4">
+  <div class="row no-gutters">
+      <!-- Card 1 -->
+      <div class="col-lg-4 col-md-6 ">
+          <div class="item">
+              <img src="https://via.placeholder.com/800x600" alt="Placeholder Image">
+          </div>
       </div>
-    </div>
-    <div class="footer-col">
-      <img src="{% static 'images/logo.png' %}" alt="Logo">
+
+      <!-- Card 2 -->
+      <div class="col-lg-4 col-md-6 ">
+          <div class="content-item" style="background-color: #000B41; padding: 20px; color: white; text-align: center;">
+              <div class="content-wrapper" style="margin-top: 70px;">
+                  <h1>Fashion Modeling Headings</h1>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                  <a href="#" class="btn btn-light">Read More</a>
+              </div>
+          </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-lg-4 col-md-6 ">
+          <div class="item">
+              <img src="https://via.placeholder.com/800x600" alt="Placeholder Image">
+          </div>
+      </div>
+
+      <!-- Additional Cards... -->
+      <div class="col-lg-4 col-md-6">
+        <div class="content-item" style="background-color:#C6935E;padding: 20px; color: white; text-align: center;">
+            <div class="content-wrapper" style="margin-top: 70px;">
+                <h1>Fashion Modeling Headings</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                <a href="#" class="btn btn-light">Read More</a>
+            </div>
+        </div>
     </div>
     
+    <div class="col-lg-4 col-md-6 ">
+        <div class="item">
+            <img src="https://via.placeholder.com/800x600" alt="Placeholder Image">
+        </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 ">
+        <div class="content-item" style="background-color: #8B5632;padding: 20px; color: white; text-align: center;">
+            <div class="content-wrapper" style="margin-top: 70px;">
+                <h1>Fashion Modeling Headings</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                <a href="#" class="btn btn-light">Read More</a>
+            </div>
+        </div>
+    </div>
+
   </div>
-  <!-- New paragraph added here -->
-  <div class="footer-bottom">
-    <p>&copy; 2023 Estosen.in All rights reserved</p>
-    <p>Designed and Developed by <a style="color: #fff;" href="">Softverses</a></p>
+</div>
+
+
+<div class="container">
+  <div class="container-heading">
+      <h1>Our Models</h1>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <div class="col">
+          <div class="card custom-hover-card">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20230621/ZV6J/649225d242f9e729d75aab11/-473Wx593H-463467342-white-MODEL.jpg" alt="Image 1">
+              <div class="overlay">Image 1</div>
+          </div>
+      </div>
+      <!-- Repeat similar structure for other images -->
+  </div>
+</div>
+
+<!-- Main Section 1 -->
+<div class="container-fluid mt-4">
+  <div class="row ">
+      <div class=" col-lg-12 main-section">
+          <div class="left-section">
+              <div class="heading">
+                  <h1>Fashion Heading</h1>
+              </div>
+              <div class="paragraph">
+                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+              </div>
+              <a href="#" class="btn btn-primary">Your Button</a>
+          </div>
+          <div class="right-section">
+              <img src="https://img.freepik.com/free-photo/interested-fashionable-woman-trendy-fluffy-outfit-looking-away-with-gently-smile_197531-7092.jpg" alt="Your_Image" class="image">
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Main Section 2 -->
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-lg-12 main-sections">
+          <div class="left-sections">
+              <img src="https://img.freepik.com/free-photo/interested-fashionable-woman-trendy-fluffy-outfit-looking-away-with-gently-smile_197531-7092.jpg" alt="Your Image" class="image">
+          </div>
+          <div class="right-sections">
+              <div class="heading">
+                  <h1>Fashion Heading</h1>
+              </div>
+              <div class="paragraph">
+                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+              </div>
+              <a href="#" class="btn btn-primary">Your Button</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container-fluid mt-4">
+  <div class="row no-gutters">
+    {% for category in categories %}
+    <div class="col-lg-2 col-md-2 col-sm-2 col-12">
+        <div class="image-container">
+          <a href="{% url 'categories' category_name=category.name %}">
+            <img src="{{ category.image.url }}" alt="{{ category.name }}">
+            <div class="text-container">
+              
+
+                <h2 style="color: #fff;">{{ category.name }}</h2>
+              </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+      
+  </div>
+</div>
+
+<div class="container text-center mt-5">
+    <div class="center-heading">
+        <h1 style="color: #000B41;">Styling Inspiration</h1>
+        <h2 style="color: #000B41;">Current Trends, Styling Tips and Much More</h2>
+    </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 60px; background-color: #d4d2f6;padding: 20px;">
+  <div class="row">
+      <div class="col-md-6 text-content-section">
+          <h1>A World Class Hair Company</h1>
+          <div class="underline-section"></div>
+          <h2>Bespoke colour services, beautiful hairdressing</h2>
+          <p>Chillwave narwhal dreamcatcher iPhone, mixtape sriracha polaroid farm-to-table forage. Tumeric taxidermy church-key migas viral. Four dollar toast before they sold out pinterest keytar, messenger bag cliche edison bulb DIY cray pork belly fashion axe hella 3 wolf moon prism. PBR&B plaid letterpress small batch enamel pin selfies butcher chicharrones YOLO.</p>
+          <button onclick="findOutMore()">Find Out More</button>
+      </div>
+      <div class="col-md-6 image-container-section">
+          <img src="{% static 'images/shooter_image.png' %}" alt="Image_Description">
+      </div>
+  </div>
+</div>
+    
+<div class="container">
+  <div class="container-heading">
+    <h1>Our Products</h1>
+</div>
+<div class="row" id="productContainer">
+  {% for product in products %}
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+          <div class="card">
+              {% with specific_image=product.images.first %}
+                  {% if specific_image %}
+                      <img src="{{ specific_image.image.url }}" alt="Product Image" class="card-img-top">
+                  {% endif %}
+              {% endwith %}
+              
+              <div class="card-body">
+                  <a href="{% url 'product_detail' product_id=product.id %}">
+                      <h2 class="card-title" style="color: #000B41;">{{ product.name }}</h2>
+                  </a>
+                  <h6 class="card-subtitle mb-2 text-muted" style="font-size: 18px;">{{ product.category.name }}</h6>
+                  <p class="card-text" style="color: #000B41; font-size: 18px;">
+                      {{ product.description }}
+                  </p>
+
+                  <div class="buy d-flex justify-content-between align-items-center">
+                      <div class="price text-success"><h5 class="mt-4">₹{{ product.price }}</h5></div>
+                      {% if product.status != 'Out of stock' %}
+                          <form method="POST" action="{% url 'add_to_cart' pk=product.id %}">
+                              {% csrf_token %}
+                              <button type="submit" class="btn" style="background-color: #000B41; color: #fff;">
+                                  <i class='bx bx-cart'></i>Add to Cart
+                              </button>
+                          </form>
+                      {% else %}
+                          <span class="out-of-stock-text" style="color: rgb(245, 35, 35);">Out of Stock!</span>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+
+          <!-- Add the following code at the bottom of the card -->
+          {% if forloop.last %}
+          <div class="col-12 mt-4">
+            <div class="view-all-card">
+                <a href="{% url 'allproducts' %}">
+                    View All <i class="bx bx-arrow-to-right"></i>
+                </a>
+            </div>
+        </div>
+          {% endif %}
+      </div>
+  {% endfor %}
+</div>
+</div>
+
+
+<footer class=" text-white py-5 mt-4" style="background-color: #000B41;">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-3 footer-col">
+              <h4 class="text-uppercase">company</h4>
+              <ul class="list-unstyled">
+                  <li><a href="#" class="text-white">Home</a></li>
+                  <li><a href="#" class="text-white">About Us</a></li>
+                  <li><a href="#" class="text-white">All Products</a></li>
+                  <li><a href="#" class="text-white">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="col-md-3 footer-col">
+              <h4 class="text-uppercase">categories</h4>
+              <ul class="list-unstyled">
+                  {% for c in categories %}
+                  <li><a href="{% url 'categories' category_name=c.name %}" class="text-white">{{ c.name }}</a></li>
+                  {% endfor %}
+              </ul>
+          </div>
+          <div class="col-md-3 footer-col">
+              <h4 class="text-uppercase ">follow us</h4>
+              <div class="d-flex social-links">
+                  <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                  <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                  <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                  <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+          </div>
+          <div class="col-md-3 footer-col">
+              <img src="{% static 'images/logo.png' %}" alt="Logo" class="img-fluid" style="height: 50px;">
+          </div>
+      </div>
+      <!-- New paragraph added here -->
+      <div class="row mt-4">
+          <div class="col-md-6">
+              <p>&copy; 2023 Estosen.in All rights reserved</p>
+          </div>
+          
+      </div>
+      
+  </div>
+  <div class="text-center" style="bottom: -40px;position: relative;">
+      <p>Designed and Developed by <a href="" class="text-white">Softverses</a></p>
   </div>
 </footer>
 
-
-  
-    <a href="#" class="scroll"><i class='bx bx-up-arrow-alt'></i>
-    </a>
-
-    
-
-    
+<a href="#" class="scroll"><i class='bx bx-up-arrow-alt'></i>
+</a>
 
     <script src="{% static 'js/script.js' %}"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
 <script>
-         // Initialize Swiper
-  
-var swiper = new Swiper('.swiper-container', {
-  slidesPerView: 1,
-  spaceBetween: 30,
-  loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
-    bulletClass: 'swiper-pagination-bullet',
-    bulletActiveClass: 'swiper-pagination-bullet-active',
-  },
-  speed: 2000,
-  effect: 'slide',
-  grabCursor: true,
-});
+        
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    var video = document.getElementById('swiper-video');
-
-    // Mute the video and play it automatically
-    video.muted = true;
-    video.play();
-    
-    // Hide default controls
-    video.controls = false;
-
-    // Optional: Add event listeners or custom controls if needed
-    // video.addEventListener('click', function() {
-    //     if (video.paused) {
-    //         video.play();
-    //     } else {
-    //         video.pause();
-    //     }
-    // });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    var mySwiper = new Swiper('.swiper-container', {
-      slidesPerView: 1,
-      spaceBetween: 30,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      loop: true, // Enable loop for a seamless transition between the last and first slides
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      on: {
-        slideChange: function () {
-          var video = document.getElementById('swiper-video');
-          if (video) {
-            video.play();
-          }
-        },
-      },
-    });
-  });
 
   $(document).ready(function() {
     $(".dropdown-togglese").click(function() {
@@ -537,6 +523,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $(".dropdown-menu").removeClass("show");
     });
 });
+
+
+var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      effect: "fade",
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      autoplay: {
+        delay: 4000, // Adjust the delay in milliseconds between slides
+        disableOnInteraction: false, // Continue autoplay even when the user interacts with the slider
+    },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+    
 
 
 </script>

@@ -39,7 +39,8 @@ urlpatterns = [
     path('add_to_cart/<int:pk>/', views.add_to_cart, name='add_to_cart'),
     path('model_registration',views.model_registration,name='model_registration'),
     path('model_dashboard',views.model_dashboard,name='model_dashboard'),
-
+    path('modelcreate',views.modelcreate,name='modelcreate'),
+    path('model_edit/<int:pk>/',views.model_edit,name='model_edit'),
 
     
 ]

@@ -83,6 +83,29 @@ class Order(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=255,null=True,blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+
+
+
+
+class ModelImage(models.Model):
+    image = models.ImageField(upload_to='model_images/')
+
+
+class ModelProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=15, blank=True)
+    age = models.IntegerField()
+    height = models.FloatField()
+    images = models.ManyToManyField(ModelImage, blank=True)
+    # Add other model-related fields
+
+    def __str__(self):
+        return self.user.username
+    
+
+
+
+
     
     
     
