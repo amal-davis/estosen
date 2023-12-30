@@ -41,6 +41,10 @@ urlpatterns = [
     path('model_dashboard',views.model_dashboard,name='model_dashboard'),
     path('modelcreate',views.modelcreate,name='modelcreate'),
     path('model_edit/<int:pk>/',views.model_edit,name='model_edit'),
+    path('update_password',views.update_password,name='update_password'),
+    path('model_details',views.model_details,name='model_details'),
+    path('approve_model/<int:model_id>/', views.approve_model, name='approve_model'),
+    path('disapprove_model/<int:model_id>/', views.disapprove_model, name='disapprove_model'),
 
     
 ]

@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
     <title>Sign UP</title>
 </head>
 <style>
@@ -29,6 +29,10 @@
 a:hover {
     text-decoration: none; /* Remove the underline on hover */
 }
+.btn{
+    border-radius: 0;
+}
+
 </style>
 <body>
     <header>
@@ -112,7 +116,7 @@ a:hover {
     
                   <button class="btn  mt-4" type="submit" style="color: #fff; background-color: #000B41;">Submit</button>
                 </div>
-                <p style="color: #000B41;">Already Have an Account? <a href="">Log IN</a></p>
+                <p style="color: #000B41;">Already Have an Account? <a href="{% url 'login_page' %}">Log IN</a></p>
                 {% for message in messages %}
     <h5 class="alert text-danger">
         

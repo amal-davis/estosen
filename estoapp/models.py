@@ -97,6 +97,8 @@ class ModelProfile(models.Model):
     age = models.IntegerField()
     height = models.FloatField()
     images = models.ManyToManyField(ModelImage, blank=True)
+    gender = models.CharField(max_length=150, blank=True)
+    is_approved = models.BooleanField(default=False)  # New field
     # Add other model-related fields
 
     def __str__(self):

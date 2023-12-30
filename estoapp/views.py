@@ -15,7 +15,8 @@ from django.db.models import Avg
 from django import template
 from django.http import JsonResponse
 import razorpay
-
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import make_password, check_password
 
 
 
@@ -33,8 +34,9 @@ def index(request):
     products = Product.objects.all()[:3]
 
     # Fetch all categories
-    
-    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products})
+    models_with_images = ModelProfile.objects.all()
+
+    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products, 'models_with_images': models_with_images})
 
 
 def admin_page(request):
@@ -236,8 +238,8 @@ def usercreate(request):
 
 
         if password==cpassword:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'This user name already exists!')
+            if User.objects.filter(email=email).exists():
+                messages.info(request, 'This Email already exists!')
                 return redirect('signup_page')
             else:
                 user=User.objects.create_user(
@@ -272,10 +274,17 @@ def signin(request):
                 login(request, user)
                 return redirect('admin_page')
             else:
-                if ModelProfile.objects.filter(user=user).exists():
-                    # Redirect to the model dashboard
-                    login(request, user)
-                    return redirect('model_dashboard')
+                model_profile = ModelProfile.objects.filter(user=user).first()
+
+                if model_profile:
+                    if model_profile.is_approved:
+                        # Model is approved, redirect to the model dashboard or any other page
+                        login(request, user)
+                        return redirect('model_dashboard')
+                    else:
+                        # Model is not approved, show a message
+                        messages.warning(request, 'Your model profile is not yet approved. Please wait for admin approval.')
+                        return redirect('login_page')
                 else:
                     # Regular user, redirect to the index page
                     login(request, user)
@@ -575,15 +584,16 @@ def modelcreate(request):
         cpassword = request.POST['cpassword']
         email = request.POST['email']
         phone_no = request.POST['phone_no']
+        gender = request.POST['gender']
 
         # Additional model-specific fields
         age = request.POST['age']
         height = request.POST['height']
 
         if password == cpassword:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'This username already exists!')
-                return redirect('model_signup_page')
+            if User.objects.filter(email=email).exists():
+                messages.info(request, 'This Email already exists!')
+                return redirect('signup_page')
             else:
                 user = User.objects.create_user(
                     first_name=first_name,
@@ -598,7 +608,10 @@ def modelcreate(request):
                     user=user,
                     phone_number=phone_no,
                     age=age,
-                    height=height
+                    height=height,
+                    gender=gender,
+                    is_approved=False
+
                 )
                 model_profile.save()
 
@@ -646,3 +659,45 @@ def model_edit(request,pk):
     return render(request,'model_edit.html',{'user':model})
 
 
+
+
+def update_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('cpassword')
+        new_password = request.POST.get('password')
+        confirm_new_password = request.POST.get('password_confirm')
+
+        if request.user.check_password(current_password):
+            if new_password == confirm_new_password:
+                request.user.set_password(new_password)
+                request.user.save()
+
+                update_session_auth_hash(request, request.user)
+
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('index')
+            else:
+                messages.error(request, 'New password and confirm new password do not match.')
+        else:
+            messages.error(request, 'Incorrect current password.')
+    return render(request, 'update_password.html')
+
+
+
+def model_details(request):
+    model_data = ModelProfile.objects.all()
+    context = {'model_data':model_data}
+    return render(request, 'model_details.html',context)
+
+
+def approve_model(request, model_id):
+    model_profile = get_object_or_404(ModelProfile, id=model_id)
+    model_profile.is_approved = True
+    model_profile.save()
+    return redirect('model_details')  # Update with the correct URL name
+
+def disapprove_model(request, model_id):
+    model_profile = get_object_or_404(ModelProfile, id=model_id)
+    model_profile.is_approved = False
+    model_profile.save()
+    return redirect('model_details')

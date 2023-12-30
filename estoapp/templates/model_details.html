@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<style>
+    body{
+    font-family: 'Sulphur Point', sans-serif;
+}
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg" id="nav1" style="background-color: #000B41; ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="{% static 'images/logo.png' %}" width="120px"
+              height="50px" class="d-inline-block align-top" alt="">
+          </a>
+          <ul class="nav nav-pills">
+            <li class="nav-item" >
+              <a class="nav-link mx-sm-3" href="" style="color: #ffff;">Products</a>
+            </li>
+    
+            <!-- <li class="nav-item">
+              <form class="form-inline" action="" method="get">
+                  <div class="input-group">
+                      <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" id="search">
+                      <button class="btn btn-outline-dark" type="submit">Search</button>
+                  </div>
+              </form>
+          </li> -->
+            <li class="nav-item" >
+              <a class="nav-link" href="#" data-bs-toggle="popover" data-bs-placement="bottom" style="color: #ffff;"
+                title="<h6 class='popover-title'>Becoming a member</h6>"
+                data-bs-content="<div class='text-center'><a class='btn btn-warning login-link' href=''>Login</a><br><br><a class='btn btn-warning signup-link' href=''>Sign up</a></div>"
+                data-bs-html="true">
+                Account
+              </a>
+            </li>
+            <li class="nav-item"  >
+              <a class="nav-link" href="" style="color: #ffff;">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" style="color: #ffff;">Contact</a>
+            </li>
+            <li class="nav-item" >
+              <div class="flex-container">
+                <div><a href="" class="nav-link" style="text-decoration: none;color: white;font-size: 16px;">Orders</a></div>
+            </div>
+          <!-- </li>
+            <li class="nav-item">
+              <div class="flex">
+                <a href="" style="color: black;">
+                  <div class="div1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-basket-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M5.071 1.243a.5.5 0 0 1 .858.514L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 6h1.717L5.07 1.243zM3.5 10.5a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3z" />
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </nav>
+    
+      <div class="container-fluid " style="margin-top: 40px; padding-bottom: 40%;">
+        <h2 class="text-center mt-5">Models Registered</h2>
+        <table class="table mt-5">
+            <thead class="thead">
+                <tr>
+                    
+                    <th>MODEL NAME</th>
+                    <th>USER NAME</th>
+                    <th>EMAIL</th>
+                    <th>PHONE NUMBER</th>
+                    <th>AGE</th>
+                    <th>GENDER</th>
+                    <th>IMAGES</th>
+                    <th>HEIGHT</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for p in model_data %}
+                <tr>
+                    
+                    <td>{{ p.user.first_name|default:'' }} {{ p.user.last_name|default:'' }}</td>
+
+                    <td>{{ p.user.username }}</td>
+                    <td>{{ p.user.email }}</td>
+                    <td>{{ p.phone_number }}</td>
+                    <td>{{ p.age }}</td>
+                    <td>{{ p.gender }}</td>
+                    <td>
+                        {% for image in p.images.all %}
+                            <a href="#" class="image-link" data-toggle="modal" data-target="#imageModal" data-image="{{ image.image.url }}">
+                                <img src="{{ image.image.url }}" alt="{{ p.name }} Image" style="width: 90px; height: 90px;">
+                            </a>
+                        {% endfor %}
+                    </td>
+        <td>{{ p.height }}</td>
+        <td>
+            {% if p.is_approved %}
+            <a href="{% url 'disapprove_model' p.id %}" class="btn btn-dark btn-sm">Disapprove</a>
+          
+          {% else %}
+          <a href="{% url 'approve_model' p.id %}" class="btn btn-outline-dark btn-sm">Approve</a>  
+            {% endif %}
+        </td>
+        </tr>
+            </tbody>
+            {% endfor %}
+
+        </table>
+    </div>
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Uploaded</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: red; color: #ffff;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" class="img-fluid" src="" alt="Model Image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+
+    <script>
+        $(document).ready(function() {
+        $('.image-link').click(function() {
+            var imageUrl = $(this).data('image');
+            $('#modalImage').attr('src', imageUrl);
+        });
+    });
+    </script>
+</body>
+</html>
