@@ -103,6 +103,22 @@ class ModelProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class AnotherDatabaseModel(models.Model):
+    model_profile = models.ForeignKey(ModelProfile, on_delete=models.CASCADE, null=True)
+    image = models.ForeignKey(ModelImage, on_delete=models.CASCADE, null=True)
+    username = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, blank=True, default='')
+    phone_no = models.CharField(max_length=255, blank=True, default='')
+    gender = models.CharField(max_length=255, blank=True, default='')
+    age = models.IntegerField(default=0)
+
+
+
+
+    def __str__(self):
+        return self.username
     
 
 

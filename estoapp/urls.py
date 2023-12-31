@@ -45,6 +45,9 @@ urlpatterns = [
     path('model_details',views.model_details,name='model_details'),
     path('approve_model/<int:model_id>/', views.approve_model, name='approve_model'),
     path('disapprove_model/<int:model_id>/', views.disapprove_model, name='disapprove_model'),
+    path('save_image_to_another_database/', views.save_image_to_another_database, name='save_image_to_another_database'),
+    path('another_database_model_details/<int:model_id>/', views.another_database_model_details, name='another_database_model_details'),
+
 
     
 ]

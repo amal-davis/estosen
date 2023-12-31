@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    
+
+    <h1>{{ another_model.username }} Details</h1>
+
+{% if another_model.image %}
+    <img src="{{ another_model.image.image.url }}" alt="{{ another_model.username }}" style="width: 300px; height: 300px;">
+{% else %}
+    <p>No image available</p>
+{% endif %}
+
+<h4 style="color: #000B41;">{{ another_model.username }}</h4>
+
+<!-- Display associated ModelProfile data -->
+
+    <p><strong>Username:</strong> {{ another_model.username }}</p>
+    <p><strong>Email:</strong> {{ another_model.email }}</p>
+    <p><strong>Phone Number:</strong> {{ another_model.phone_no }}</p>
+    <p><strong>Age:</strong> {{ another_model.age }}</p>
+    
+    <p><strong>Gender:</strong> {{ another_model.gender }}</p>
+    <!-- Add other fields as needed -->
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

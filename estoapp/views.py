@@ -17,6 +17,9 @@ from django.http import JsonResponse
 import razorpay
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password, check_password
+from django.core.files.base import ContentFile
+from django.utils.datastructures import MultiValueDictKeyError
+
 
 
 
@@ -34,9 +37,29 @@ def index(request):
     products = Product.objects.all()[:3]
 
     # Fetch all categories
+    model_data = AnotherDatabaseModel.objects.all()
     models_with_images = ModelProfile.objects.all()
+    for model in model_data:
+        print(f"Model: {model.username}, Image: {model.image.image.url}")
+    
 
-    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products, 'models_with_images': models_with_images})
+
+    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products, 'models_with_images': models_with_images,'model_data': model_data})
+
+
+
+def another_database_model_details(request, model_id):
+    another_model = get_object_or_404(AnotherDatabaseModel, id=model_id)
+    
+    # Fetch associated ModelProfile data
+    model_profile_data = another_model.model_profile
+
+    context = {
+        'another_model': another_model,
+        'model_profile_data': model_profile_data,
+    }
+
+    return render(request, 'model_details_view.html', context)
 
 
 def admin_page(request):
@@ -701,3 +724,49 @@ def disapprove_model(request, model_id):
     model_profile.is_approved = False
     model_profile.save()
     return redirect('model_details')
+
+
+
+def save_image_to_another_database(request):
+    if request.method == 'POST':
+        try:
+            username = request.POST.get('username')
+            image_id = request.POST.get('image_id')
+            email = request.POST.get('email')
+            phoneno = request.POST.get('phone_no')
+            age = request.POST.get('age')
+            gender = request.POST.get('gender')
+
+            # Handle cases where image_id might be missing or invalid
+            try:
+                image_id = int(image_id)
+            except (ValueError, TypeError):
+                # Handle the case where image_id is not a valid integer
+                # You might want to set a default value or handle it in another way
+                print("Invalid image_id:", image_id)
+                return HttpResponse('Invalid image_id.')
+
+            # Retrieve the image from the ModelImage model
+            try:
+                image = ModelImage.objects.get(id=image_id)
+            except ModelImage.DoesNotExist:
+                # Handle the case where the image with the given ID does not exist
+                print("Image not found with ID:", image_id)
+                return HttpResponse('Image not found with the given ID.')
+
+            # Save to another database
+            another_db_instance = AnotherDatabaseModel(username=username, image=image,email=email,phone_no=phoneno,age=age,gender=gender)
+            another_db_instance.save()
+
+            # You can also redirect the user to another page after successful submission
+            return redirect('model_details')
+
+        except Exception as e:
+            # Handle other potential exceptions
+            print("Error:", e)
+            return HttpResponse('Error occurred during form submission.')
+
+    # Handle GET requests if needed
+    return HttpResponse('Invalid request method.')
+
+

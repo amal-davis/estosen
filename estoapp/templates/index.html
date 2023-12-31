@@ -18,6 +18,7 @@
 
 
 
+
 </head>
 <style>
   .dropdown-menu {
@@ -333,16 +334,23 @@ a:hover {
 
     <div class="marquee" style="margin-top: 50px;">
         <div class="marquee__group">
-            {% for model in models_with_images %}
-            <div class="marquee__item">
-                <img src="{% if model.images.all %}{{ model.images.first.image.url }}{% else %}{% static 'path/to/default/image.jpg' %}{% endif %}" alt="{{ model.user.username }}">
-                <h4 style="color: #000B41;">{{ model.user.username }}</h4>
-            </div>
+            {% for data in model_data %}
+                <div class="marquee__item " >
+                    <a href="{% url 'another_database_model_details' data.id %}">
+                    
+                    {% if data.image %}
+                        <img src="{{ data.image.image.url }}" alt="{{ data.username }}">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                    <h4 style="color: #000B41;">{{ data.username }}</h4>
+                </a>
+                </div>
+            
             {% endfor %}
+        
         </div>
     </div>
-    
-    
 </div>
 
 <!-- Main Section 1 -->
@@ -532,11 +540,37 @@ a:hover {
 <a href="#" class="scroll"><i class='bx bx-up-arrow-alt'></i>
 </a>
 
+
+<!-- Add this modal to your HTML -->
+
+<div class="modal fade" id="modelDetailsModal" tabindex="-1" role="dialog" aria-labelledby="modelDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelDetailsModalLabel">Model Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modelDetailsContent">
+                       
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    <!-- Example using a CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
 
 <script>
@@ -582,6 +616,29 @@ var swiper = new Swiper(".mySwiper", {
     });
     
 
+
+
+    $(document).ready(function () {
+    $('.model-details-trigger').on('click', function () {
+        var modelId = $(this).data('model-id');
+
+        // Make an AJAX request to fetch detailed model information
+        $.ajax({
+            url: '/get_model_details/' + modelId + '/',  // Update with your actual URL
+            type: 'GET',
+            success: function (data) {
+                // Update a specific element on your page with the fetched data
+                $('#modelDetailsContent').html(data);
+
+                // Show the modal if not already shown
+                $('#modelDetailsModal').modal('show');
+            },
+            error: function (error) {
+                console.error('Error fetching model details:', error);
+            }
+        });
+    });
+});
 
 </script>
     
