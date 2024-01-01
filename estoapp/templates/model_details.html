@@ -72,12 +72,12 @@
         </div>
       </nav>
     
-      <div class="container-fluid " style="margin-top: 40px; padding-bottom: 40%;">
+      <div class="container-fluid " style="margin-top: 40px; padding-bottom: 40%; width: 100%;">
         <h2 class="text-center mt-5">Models Registered</h2>
         <table class="table mt-5">
             <thead class="thead">
                 <tr>
-                    
+                    <th>MODEL ID</th>
                     <th>MODEL NAME</th>
                     <th>USER NAME</th>
                     <th>EMAIL</th>
@@ -86,13 +86,20 @@
                     <th>GENDER</th>
                     <th>IMAGES</th>
                     <th>HEIGHT</th>
+                    <th>WEIGHT</th>
+                    <th>CHEST ROUND</th>
+                    <th>SHOULDER TO SHOULDER</th>
+                    <th>HIP ROUND</th>
+                    <th>ARM HOLE</th>
+                    <th>WAIST ROUND</th>
                     <th>ACTION</th>
+                    <th>OTHER DATA</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 {% for p in model_data %}
                 <tr>
-                    
+                    <td>{{ p.id }}</td>
                     <td>{{ p.user.first_name|default:'' }} {{ p.user.last_name|default:'' }}</td>
 
                     <td>{{ p.user.username }}</td>
@@ -102,12 +109,18 @@
                     <td>{{ p.gender }}</td>
                     <td>
                         {% for image in p.images.all %}
-                        <a href="#" class="image-link" data-toggle="modal" data-target="#imageModal" data-image="{{ image.image.url }}" data-image-id="{{ image.id }}" data-username="{{ p.user.username }}" data-email="{{  p.user.email }}" data-phone_number="{{ p.phone_number }}" data-age="{{  p.age }}" data-gender="{{  p.gender }}">
-                                <img src="{{ image.image.url }}" alt="{{ p.name }} Image" style="width: 90px; height: 90px;">
+                        <a href="#" class="image-link" data-toggle="modal" data-target="#imageModal" data-image="{{ image.image.url }}" data-image-id="{{ image.id }}" data-username="{{ p.user.username }}" data-email="{{  p.user.email }}" data-phone_number="{{ p.phone_number }}" data-age="{{  p.age }}" data-gender="{{  p.gender }}" data-height="{{  p.height }}">
+                                <img src="{{ image.image.url }}" alt="{{ p.name }} Image" style="width: 90px; height: 90px; margin-top: 10px;">
                             </a>
                         {% endfor %}
                     </td>
         <td>{{ p.height }}</td>
+        <td>{{ p.weight }}</td>
+        <td>{{ p.Chestround }}</td>
+        <td>{{ p.Shouldertoshoulder }}</td>
+        <td>{{ p.Hipround }}</td>
+        <td>{{ p.Armhole }}</td>
+        <td>{{ p.Waistround }}</td>
         <td>
             {% if p.is_approved %}
             <a href="{% url 'disapprove_model' p.id %}" class="btn btn-dark btn-sm">Disapprove</a>
@@ -116,6 +129,71 @@
           <a href="{% url 'approve_model' p.id %}" class="btn btn-outline-dark btn-sm">Approve</a>  
             {% endif %}
         </td>
+        <td>
+          <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                        data-target="#measurementsModal{{ p.id }}">Measurements</button>
+        </td>
+        <div class="modal fade" id="measurementsModal{{ p.id }}" tabindex="-1" role="dialog"
+        aria-labelledby="measurementsModalLabel{{ p.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="measurementsModalLabel{{ p.id }}">Measurements for
+                        {{ p.user.first_name }} {{ p.user.last_name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display measurements based on gender -->
+                    {% if p.gender == 'Men' %}
+                    <h3>Neck: {{ p.men_measurements.neck }}</h3>
+                    <h3>Full Sleeves Length: {{ p.men_measurements.Full_sleeves_length }}</h3>
+                    <h3>Half sleeves length:{{ p.men_measurements.Half_sleeves_length }}</h3>
+                    <h3>Biceps:{{ p.men_measurements.Biceps }}</h3>
+                    <h3>Lower waist:{{ p.men_measurements.Lower_waist }}</h3>
+                    <h3>Trouser length:{{ p.men_measurements.Trouser_length }}</h3>
+                    <h3>Trouser Bottom:{{ p.men_measurements.Trouser_Bottom }}</h3>
+                    <h3>Denim length:{{ p.men_measurements.Denim_length }}</h3>
+                    <h3>Thigh:{{ p.men_measurements.Thigh }}</h3>
+                    <h3>Shirt size:{{ p.men_measurements.Shirt_size }}</h3>
+                    <h3>T Shirt:{{ p.men_measurements.T_Shirt }}</h3>
+                    <h3>Shoe size:{{ p.men_measurements.Shoe_size }}</h3>
+                    <h3>Crotch Length:{{ p.men_measurements.Crotch_Length }}</h3>
+                    <!-- Add more measurements for men as needed -->
+                    {% endif %}
+                    {% if p.gender == 'Female' or p.gender == 'Trans' %}
+                    <h3>Shoulder to Waistline: {{ p.female_measurements.Shoulder_to_waistline }}</h3>
+                    <h3>Shoulder to Floor: {{ p.female_measurements.Shoulder_to_floor }}</h3>
+                    <h3>Neck round: {{ p.female_measurements.Neck_round }}</h3>
+                    <h3>Upper Bust: {{ p.female_measurements.Upper_Bust }}</h3>
+                    <h3>Full Bust: {{ p.female_measurements.Full_Bust }}</h3>
+                    <h3>Below Bust: {{ p.female_measurements.Below_Bust }}</h3>
+                    <h3>Lower waist round: {{ p.female_measurements.Lower_waist_round }}</h3>
+                    <h3>Full length sleeves: {{ p.female_measurements.Full_length_sleeves }}</h3>
+                    <h3>Half sleeve: {{ p.female_measurements.Half_sleeve }}</h3>
+                    <h3>3/4 sleeve: {{ p.female_measurements.3_4_sleeve }}</h3>
+                    <h3>Sleeves round: {{ p.female_measurements.Sleeves_round }}</h3>
+                    <h3>Biceps: {{ p.female_measurements.Biceps }}</h3>
+                    <h3>Shoulder to knee: {{ p.female_measurements.Shoulder_to_knee }}</h3>
+                    <h3>Knee round: {{ p.female_measurements.Knee_round }}</h3>
+                    <h3>Thigh round: {{ p.female_measurements.Thigh_round }}</h3>
+                    <h3>Ankle round: {{ p.female_measurements.Ankle_round }}</h3>
+                    <h3>crotch point: {{ p.female_measurements.crotch_point }}</h3>
+                    <h3>Shoe size: {{ p.female_measurements.Shoe_size }}</h3>
+                    <!-- Add more measurements for female as needed -->
+                    {% endif %}
+                    <!-- Add more conditions for other genders as needed -->
+                    {% if p.gender == 'Female' or p.gender == 'Trans' %}
+
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
         </tr>
             </tbody>
             {% endfor %}
@@ -140,6 +218,7 @@
                     <input type="hidden" id="modalPhonenumber" name="phone_no" value="">
                     <input type="hidden" id="modalAge" name="age" value="">
                     <input type="hidden" id="modalGender" name="gender" value="">
+                    <input type="hidden" id="modalHeight" name="height" value="">
                     <input type="hidden" id="modalImageId" name="image_id" value="">
                     <button type="submit" class="btn btn-primary">Save to Another Database</button>
                 </form>
@@ -175,6 +254,7 @@
         var phoneno = $(this).data('phone_number');
         var age = $(this).data('age');
         var gender = $(this).data('gender');
+        var height = $(this).data('height');
        
 
         // Update the modal content
@@ -185,6 +265,7 @@
         $('#modalPhonenumber').val(phoneno);
         $('#modalAge').val(age);
         $('#modalGender').val(gender);
+        $('#modalHeight').val(height);
 
         // Show the modal
         $('#imageModal').modal('show');

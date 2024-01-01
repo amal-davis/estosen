@@ -99,6 +99,16 @@ class ModelProfile(models.Model):
     images = models.ManyToManyField(ModelImage, blank=True)
     gender = models.CharField(max_length=150, blank=True)
     is_approved = models.BooleanField(default=False)  # New field
+    weight = models.FloatField(default=0.0)
+    Chestround = models.FloatField(default=0.0)
+    Shouldertoshoulder = models.FloatField(default=0.0)
+    Hipround =  models.FloatField(default=0.0)
+    Armhole = models.FloatField(default=0.0)
+    Waistround = models.FloatField(default=0.0)
+    men_measurements = models.JSONField(blank=True, null=True)
+    female_measurements = models.JSONField(blank=True, null=True)
+    kid_boy_measurements = models.JSONField(blank=True, null=True)
+    kid_girl_measurements = models.JSONField(blank=True, null=True)
     # Add other model-related fields
 
     def __str__(self):
@@ -113,6 +123,7 @@ class AnotherDatabaseModel(models.Model):
     phone_no = models.CharField(max_length=255, blank=True, default='')
     gender = models.CharField(max_length=255, blank=True, default='')
     age = models.IntegerField(default=0)
+    height = models.FloatField(default=0.0)
 
 
 

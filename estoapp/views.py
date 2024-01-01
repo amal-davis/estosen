@@ -53,10 +53,17 @@ def another_database_model_details(request, model_id):
     
     # Fetch associated ModelProfile data
     model_profile_data = another_model.model_profile
+    categories = Category.objects.all()
+    user = request.user.id
+    carts = Cart.objects.filter(user=user)
+    total_quantity = sum(cart.quantity for cart in carts)
 
     context = {
         'another_model': another_model,
         'model_profile_data': model_profile_data,
+        'cart_quantity': total_quantity, 
+        'categories': categories, 
+        'carts': carts
     }
 
     return render(request, 'model_details_view.html', context)
@@ -612,6 +619,117 @@ def modelcreate(request):
         # Additional model-specific fields
         age = request.POST['age']
         height = request.POST['height']
+        weight = request.POST['weight']
+        Chest_round = request.POST['Chest_round']
+        Shoulder_to_shoulder = request.POST['Shoulder_to_shoulder']
+        Hip_round = request.POST['Hip_round']
+        Arm_hole = request.POST['Arm_hole']
+        Waist_round = request.POST['Waist_round']
+        
+        # Initialize dictionary to store gender-specific measurements
+        measurements = {}
+
+        if gender == 'Men':
+            # Men's measurements
+            
+# Men's measurements
+         measurements['neck'] = request.POST['neck']
+         measurements['Full_sleeves_length'] = request.POST['Full_sleeves_length']
+         measurements['Half_sleeves_length'] = request.POST['Half_sleeves_length']
+         measurements['Biceps'] = request.POST.getlist('Biceps')[0].strip() if request.POST.getlist('Biceps') else None
+
+
+         measurements['Lower_waist'] = request.POST['Lower_waist']
+         measurements['Trouser_length'] = request.POST['Trouser_length']
+         measurements['Trouser_Bottom'] = request.POST['Trouser_Bottom']
+         measurements['Denim_length'] = request.POST['Denim_length']
+         measurements['Thigh'] = request.POST['Thigh']
+         measurements['Shirt_size'] = request.POST['Shirt_size']
+         measurements['T_Shirt'] = request.POST['T_Shirt']
+         measurements['Shoe_size'] = request.POST.getlist('Shoe_size')[0].strip() if request.POST.getlist('Shoe_size') else None
+
+         measurements['Crotch_Length'] = request.POST['Crotch_Length']
+
+         print(request.POST)
+         
+
+
+
+        elif gender == 'Female'or gender == 'Trans':
+    # Female or Trans measurements
+           measurements['Shoulder_to_waistline'] = request.POST['Shoulder_waistline']
+           measurements['Shoulder_to_floor'] = request.POST['Shoulder_floor']
+           measurements['Neck_round'] = request.POST['Neck_rounds']
+           measurements['Upper_Bust'] = request.POST['Upper_Busts']
+           measurements['Full_Bust'] = request.POST['Full_Busts']
+           measurements['Below_Bust'] = request.POST['Below_Bust']
+           measurements['Lower_waist_round'] = request.POST['Lower_round']
+           measurements['Full_length_sleeves'] = request.POST['Full_sleeves']
+           measurements['Half_sleeve'] = request.POST['Half_sleeves']
+           measurements['3/4_sleeve'] = request.POST['3/4_sleeves']
+           measurements['Sleeves_round'] = request.POST['Sleeves_rounds']
+           measurements['Biceps'] = request.POST.getlist('Bicep')[0].strip() if request.POST.getlist('Biceps') else None
+           measurements['Shoulder_to_knee'] = request.POST['Shoulder_knee']
+           measurements['Knee_round'] = request.POST['Knee_rounds']
+           measurements['Thigh_round'] = request.POST['Thigh_rounds']
+           measurements['Ankle_round'] = request.POST['Ankle_rounds']
+           measurements['crotch_point'] = request.POST['crotch_points']
+           measurements['Shoe_size'] = request.POST.getlist('Shoe_sizes')[0].strip() if request.POST.getlist('Shoe_size') else None
+           
+           
+
+
+
+        elif gender == 'Kid Boy':
+            # Kid Boy measurements
+            measurements['Shoulder_to_waistline'] = request.POST['Shoulder_to_waistlines']
+            measurements['Shoulder_to_floor'] = request.POST['Shoulder_to_floors']
+            measurements['Shoulder_to_hip'] = request.POST['Shoulder_to_hip']
+            measurements['Neck_round'] = request.POST['Necks']
+            measurements['Upper_Bust'] = request.POST['Upper_Buste']
+            measurements['shorts'] = request.POST['short']
+            measurements['Lower_waist_round'] = request.POST['Lower_waist']
+            measurements['Full_length_sleeves'] = request.POST['Full_length']
+            measurements['Half_sleeve'] = request.POST['Half_sleev']
+            measurements['3/4_sleeve'] = request.POST['3/4_sleevese']
+            measurements['Elbow_round'] = request.POST['Elbow_round']
+            measurements['Elbow_length'] = request.POST['Elbow_length']
+            measurements['Biceps'] = request.POST['Bicepse']
+            measurements['Shoulder_to_knee'] = request.POST['Shoulder_to']
+            measurements['Knee_round'] = request.POST['Knee_roundse']
+            measurements['Thigh_round'] = request.POST['Thigh_roundse']
+            measurements['Ankle_round'] = request.POST['Ankle_roundse']
+            measurements['crotch_point'] = request.POST['crotch_pointse']
+            measurements['Shoe_size'] = request.POST['Shoe']
+            measurements['Lower_waist_to'] = request.POST['Lower_waist_to']
+            measurements['trouser_length'] = request.POST['trouser_length']
+            print("Measurements:", measurements)
+
+        elif gender == 'Kid Girl':
+            # Kid Girl measurements
+            measurements['Shoulder_to_waistline'] = request.POST['Shoulder_to_waistline']
+            measurements['Shoulder_to_floor'] = request.POST['Shoulder_to_floor']
+            measurements['Neck_round'] = request.POST['Neck_round']
+            measurements['Upper_Bust'] = request.POST['Upper_Bust']
+            measurements['Full_Bust'] = request.POST['Full_Bust']
+            measurements['Below_Bust'] = request.POST['Below_Bust']
+            measurements['Lower_waist_round'] = request.POST['Lower_waist_round']
+            measurements['Full_length_sleeves'] = request.POST['Full_length_sleeves']
+            measurements['Half_sleeve'] = request.POST['Half_sleeve']
+            measurements['3/4_sleeve'] = request.POST['3/4_sleeve']
+            measurements['Sleeves_round'] = request.POST['Sleeves_round']
+            measurements['Biceps'] = request.POST['Biceps']
+            measurements['Shoulder_to_knee'] = request.POST['Shoulder_to_knee']
+            measurements['Knee_round'] = request.POST['Knee_round']
+            measurements['Thigh_round'] = request.POST['Thigh_round']
+            measurements['Ankle_round'] = request.POST['Ankle_round']
+            measurements['crotch_point'] = request.POST['crotch_point']
+            measurements['Shoe_size'] = request.POST['Shoe_size']
+            measurements['Waist_to_Knee'] = request.POST['Waist_to_Knee']
+
+        else:
+            messages.info(request, 'Invalid gender selection!')
+            return redirect('model_registration')
 
         if password == cpassword:
             if User.objects.filter(email=email).exists():
@@ -627,15 +745,33 @@ def modelcreate(request):
                 )
                 user.save()
 
+                # Create User and ModelProfile instances
                 model_profile = ModelProfile.objects.create(
                     user=user,
                     phone_number=phone_no,
                     age=age,
                     height=height,
                     gender=gender,
+                    weight=weight,
+                    Chestround=Chest_round,
+                    Shouldertoshoulder=Shoulder_to_shoulder,
+                    Hipround=Hip_round,
+                    Armhole=Arm_hole,
+                    Waistround=Waist_round,
                     is_approved=False
-
                 )
+
+                # Populate additional gender-specific measurements
+                if gender == 'Men':
+                    model_profile.men_measurements = measurements
+                elif gender == 'Female' or gender == 'Trans':
+                    model_profile.female_measurements = measurements
+                elif gender == 'Kid Boy':
+                    model_profile.kid_boy_measurements = measurements
+                elif gender == 'Kid Girl':
+                    model_profile.kid_girl_measurements = measurements
+
+                # Save the model_profile instance
                 model_profile.save()
 
                 # Handle model image uploads
@@ -646,10 +782,10 @@ def modelcreate(request):
 
                 print('Model Registration Succeed....')
         else:
-            messages.info(request,'Password doesnt match!!!!!')
+            messages.info(request, 'Password doesn\'t match!!!!!')
             print('Password is not matching')
             return redirect('model_registration')
-        
+
         return redirect('login_page')
     else:
         return render(request, 'model_registration.html')
@@ -736,6 +872,7 @@ def save_image_to_another_database(request):
             phoneno = request.POST.get('phone_no')
             age = request.POST.get('age')
             gender = request.POST.get('gender')
+            height = request.POST.get('height')
 
             # Handle cases where image_id might be missing or invalid
             try:
@@ -755,7 +892,7 @@ def save_image_to_another_database(request):
                 return HttpResponse('Image not found with the given ID.')
 
             # Save to another database
-            another_db_instance = AnotherDatabaseModel(username=username, image=image,email=email,phone_no=phoneno,age=age,gender=gender)
+            another_db_instance = AnotherDatabaseModel(username=username, image=image,email=email,phone_no=phoneno,age=age,gender=gender,height=height)
             another_db_instance.save()
 
             # You can also redirect the user to another page after successful submission
