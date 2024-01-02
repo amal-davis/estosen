@@ -124,6 +124,12 @@ class AnotherDatabaseModel(models.Model):
     gender = models.CharField(max_length=255, blank=True, default='')
     age = models.IntegerField(default=0)
     height = models.FloatField(default=0.0)
+    weight = models.FloatField(default=0.0)
+    Chestround = models.FloatField(default=0.0)
+    Shouldertoshoulder = models.FloatField(default=0.0)
+    Hipround =  models.FloatField(default=0.0)
+    Armhole = models.FloatField(default=0.0)
+    Waistround = models.FloatField(default=0.0)
 
 
 

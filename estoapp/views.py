@@ -662,11 +662,11 @@ def modelcreate(request):
            measurements['Neck_round'] = request.POST['Neck_rounds']
            measurements['Upper_Bust'] = request.POST['Upper_Busts']
            measurements['Full_Bust'] = request.POST['Full_Busts']
-           measurements['Below_Bust'] = request.POST['Below_Bust']
+           measurements['Below_Bust'] = request.POST['Below_Buste']
            measurements['Lower_waist_round'] = request.POST['Lower_round']
            measurements['Full_length_sleeves'] = request.POST['Full_sleeves']
            measurements['Half_sleeve'] = request.POST['Half_sleeves']
-           measurements['3/4_sleeve'] = request.POST['3/4_sleeves']
+           measurements['3_4_sleeve'] = request.POST['3/4_sleeves']
            measurements['Sleeves_round'] = request.POST['Sleeves_rounds']
            measurements['Biceps'] = request.POST.getlist('Bicep')[0].strip() if request.POST.getlist('Biceps') else None
            measurements['Shoulder_to_knee'] = request.POST['Shoulder_knee']
@@ -691,7 +691,7 @@ def modelcreate(request):
             measurements['Lower_waist_round'] = request.POST['Lower_waist']
             measurements['Full_length_sleeves'] = request.POST['Full_length']
             measurements['Half_sleeve'] = request.POST['Half_sleev']
-            measurements['3/4_sleeve'] = request.POST['3/4_sleevese']
+            measurements['3_4_sleeve'] = request.POST['3/4_sleevese']
             measurements['Elbow_round'] = request.POST['Elbow_round']
             measurements['Elbow_length'] = request.POST['Elbow_length']
             measurements['Biceps'] = request.POST['Bicepse']
@@ -716,7 +716,7 @@ def modelcreate(request):
             measurements['Lower_waist_round'] = request.POST['Lower_waist_round']
             measurements['Full_length_sleeves'] = request.POST['Full_length_sleeves']
             measurements['Half_sleeve'] = request.POST['Half_sleeve']
-            measurements['3/4_sleeve'] = request.POST['3/4_sleeve']
+            measurements['3_4_sleeve'] = request.POST['3/4_sleeve']
             measurements['Sleeves_round'] = request.POST['Sleeves_round']
             measurements['Biceps'] = request.POST['Biceps']
             measurements['Shoulder_to_knee'] = request.POST['Shoulder_to_knee']
@@ -802,6 +802,100 @@ def model_edit(request,pk):
         model.phone_number = request.POST.get('phone_no')
         model.age = request.POST.get('age')
         model.height = request.POST.get('height')
+        model.weight = request.POST.get('weight')
+        model.Chestround = request.POST.get('Chest_round')
+        model.Shouldertoshoulder = request.POST.get('Shoulder_to_shoulder')
+        model.Hipround = request.POST.get('Hip_round')
+        model.Armhole = request.POST.get('Armhole')
+        model.Waistround = request.POST.get('Waist_round')
+        model.gender = request.POST.get('gender')
+        measurements = {}
+        if model.gender == 'Men':
+            measurements['neck'] = request.POST['neck']
+            measurements['Full_sleeves_length'] = request.POST.get('Full_sleeves_length')
+            measurements['Half_sleeves_length'] = request.POST.get('Half_sleeves_length')
+            measurements['Biceps'] = request.POST.get('Biceps')
+
+
+            measurements['Lower_waist'] = request.POST.get('Lower_waist')
+            measurements['Trouser_length'] = request.POST.get('Trouser_length')
+            measurements['Trouser_Bottom'] = request.POST.get('Trouser_Bottom')
+            measurements['Denim_length'] = request.POST.get('Denim_length')
+            measurements['Thigh'] = request.POST.get('Thigh')
+            measurements['Shirt_size'] = request.POST.get('Shirt_size')
+            measurements['T_Shirt'] = request.POST.get('T_Shirt')
+            measurements['Shoe_size'] = request.POST.get('Shoe_size')
+            measurements['Crotch_Length'] = request.POST.get('Crotch_Length')
+
+        elif model.gender == 'Female' or model.gender == 'Trans':
+             measurements['Shoulder_to_waistline'] = request.POST.get('Shoulder_waistline')
+             measurements['Shoulder_to_floor'] = request.POST.get('Shoulder_floor')
+             measurements['Neck_round'] = request.POST.get('Neck_rounds')
+             measurements['Upper_Bust'] = request.POST.get('Upper_Busts')
+             measurements['Full_Bust'] = request.POST.get('Full_Busts')
+             measurements['Below_Bust'] = request.POST.get('Below_Buste')
+             measurements['Lower_waist_round'] = request.POST.get('Lower_round')
+             measurements['Full_length_sleeves'] = request.POST.get('Full_sleeves')
+             measurements['Half_sleeve'] = request.POST.get('Half_sleeves')
+             measurements['3_4_sleeve'] = request.POST.get('3/4_sleeves')
+             measurements['Sleeves_round'] = request.POST.get('Sleeves_rounds')
+             measurements['Biceps'] = request.POST.get('Bicep')
+             measurements['Shoulder_to_knee'] = request.POST.get('Shoulder_knee')
+             measurements['Knee_round'] = request.POST.get('Knee_rounds')
+             measurements['Thigh_round'] = request.POST.get('Thigh_rounds')
+             measurements['Ankle_round'] = request.POST.get('Ankle_rounds')
+             measurements['crotch_point'] = request.POST.get('crotch_points')
+             measurements['Shoe_size'] = request.POST.get('Shoe_sizes')
+        elif model.gender == 'Kid Boy':
+             measurements['Shoulder_to_waistline'] = request.POST.get('Shoulder_to_waistlines')
+             measurements['Shoulder_to_floor'] = request.POST.get('Shoulder_to_floors')
+             measurements['Shoulder_to_hip'] = request.POST.get('Shoulder_to_hip')
+             measurements['Neck_round'] = request.POST.get('Necks')
+             measurements['Upper_Bust'] = request.POST.get('Upper_Buste')
+             measurements['shorts'] = request.POST.get('short')
+             measurements['Lower_waist_round'] = request.POST.get('Lower_waist')
+             measurements['Full_length_sleeves'] = request.POST.get('Full_length')
+             measurements['Half_sleeve'] = request.POST.get('Half_sleev')
+             measurements['3_4_sleeve'] = request.POST.get('3/4_sleevese')
+             measurements['Elbow_round'] = request.POST.get('Elbow_round')
+             measurements['Elbow_length'] = request.POST.get('Elbow_length')
+             measurements['Biceps'] = request.POST.get('Bicepse')
+             measurements['Shoulder_to_knee'] = request.POST.get('Shoulder_to')
+             measurements['Knee_round'] = request.POST.get('Knee_roundse')
+             measurements['Thigh_round'] = request.POST.get('Thigh_roundse')
+             measurements['Ankle_round'] = request.POST.get('Ankle_roundse')
+             measurements['crotch_point'] = request.POST.get('crotch_pointse')
+             measurements['Shoe_size'] = request.POST.get('Shoe')
+             measurements['Lower_waist_to'] = request.POST.get('Lower_waist_to')
+             measurements['trouser_length'] = request.POST.get('trouser_length')
+        elif model.gender == 'Kid Girl':
+            measurements['Shoulder_to_waistline'] = request.POST.get('Shoulder_to_waistline')
+            measurements['Shoulder_to_floor'] = request.POST.get('Shoulder_to_floor')
+            measurements['Neck_round'] = request.POST.get('Neck_round')
+            measurements['Upper_Bust'] = request.POST.get('Upper_Bust')
+            measurements['Full_Bust'] = request.POST.get('Full_Bust')
+            measurements['Below_Bust'] = request.POST.get('Below_Bust')
+            measurements['Lower_waist_round'] = request.POST.get('Lower_waist_round')
+            measurements['Full_length_sleeves'] = request.POST.get('Full_length_sleeves')
+            measurements['Half_sleeve'] = request.POST.get('Half_sleeve')
+            measurements['3_4_sleeve'] = request.POST.get('3/4_sleeve')
+            measurements['Sleeves_round'] = request.POST.get('Sleeves_round')
+            measurements['Biceps'] = request.POST.get('Biceps')
+            measurements['Shoulder_to_knee'] = request.POST.get('Shoulder_to_knee')
+            measurements['Knee_round'] = request.POST.get('Knee_round')
+            measurements['Thigh_round'] = request.POST.get('Thigh_round')
+            measurements['Ankle_round'] = request.POST.get('Ankle_round')
+            measurements['crotch_point'] = request.POST.get('crotch_point')
+            measurements['Shoe_size'] = request.POST.get('Shoe_size')
+            measurements['Waist_to_Knee'] = request.POST.get('Waist_to_Knee')
+        
+        model.men_measurements = measurements if model.gender == 'Men' else None
+        model.female_measurements = measurements if model.gender == 'Female' or model.gender == 'Trans' else None
+        model.kid_boy_measurements = measurements if model.gender == 'Kid Boy' else None
+        model.kid_girl_measurements = measurements if model.gender == 'Kid Girl' else None
+             
+             
+        
         old_images = list(model.images.all())
         new_images = request.FILES.getlist('image')
         if old_images and not new_images:
@@ -866,6 +960,7 @@ def disapprove_model(request, model_id):
 def save_image_to_another_database(request):
     if request.method == 'POST':
         try:
+            # Extract values from the form
             username = request.POST.get('username')
             image_id = request.POST.get('image_id')
             email = request.POST.get('email')
@@ -873,33 +968,55 @@ def save_image_to_another_database(request):
             age = request.POST.get('age')
             gender = request.POST.get('gender')
             height = request.POST.get('height')
+            weight = request.POST.get('weight')
+            chestround = request.POST.get('chestround')
+            shouldertoshoulder = request.POST.get('shouldertoshoulder')
+            hipround = request.POST.get('hipround')
+            armhole = request.POST.get('armhole')
+            waistround = request.POST.get('waistround')
 
-            # Handle cases where image_id might be missing or invalid
+            # Validate numeric fields
+            if not chestround:
+                print("Chestround value is empty.")
+                return HttpResponse('Chestround value is empty.')
+
             try:
-                image_id = int(image_id)
-            except (ValueError, TypeError):
-                # Handle the case where image_id is not a valid integer
-                # You might want to set a default value or handle it in another way
-                print("Invalid image_id:", image_id)
-                return HttpResponse('Invalid image_id.')
+                chestround = float(chestround)
+            except ValueError:
+                print("Invalid Chestround value:", chestround)
+                return HttpResponse('Invalid Chestround value.')
+
+            # Repeat similar validation for other numeric fields...
 
             # Retrieve the image from the ModelImage model
             try:
                 image = ModelImage.objects.get(id=image_id)
             except ModelImage.DoesNotExist:
-                # Handle the case where the image with the given ID does not exist
                 print("Image not found with ID:", image_id)
                 return HttpResponse('Image not found with the given ID.')
 
             # Save to another database
-            another_db_instance = AnotherDatabaseModel(username=username, image=image,email=email,phone_no=phoneno,age=age,gender=gender,height=height)
+            another_db_instance = AnotherDatabaseModel(
+                username=username,
+                image=image,
+                email=email,
+                phone_no=phoneno,
+                age=age,
+                gender=gender,
+                height=height,
+                weight=weight,
+                Chestround=chestround,
+                Shouldertoshoulder=shouldertoshoulder,
+                Hipround=hipround,
+                Armhole=armhole,
+                Waistround=waistround
+            )
             another_db_instance.save()
 
             # You can also redirect the user to another page after successful submission
             return redirect('model_details')
 
         except Exception as e:
-            # Handle other potential exceptions
             print("Error:", e)
             return HttpResponse('Error occurred during form submission.')
 
@@ -907,3 +1024,33 @@ def save_image_to_another_database(request):
     return HttpResponse('Invalid request method.')
 
 
+def delete_model_view(request, model_id):
+    model_instance = get_object_or_404(ModelProfile, id=model_id)
+
+    # Delete related user data
+    user_instance = model_instance.user
+    user_instance.delete()
+
+    # Delete the model instance
+    model_instance.delete()
+
+    return redirect('model_details')
+
+
+def model_image_control(request):
+    model_control = AnotherDatabaseModel.objects.all()
+    context = {'model_control':model_control}
+    return render(request, 'model_image_control.html',context)
+
+
+def delete_model_profile(request, pk):
+    profile_to_delete = get_object_or_404(AnotherDatabaseModel, pk=pk)
+
+    # Delete associated images if needed
+    if profile_to_delete.image:
+        profile_to_delete.image.delete()
+
+    # Delete the profile
+    profile_to_delete.delete()
+
+    return redirect('model_image_control')

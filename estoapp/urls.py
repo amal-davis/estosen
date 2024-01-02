@@ -47,6 +47,10 @@ urlpatterns = [
     path('disapprove_model/<int:model_id>/', views.disapprove_model, name='disapprove_model'),
     path('save_image_to_another_database/', views.save_image_to_another_database, name='save_image_to_another_database'),
     path('another_database_model_details/<int:model_id>/', views.another_database_model_details, name='another_database_model_details'),
+    path('delete_model/<int:model_id>/', views.delete_model_view, name='delete_model'),
+    path('model_image_control',views.model_image_control,name='model_image_control'),
+    path('delete_model_profile/<int:pk>/', views.delete_model_profile, name='delete_model_profile'),
+
 
 
     

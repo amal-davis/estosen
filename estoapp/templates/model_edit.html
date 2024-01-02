@@ -93,6 +93,9 @@ a:hover {
 a:hover {
     text-decoration: none; /* Remove the underline on hover */
 }
+.form-control{
+  border-radius: 0;
+}
 </style>
 <body>
    
@@ -137,7 +140,7 @@ a:hover {
             <div class="col-12 col-md-8 col-lg-8 col-xl-6">
               <div class="row">
                 <div class="col text-center title">
-                  <h1 style="color: #000B41;">Register</h1>
+                  <h1 style="color: #000B41;">Edit The Details</h1>
                 </div>
               </div>
               <form action="/model_edit/{{ user.id }}/" method="post" enctype="multipart/form-data">
@@ -146,37 +149,545 @@ a:hover {
 
               <div class="row align-items-center">
                 <div class="col mt-4">
+                  <label for="First Name" style="color: #000B41;">First Name</label>
                   <input type="text" name="fname" value="{{ user.user.first_name }}" class="form-control" placeholder="First Name">
                 </div>
               </div>
               <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Last Name" style="color: #000B41;">Last Name</label>
                   <input type="text" name="sname" value="{{ user.user.last_name }}" class="form-control" placeholder="Second Name">
                 </div>
               </div>
               <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Email" style="color: #000B41;">Email </label>
                   <input type="email" name="email" value="{{ user.user.email }}" class="form-control" placeholder="Email">
                 </div>
               </div>
               <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Phone Number" style="color: #000B41;">Phone Number </label>
                   <input type="tel" name="phone_no" value="{{ user.phone_number }}" class="form-control" placeholder="Phone No">
                 </div>
               </div>
                 <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Username" style="color: #000B41;">Username </label>
                   <input type="text" value="{{ user.user.username }}" name="uname" class="form-control" placeholder="User Name">
                 </div>
               </div>
               <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Age" style="color: #000B41;">Age </label>
                   <input type="text" name="age" value="{{ user.age }}" class="form-control" placeholder="Enter Your Age">
                 </div>
               </div>
               <div class="row align-items-center mt-4">
                 <div class="col">
+                  <label for="Gender" style="color: #000B41;">Gender </label>
+                    <select name="gender" id="gender" class="form-control">
+                        <option value="">Select Your Gender</option>
+                        <option value="Men" {% if user.gender == 'Men' %}selected{% endif %}>Men</option>
+                        <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
+                        <option value="Kid Boy" {% if user.gender == 'Kid Boy' %}selected{% endif %}>Kid Boy</option>
+                        <option value="Kid Girl" {% if user.gender == 'Kid Girl' %}selected{% endif %}>Kid Girl</option>
+                        <option value="Trans" {% if user.gender == 'Trans' %}selected{% endif %}>Trans</option>
+                    </select>
+                </div>
+            </div>
+            {% if user.gender == 'Men' %}
+            <div class="row align-items-center mt-4 ">
+              <!-- Men measurement fields go here -->
+              <div class="col">
+                <label for="Neck" style="color: #000B41;">Neck </label>
+                <input type="text" value="{{ user.men_measurements.neck }}" name="neck" class="form-control" placeholder="Neck">
+              </div>
+              
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full sleeves length" style="color: #000B41;">Full sleeves length </label>
+                <input type="text" name="Full_sleeves_length" value="{{ user.men_measurements.Full_sleeves_length }}" class="form-control" placeholder="Full sleeves length">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Half sleeves length" style="color: #000B41;">Half sleeves length </label>
+                <input type="text" name="Half_sleeves_length" value="{{ user.men_measurements.Half_sleeves_length }}" class="form-control" placeholder="Full sleeves length">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Biceps" style="color: #000B41;">Biceps</label>
+                <input type="text" value="{{ user.men_measurements.Biceps }}" name="Biceps" class="form-control" placeholder="Biceps">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Lower waist" style="color: #000B41;">Lower waist</label>
+                <input type="text" name="Lower_waist" value="{{ user.men_measurements.Lower_waist }}" class="form-control" placeholder="Lower waist">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Trouser length " style="color: #000B41;">Trouser length </label>
+                <input type="text" name="Trouser_length" value="{{ user.men_measurements.Trouser_length }}" class="form-control" placeholder="Trouser length">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Trouser Bottom " style="color: #000B41;">Trouser Bottom </label>
+                <input type="text" name="Trouser_Bottom" value="{{ user.men_measurements.Trouser_Bottom }}" class="form-control" placeholder="Trouser Bottom">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Denim length  " style="color: #000B41;">Denim length  </label>
+                <input type="text" name="Denim_length" value="{{ user.men_measurements.Denim_length }}" class="form-control" placeholder="Denim length">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Thigh " style="color: #000B41;">Thigh   </label>
+                <input type="text" name="Thigh" value="{{ user.men_measurements.Thigh }}" class="form-control" placeholder="Thigh">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shirt size " style="color: #000B41;">Shirt size   </label>
+                <input type="text" name="Shirt_size"  value="{{ user.men_measurements.Shirt_size }}" class="form-control" placeholder="Shirt size">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="T-Shirt  " style="color: #000B41;">T-Shirt    </label>
+                <input type="text" name="T_Shirt" value="{{ user.men_measurements.T_Shirt }}" class="form-control" placeholder="T-Shirt">
+              </div>
+            </div> 
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoe size " style="color: #000B41;">Shoe size    </label>
+                <input type="text" name="Shoe_size" value="{{ user.men_measurements.Shoe_size }}" class="form-control" placeholder="Shoe size">
+              </div>
+            </div> 
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Crotch Length  " style="color: #000B41;">Crotch Length</label>
+                <input type="text" name="Crotch_Length" value="{{ user.men_measurements.Crotch_Length }}" class="form-control" placeholder="Crotch Length">
+              </div>
+            </div> 
+            {% elif user.gender == 'Female' or user.gender == 'Trans' %}
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to waistline" style="color: #000B41;">Shoulder to waistline </label>
+                <input type="text" name="Shoulder_waistline" value="{{ user.female_measurements.Shoulder_to_waistline }}" class="form-control" placeholder="Shoulder to waistline">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to floor " style="color: #000B41;">Shoulder to floor </label>
+
+                <input type="text" name="Shoulder_floor" value="{{ user.female_measurements.Shoulder_to_floor }}" class="form-control" placeholder="Shoulder to floor">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Neck round  " style="color: #000B41;">Neck round  </label>
+                <input type="text" name="Neck_rounds" value="{{ user.female_measurements.Neck_round }}" class="form-control" placeholder="Neck round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Upper Bust   " style="color: #000B41;">Upper Bust   </label>
+                <input type="text" name="Upper_Busts" value="{{ user.female_measurements.Upper_Bust }}" class="form-control" placeholder="Upper Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full Bust   " style="color: #000B41;">Full Bust   </label>
+                <input type="text" name="Full_Busts" value="{{ user.female_measurements.Full_Bust }}" class="form-control" placeholder="Full Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Below Bust" style="color: #000B41;">Below Bust   </label>
+                <input type="text" name="Below_Buste" value="{{ user.female_measurements.Below_Bust }}" class="form-control" placeholder="Below Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Lower waist round " style="color: #000B41;">Lower waist round    </label>
+                <input type="text" name="Lower_round" value="{{ user.female_measurements.Lower_waist_round }}" class="form-control" placeholder="Lower waist round ">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full length sleeves   " style="color: #000B41;">Full length sleeves      </label>
+
+                <input type="text" name="Full_sleeves" value="{{ user.female_measurements.Full_length_sleeves }}" class="form-control" placeholder="Full length sleeves ">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Half sleeves   " style="color: #000B41;">Half sleeves      </label>
+                <input type="text" name="Half_sleeves" value="{{ user.female_measurements.Half_sleeve }}" class="form-control" placeholder="Half sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="3/4 sleeves   " style="color: #000B41;">3/4 sleeves      </label>
+
+                <input type="text" name="3/4_sleeves" value="{{ user.female_measurements.3_4_sleeve }}" class="form-control" placeholder="3/4 sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Sleeves round   " style="color: #000B41;">Sleeves round </label>
+                <input type="text" name="Sleeves_rounds" value="{{ user.female_measurements.Sleeves_round }}" class="form-control" placeholder="Sleeves round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Biceps    " style="color: #000B41;">Biceps  </label>
+                <input type="text" name="Bicep" value="{{ user.female_measurements.Biceps }}" class="form-control" placeholder="Biceps">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to knee " style="color: #000B41;">Shoulder to knee  </label>
+                <input type="text" name="Shoulder_knee" value="{{ user.female_measurements.Shoulder_to_knee }}" class="form-control" placeholder="Shoulder to knee ">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Knee round " style="color: #000B41;">Knee round </label>
+                <input type="text" name="Knee_rounds" value="{{ user.female_measurements.Knee_round }}" class="form-control" placeholder="Knee round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Thigh round " style="color: #000B41;">Thigh round </label>
+
+                <input type="text" name="Thigh_rounds"  value="{{ user.female_measurements.Thigh_round }}" class="form-control" placeholder="Thigh round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Ankle round " style="color: #000B41;">Ankle round </label>
+                <input type="text" name="Ankle_rounds" value="{{ user.female_measurements.Ankle_round }}" class="form-control" placeholder="Ankle round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="crotch point  " style="color: #000B41;">crotch point  </label>
+                <input type="text" name="crotch_points" value="{{ user.female_measurements.crotch_point }}" class="form-control" placeholder="crotch point">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoe size   " style="color: #000B41;">Shoe size   </label>
+                <input type="text" name="Shoe_sizes" value="{{ user.female_measurements.Shoe_size }}" class="form-control" placeholder="Shoe size">
+              </div>
+            </div>
+            {% elif user.gender == 'Kid Boy' %}
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to waistline    " style="color: #000B41;">Shoulder to waistline    </label>
+                <input type="text" name="Shoulder_to_waistlines" value="{{ user.kid_boy_measurements.Shoulder_to_waistline }}" class="form-control" placeholder="Shoulder to waistline">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to floor    " style="color: #000B41;">Shoulder to floor    </label>
+                <input type="text" name="Shoulder_to_floors" value="{{ user.kid_boy_measurements.Shoulder_to_floor }}" class="form-control" placeholder="Shoulder to floor">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to hip    " style="color: #000B41;">Shoulder to hip    </label>
+                <input type="text" name="Shoulder_to_hip" value="{{ user.kid_boy_measurements.Shoulder_to_hip }}" class="form-control" placeholder="Shoulder to hip">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Neck round" style="color: #000B41;">Neck round     </label>
+                <input type="text" name="Necks" value="{{ user.kid_boy_measurements.Neck_round }}" class="form-control" placeholder="Neck round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Upper Bust" style="color: #000B41;">Upper Bust      </label>
+                <input type="text" name="Upper_Buste" value="{{ user.kid_boy_measurements.Upper_Bust }}" class="form-control" placeholder="Upper Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="shorts " style="color: #000B41;">shorts      </label>
+                <input type="text" name="short" value="{{ user.kid_boy_measurements.shorts }}" class="form-control" placeholder="shorts">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Lower waist round " style="color: #000B41;">Lower waist round      </label>
+                <input type="text" name="Lower_waist" value="{{ user.kid_boy_measurements.Lower_waist_round }}" class="form-control" placeholder="Lower waist round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full length sleeves" style="color: #000B41;">Full length sleeves      </label>
+                <input type="text" name="Full_length" value="{{ user.kid_boy_measurements.Full_length_sleeves }}" class="form-control" placeholder="Full length sleeves">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Half sleeve" style="color: #000B41;">Half sleeve     </label>
+                <input type="text" name="Half_sleev" value="{{ user.kid_boy_measurements.Half_sleeve }}" class="form-control" placeholder="Half sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="3/4 sleeve" style="color: #000B41;">3/4 sleeve     </label>
+
+                <input type="text" name="3/4_sleevese" value="{{ user.kid_boy_measurements.3_4_sleeve }}" class="form-control" placeholder="3/4 sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Elbow round" style="color: #000B41;">Elbow round</label>
+
+                <input type="text" name="Elbow_round" value="{{ user.kid_boy_measurements.Elbow_round }}" class="form-control" placeholder="Elbow round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Elbow length" style="color: #000B41;">Elbow length</label>
+                <input type="text" name="Elbow_length" value="{{ user.kid_boy_measurements.Elbow_length }}" class="form-control" placeholder="Elbow length">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Biceps " style="color: #000B41;">Biceps</label>
+                <input type="text" name="Bicepse" value="{{ user.kid_boy_measurements.Biceps }}" class="form-control" placeholder="Biceps">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to knee " style="color: #000B41;">Shoulder to knee</label>
+                <input type="text" name="Shoulder_to" value="{{ user.kid_boy_measurements.Shoulder_to_knee }}" class="form-control" placeholder="Shoulder to knee">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Knee round" style="color: #000B41;">Knee round</label>
+
+                <input type="text" name="Knee_roundse" value="{{ user.kid_boy_measurements.Knee_round }}" class="form-control" placeholder="Knee round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Thigh round" style="color: #000B41;">Thigh round</label>
+                <input type="text" name="Thigh_roundse" value="{{ user.kid_boy_measurements.Thigh_round }}" class="form-control" placeholder="Thigh round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Ankle round" style="color: #000B41;">Ankle round</label>
+                <input type="text" name="Ankle_roundse" value="{{ user.kid_boy_measurements.Ankle_round }}" class="form-control" placeholder="Ankle round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="crotch point" style="color: #000B41;">crotch point</label>
+                <input type="text" name="crotch_pointse" value="{{ user.kid_boy_measurements.crotch_point }}" class="form-control" placeholder="crotch point">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoe size " style="color: #000B41;">Shoe size </label>
+                <input type="text" name="Shoe" value="{{ user.kid_boy_measurements.Shoe_size }}" class="form-control" placeholder="Shoe size">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Lower waist to" style="color: #000B41;">Lower waist to</label>
+                <input type="text" name="Lower_waist_to" value="{{ user.kid_boy_measurements.Lower_waist_to }}" class="form-control" placeholder="Lower waist to">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="trouser length" style="color: #000B41;">trouser length</label>
+                <input type="text" name="trouser_length" value="{{ user.kid_boy_measurements.trouser_length }}" class="form-control" placeholder="trouser length">
+              </div>
+            </div>
+
+
+
+            {% elif user.gender == 'Kid Girl' %}
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to waistline" style="color: #000B41;">Shoulder to waistline</label>
+                <input type="text" name="Shoulder_to_waistline" class="form-control" value="{{ user.kid_girl_measurements.Shoulder_to_waistline }}" placeholder="Shoulder to waistline">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to floor" style="color: #000B41;">Shoulder to floor</label>
+                <input type="text" name="Shoulder_to_floor"  value="{{ user.kid_girl_measurements.Shoulder_to_floor }}" class="form-control" placeholder="Shoulder to floor">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Neck round" style="color: #000B41;">Neck round</label>
+
+                <input type="text" name="Neck_round" value="{{ user.kid_girl_measurements.Neck_round }}" class="form-control" placeholder="Neck round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Upper Bust" style="color: #000B41;">Upper Bust</label>
+                <input type="text" name="Upper_Bust" class="form-control" value="{{ user.kid_girl_measurements.Upper_Bust }}" placeholder="Upper Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full Bust" style="color: #000B41;">Full Bust</label>
+
+                <input type="text" name="Full_Bust" class="form-control" value="{{ user.kid_girl_measurements.Full_Bust }}" placeholder="Full Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Below Bust" style="color: #000B41;">Below Bust</label>
+                <input type="text" name="Below_Bust" value="{{ user.kid_girl_measurements.Below_Bust }}" class="form-control" placeholder="Below Bust">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Lower waist round" style="color: #000B41;">Lower waist round </label>
+                <input type="text" name="Lower_waist_round" value="{{ user.kid_girl_measurements.Lower_waist_round }}" class="form-control" placeholder="Lower waist round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Full length sleeves" style="color: #000B41;">Full length sleeves</label>
+                <input type="text" name="Full_length_sleeves" value="{{ user.kid_girl_measurements.Full_length_sleeves }}" class="form-control" placeholder="Full length sleeves">
+              </div>
+            </div>
+
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Half sleeve" style="color: #000B41;">Half sleeve  </label>
+                <input type="text" name="Half_sleeve"  value="{{ user.kid_girl_measurements.Half_sleeve }}" class="form-control" placeholder="Half sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="3/4 sleeve" style="color: #000B41;">3/4 sleeve  </label>
+
+                <input type="text" name="3/4_sleeve" class="form-control"  value="{{ user.kid_girl_measurements.3_4_sleeve }}" placeholder="3/4 sleeve">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Sleeves round" style="color: #000B41;">Sleeves round</label>
+                <input type="text" name="Sleeves_round" value="{{ user.kid_girl_measurements.Sleeves_round }}" class="form-control" placeholder="Sleeves round">
+              </div>
+            </div>
+
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Biceps " style="color: #000B41;">Biceps </label>
+                <input type="text" name="Biceps"  value="{{ user.kid_girl_measurements.Biceps }}" class="form-control" placeholder="Biceps">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoulder to knee " style="color: #000B41;">Shoulder to knee </label>
+                <input type="text" name="Shoulder_to_knee"  value="{{ user.kid_girl_measurements.Shoulder_to_knee }}" class="form-control" placeholder="Shoulder to knee">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Knee round" style="color: #000B41;">Knee round </label>
+
+                <input type="text" name="Knee_round" value="{{ user.kid_girl_measurements.Knee_round }}" class="form-control" placeholder="Knee round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Thigh round" style="color: #000B41;">Thigh round </label>
+                <input type="text" name="Thigh_round" value="{{ user.kid_girl_measurements.Thigh_round }}" class="form-control" placeholder="Thigh round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Ankle round" style="color: #000B41;">Ankle round </label>
+                <input type="text" name="Ankle_round" value="{{ user.kid_girl_measurements.Ankle_round }}" class="form-control" placeholder="Ankle round">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="crotch point " style="color: #000B41;">crotch point  </label>
+                <input type="text" name="crotch_point" value="{{ user.kid_girl_measurements.crotch_point }}" class="form-control" placeholder="crotch point">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Shoe size  " style="color: #000B41;">Shoe size   </label>
+
+                <input type="text" name="Shoe_size" value="{{ user.kid_girl_measurements.Shoe_size }}" class="form-control" placeholder="Shoe size">
+              </div>
+            </div>
+            <div class="row align-items-center mt-4 ">
+              <div class="col">
+                <label for="Waist to Knee   " style="color: #000B41;">Waist to Knee    </label>
+                <input type="text" name="Waist_to_Knee"  value="{{ user.kid_girl_measurements.Waist_to_Knee }}" class="form-control" placeholder="Waist to Knee">
+              </div>
+            </div>
+            {% endif %}
+
+              <div class="row align-items-center mt-4">
+                <div class="col">
+                  <label for="Height" style="color: #000B41;">Height </label>
                   <input type="text" name="height" value="{{ user.height }}" class="form-control" placeholder="Enter Your Height In Cms">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4">
+                <div class="col">
+                  <label for="Weight" style="color: #000B41;">Weight </label>
+                  <input type="text" name="weight" value="{{ user.weight }}" class="form-control" placeholder="Enter Your Height In Cms">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4 ">
+                <div class="col">
+                  <label for="Chest round" style="color: #000B41;">Chest round </label>
+                  <input type="text" name="Chest_round" value="{{ user.Chestround }}" class="form-control" placeholder="Chest round">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4 ">
+                <div class="col">
+                  <label for="Shoulder to shoulder" style="color: #000B41;">Shoulder to shoulder </label>
+                  
+                  <input type="text" name="Shoulder_to_shoulder" value="{{ user.Shouldertoshoulder }}" class="form-control" placeholder="Shoulder to shoulder ">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4 ">
+                <div class="col">
+                  <label for="Hip round" style="color: #000B41;">Hip round </label>
+                  <input type="text" name="Hip_round" value="{{ user.Hipround }}" class="form-control" placeholder="Hip Round ">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4 ">
+                <div class="col">
+                  <label for="Armhole " style="color: #000B41;">Armhole  </label>
+                  <input type="text" name="Armhole" value="{{ user.Armhole }}" class="form-control" placeholder="Armhole  ">
+                </div>
+              </div>
+              <div class="row align-items-center mt-4 ">
+                <div class="col">
+                  <label for="Waist Round " style="color: #000B41;">Waist Round  </label>
+                  <input type="text" name="Waist_round" value="{{ user.Waistround }}" class="form-control" placeholder="Waist Round ">
                 </div>
               </div>
 
