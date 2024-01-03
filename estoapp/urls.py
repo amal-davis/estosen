@@ -50,6 +50,13 @@ urlpatterns = [
     path('delete_model/<int:model_id>/', views.delete_model_view, name='delete_model'),
     path('model_image_control',views.model_image_control,name='model_image_control'),
     path('delete_model_profile/<int:pk>/', views.delete_model_profile, name='delete_model_profile'),
+    path('add_blog',views.add_blog,name='add_blog'),
+    path('save_blog_section',views.save_blog_section,name='save_blog_section'),
+    path('delete_blog/<int:blog_id>/', views.delete_blog, name='delete_blog'),
+    path('edit_blog/<int:blog_id>/', views.edit_blog, name='edit_blog'),
+    path('blog_detail/<int:blog_id>/', views.blog_detail, name='blog_detail'),
+
+
 
 
 

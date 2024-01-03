@@ -42,9 +42,9 @@ def index(request):
     for model in model_data:
         print(f"Model: {model.username}, Image: {model.image.image.url}")
     
+    blogs = Blog.objects.all()
 
-
-    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts,'products': products, 'models_with_images': models_with_images,'model_data': model_data})
+    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts, 'products': products, 'models_with_images': models_with_images, 'model_data': model_data, 'blogs': blogs})
 
 
 
@@ -1054,3 +1054,88 @@ def delete_model_profile(request, pk):
     profile_to_delete.delete()
 
     return redirect('model_image_control')
+
+
+def add_blog(request):
+    blogs = Blog.objects.all()
+    return render(request,'add_blog.html',{'blogs': blogs})
+
+
+def save_blog_section(request):
+    if request.method == 'POST':
+        try:
+            # Extract values from the form
+            title = request.POST.get('title')
+            author = request.POST.get('author')
+            content = request.POST.get('content')
+            image = request.FILES.get('image')  # Assuming the image is a file field
+
+            # Validate required fields
+            if not title or not author or not content:
+                print("Title, author, or content is empty.")
+                return HttpResponse('Title, author, or content is empty.')
+
+            # Create a new blog instance
+            new_blog = Blog(
+                title=title,
+                author=author,
+                content=content,
+                image=image
+            )
+
+            # Save the blog to the database
+            new_blog.save()
+
+            # Redirect the user to another page after successful submission
+            return redirect('add_blog')  # Change 'blog_list' to the URL name of your blog listing view
+
+        except Exception as e:
+            print("Error:", e)
+            return HttpResponse('Error occurred during form submission.')
+
+    # Handle GET requests if needed
+    return HttpResponse('Invalid request method.')
+
+
+def delete_blog(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    
+    if blog.image:
+       blog.image.delete()
+    blog.delete()
+    return redirect('add_blog')
+ 
+
+def edit_blog(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+
+    if request.method == 'POST':
+        # Extract values from the form
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        content = request.POST.get('content')
+        image = request.FILES.get('image')
+
+        # Validate required fields
+        if not title or not author or not content:
+            return HttpResponse('Title, author, or content is empty.')
+
+        # Update the blog instance
+        blog.title = title
+        blog.author = author
+        blog.content = content
+        if image:
+            blog.image = image
+
+        # Save the changes
+        blog.save()
+
+        return redirect('add_blog')  # Redirect to the blog list view
+    else:
+        # Render the edit form with existing data
+        return render(request, 'edit_blog.html', {'blog': blog})
+
+
+def blog_detail(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    return render(request, 'blog_details.html', {'blog': blog})
