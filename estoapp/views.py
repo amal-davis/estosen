@@ -19,6 +19,10 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.files.base import ContentFile
 from django.utils.datastructures import MultiValueDictKeyError
+from django.template import Library
+from django.db import transaction
+
+
 
 
 
@@ -36,16 +40,26 @@ def index(request):
     total_quantity = sum(cart.quantity for cart in carts)
     products = Product.objects.all()[:3]
 
-    # Fetch all categories
+    for product in products:
+        product.reviews = Review.objects.filter(product=product)
+        product.average_rating = product.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        product.stars_representation = stars(product.average_rating)
+
+    # Fetch all categories (adjust based on your actual model)
     model_data = AnotherDatabaseModel.objects.all()
     models_with_images = ModelProfile.objects.all()
-    for model in model_data:
-        print(f"Model: {model.username}, Image: {model.image.image.url}")
     
     blogs = Blog.objects.all()
 
-    return render(request, 'index.html', {'cart_quantity': total_quantity, 'categories': categories, 'carts': carts, 'products': products, 'models_with_images': models_with_images, 'model_data': model_data, 'blogs': blogs})
-
+    return render(request, 'index.html', {
+        'cart_quantity': total_quantity,
+        'categories': categories,
+        'carts': carts,
+        'products': products,
+        'models_with_images': models_with_images,
+        'model_data': model_data,
+        'blogs': blogs,
+    })
 
 
 def another_database_model_details(request, model_id):
@@ -109,14 +123,30 @@ def delete_category(request, category_id):
     return redirect('category_page')
 
 
+registers = Library()
+@registers.filter(name='star')
+def star(value):
+    full_stars = int(value)
+    half_star = int((value - full_stars) * 2)
+    empty_stars = 5 - full_stars - half_star
+    return {'full_stars': range(full_stars), 'half_star': half_star, 'empty_stars': range(empty_stars)}
+
+
+
 def categories(request, category_name):
     categories = Category.objects.all()
     category = get_object_or_404(Category, name=category_name)
     products = Product.objects.filter(category=category)
+
+    for product in products:
+        product.reviews = Review.objects.filter(product=product)
+        product.average_rating = product.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        product.stars_representation = stars(product.average_rating)
+
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
-    context = {'category_name': category_name, 'cart_quantity': total_quantity, 'products': products,'categories':categories}
+    context = {'category_name': category_name, 'cart_quantity': total_quantity, 'products': products, 'categories': categories}
     return render(request, 'category_page.html', context)
 
 
@@ -406,6 +436,17 @@ def ad_userdelete(request,pk):
     return redirect('UserDetails')
 
 
+register = Library()
+
+@register.filter(name='stars')
+def stars(value):
+    full_stars = int(value)
+    half_star = int((value - full_stars) * 2)
+    empty_stars = 5 - full_stars - half_star
+    return {'full_stars': range(full_stars), 'half_star': half_star, 'empty_stars': range(empty_stars)}
+
+
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
@@ -415,7 +456,9 @@ def product_detail(request, product_id):
     categories = Category.objects.all()
     available_sizes = product.sizes.all()  # Get the sizes associated with the product
 
-    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+
+    stars_representation = stars(average_rating)
 
     if request.method == 'POST':
         rating = request.POST.get('rating')
@@ -431,7 +474,7 @@ def product_detail(request, product_id):
 
             return redirect('product_detail', product_id=product_id)
 
-    return render(request, 'product_detail.html', {'product': product, 'cart_quantity': total_quantity, 'reviews': reviews, 'average_rating': average_rating, 'categories': categories, 'available_sizes': available_sizes})
+    return render(request, 'product_detail.html', {'product': product, 'cart_quantity': total_quantity, 'reviews': reviews, 'average_rating': average_rating, 'stars_representation': stars_representation, 'categories': categories, 'available_sizes': available_sizes})
 
 
 
@@ -455,12 +498,18 @@ def delete_review(request, review_id):
 
 def allproducts(request):
     products = Product.objects.all()
+
+    for product in products:
+        product.reviews = Review.objects.filter(product=product)
+        product.average_rating = product.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        product.stars_representation = stars(product.average_rating)
+
     categories = Category.objects.all()
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
-    # wishlist = Wishlist.objects.filter(user=request.user).first()
-    return render(request, 'all_products.html', {'products': products,'cart_quantity': total_quantity, 'categories': categories})
+
+    return render(request, 'all_products.html', {'products': products, 'cart_quantity': total_quantity, 'categories': categories})
 
 
 @login_required(login_url='signin')
@@ -518,6 +567,7 @@ def checkout_view(request):
                     product=cart_item.product,
                     quantity=cart_item.quantity,
                     total_price=cart_item.product.price * cart_item.quantity,
+                    size=cart_item.size,
                     name=name,
                     address=address,
                     pincode=pincode,
@@ -571,6 +621,93 @@ def confirmation_page(request):
     }
 
     return render(request, 'confirmation.html', context)
+
+
+def confirm_product(request):
+    if request.method == 'POST':
+        try:
+            # Extract user information
+            user_info = {
+                'name': request.POST.get('name'),
+                'address': request.POST.get('address'),
+                'pincode': request.POST.get('pincode'),
+                'state': request.POST.get('state'),
+                'email': request.POST.get('email'),
+                'phone': request.POST.get('phone'),
+            }
+
+            # Loop through each product in the order
+            for i in range(int(request.POST.get('product_count', 0))):
+                product_info = {
+                    'product_name': request.POST.get(f'product_name_{i}'),
+                    'quantity': int(request.POST.get(f'quantity_{i}', 0)),
+                    'size': request.POST.get(f'size_{i}'),
+                    'total_price': request.POST.get(f'total_price_{i}'),
+                    'product_image': request.POST.get(f'product_image_{i}'),
+                }
+
+                # Create Order_section instance for each product
+                order_instance = Order_sections.objects.create(
+                    user=request.user,
+                    name=user_info['name'],
+                    address=user_info['address'],
+                    pincode=user_info['pincode'],
+                    state=user_info['state'],
+                    email=user_info['email'],
+                    phone=user_info['phone'],
+                    product_name=product_info['product_name'],
+                    quantity=product_info['quantity'],
+                    size=product_info['size'],
+                    total_price=product_info['total_price'],
+                    product_image=product_info['product_image'],
+                )
+
+                # Fetch the corresponding product
+                product = Product.objects.get(name=product_info['product_name'])
+
+                # Update the product quantity
+                if product.quantity is not None:
+                    new_quantity = int(product.quantity) - product_info['quantity']
+                    if new_quantity >= 0:
+                        product.quantity = new_quantity
+                        product.update_status()
+                        product.save()
+                    else:
+                        order_instance.delete()
+                        return HttpResponse("Insufficient quantity")
+
+            return redirect('payment_confirmation_page')
+
+        except Exception as e:
+            # Handle exceptions and display an error message if necessary
+            print(e)
+            return HttpResponse("An error occurred while processing the order")
+
+    return HttpResponse("Invalid request method")
+
+
+
+def payment_confirmation_page(request):
+    return render(request , 'payment_confirmation_page.html')
+
+
+
+def order_admin(request):
+    orders = Order_sections.objects.all()
+    return render(request,'order_admin.html',{'orders': orders})
+
+def order_page(request):
+    user_orders = Order_sections.objects.filter(user=request.user)
+    return render(request, 'user_order.html',{'user_orders':user_orders})
+
+def update_order_status(request, order_id):
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        order = Order_sections.objects.get(id=order_id)
+        order.status = status
+        order.save()
+    return redirect('order_admin')
+
 
 
 def model_registration(request):

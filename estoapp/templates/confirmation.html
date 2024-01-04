@@ -118,7 +118,7 @@ a:hover {
                 <i class='bx bx-user'></i>
             </a>
             <div class="dropdown-menu" style="background-color: #000B41;">
-                <a href="#" class="dropdown-item">Orders</a>
+                <a href="{% url 'order_page' %}" class="dropdown-item">Orders</a>
                 <a href="#" class="dropdown-item">Wishlist</a>
                 <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
             </div>
@@ -190,8 +190,32 @@ a:hover {
         </table>
     
         <!-- Proceed to Payment Button -->
-        <form method="post" action="">
+        <form method="post" action="{% url 'confirm_product' %}" enctype="multipart/form-data">
             {% csrf_token %}
+        
+            <!-- User Information -->
+            <input type="hidden" name="name" value="{{ orders.0.name }}" id="name">
+            <input type="hidden" name="address" value="{{ orders.0.address }}" id="address">
+            <input type="hidden" name="pincode" value="{{ orders.0.pincode }}" id="pincode">
+            <input type="hidden" name="state" value="{{ orders.0.state }}" id="state">
+            <input type="hidden" name="email" value="{{ orders.0.email }}" id="email">
+            <input type="hidden" name="phone" value="{{ orders.0.phone }}" id="phone">
+        
+            <!-- Loop through each product -->
+            {% for order in orders %}
+                <input type="hidden" name="product_name_{{ forloop.counter0 }}" value="{{ order.product.name }}">
+                <input type="hidden" name="quantity_{{ forloop.counter0 }}" value="{{ order.quantity }}">
+                <input type="hidden" name="size_{{ forloop.counter0 }}" value="{{ order.size }}">
+                <input type="hidden" name="total_price_{{ forloop.counter0 }}" value="{{ order.total_price }}">
+                {% with specific_image=order.product.images.first %}
+                    {% if specific_image %}
+                        <input type="hidden" name="product_image_{{ forloop.counter0 }}" value="{{ specific_image.image.url }}">
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        
+            <input type="hidden" name="product_count" value="{{ orders|length }}">
+        
             <input style="background-color: #000B41; color: #fff;" type="submit" class="btn " value="Proceed and Pay">
         </form>
     </div>

@@ -55,6 +55,12 @@ urlpatterns = [
     path('delete_blog/<int:blog_id>/', views.delete_blog, name='delete_blog'),
     path('edit_blog/<int:blog_id>/', views.edit_blog, name='edit_blog'),
     path('blog_detail/<int:blog_id>/', views.blog_detail, name='blog_detail'),
+    path('confirm_product',views.confirm_product,name='confirm_product'),
+    path('payment_confirmation_page',views.payment_confirmation_page,name='payment_confirmation_page'),
+    path('order_admin',views.order_admin,name='order_admin'),
+    path('order_page',views.order_page,name='order_page'),
+    path('update_order_status/<int:order_id>/', views.update_order_status, name='update_order_status'),
+
 
 
 

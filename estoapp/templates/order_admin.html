@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        font-family: 'Sulphur Point', sans-serif;
+
+    }
+    a:hover {
+    text-decoration: none; /* Remove the underline on hover */
+}
+.form-control-sm {
+    border-radius: 0; 
+}
+.form-control-sm:focus {
+    border-color: #ced4da; /* Set the desired border color when focused */
+    box-shadow: none; /* Remove the box shadow */
+}
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg" id="nav1" style="background-color: #000B41; ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="{% static 'images/logo.png' %}" width="120px"
+              height="50px" class="d-inline-block align-top" alt="">
+          </a>
+          <ul class="nav nav-pills">
+            <li class="nav-item" >
+              <a class="nav-link mx-sm-3" href="" style="color: #ffff;">Products</a>
+            </li>
+    
+            <!-- <li class="nav-item">
+              <form class="form-inline" action="" method="get">
+                  <div class="input-group">
+                      <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" id="search">
+                      <button class="btn btn-outline-dark" type="submit">Search</button>
+                  </div>
+              </form>
+          </li> -->
+            <li class="nav-item" >
+              <a class="nav-link" href="#" data-bs-toggle="popover" data-bs-placement="bottom" style="color: #ffff;"
+                title="<h6 class='popover-title'>Becoming a member</h6>"
+                data-bs-content="<div class='text-center'><a class='btn btn-warning login-link' href=''>Login</a><br><br><a class='btn btn-warning signup-link' href=''>Sign up</a></div>"
+                data-bs-html="true">
+                Account
+              </a>
+            </li>
+            <li class="nav-item"  >
+              <a class="nav-link" href="" style="color: #ffff;">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" style="color: #ffff;">Contact</a>
+            </li>
+            <li class="nav-item" >
+              <div class="flex-container">
+                <div><a href="" class="nav-link" style="text-decoration: none;color: white;font-size: 16px;">Orders</a></div>
+            </div>
+          <!-- </li>
+            <li class="nav-item">
+              <div class="flex">
+                <a href="" style="color: black;">
+                  <div class="div1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-basket-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M5.071 1.243a.5.5 0 0 1 .858.514L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 6h1.717L5.07 1.243zM3.5 10.5a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3z" />
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </nav>
+<div class="container-fluid">
+    <h2 class="text-center">Order List</h2>
+    <table class="table">
+        <thead class="thead">
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Pincode</th>
+                <th>State</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Size</th>
+                <th>Total Price</th>
+                <th>Product Image</th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user }}</td>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.pincode }}</td>
+                    <td>{{ order.state }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>{{ order.product_name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.size }}</td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td><img src="{{ order.product_image }}" alt="Product Image" style="width: 100px; height: 100px;"></td>
+                    <td>
+                        <!-- Add a form to update the status -->
+                        <form method="post" action="{% url 'update_order_status' order.id %}">
+                            {% csrf_token %}
+                            <select name="status" onchange="this.form.submit()" class="form-control-sm">
+                                <option value="Pending" {% if order.status == 'Pending' %} selected {% endif %}>Pending</option>
+                                <option value="Shipped" {% if order.status == 'Shipped' %} selected {% endif %}>Shipped</option>
+                                <option value="Delivered" {% if order.status == 'Delivered' %} selected {% endif %}>Delivered</option>
+                                <!-- Add more status options as needed -->
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

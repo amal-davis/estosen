@@ -180,6 +180,7 @@ li.dropdown {
     background-size: cover;
   }
   
+  .swiper-slide video,
   .swiper-slide img {
     display: block;
     width: 100%;
@@ -189,6 +190,11 @@ li.dropdown {
     transition: transform 0.3s ease-in-out;
   }
   
+  .swiper-slide {
+    height: 500px; 
+  }
+
+
   .swiper-pagination {
     display: flex;
     justify-content: center;

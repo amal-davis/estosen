@@ -206,6 +206,16 @@ a:hover {
         background-color: #8B5632 !important;
         color: #fff !important;
     }
+    .stars-container {
+        display: inline-block;
+        font-size: 24px; /* Adjust the font size to change the size of the stars */
+        color: #FFD700; /* Set the color of the stars (here, it's a golden color) */
+        line-height: 1; /* Adjust the line height to vertically align stars */
+    }
+
+    .rating-container {
+        margin-top: 10px; /* Adjust the margin for space between the rating and the comment */
+    }
   
 </style>
 <body>
@@ -236,7 +246,7 @@ a:hover {
                 <i class='bx bx-user'></i>
             </a>
             <div class="dropdown-menu" style="background-color: #000B41;">
-                <a href="#" class="dropdown-item">Orders</a>
+                <a href="{% url 'order_page' %}" class="dropdown-item">Orders</a>
                 <a href="#" class="dropdown-item">Wishlist</a>
                 <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
             </div>
@@ -276,12 +286,16 @@ a:hover {
     <div class="col-md-6">
         <h1 class="product-title" style="color: #000B41; font-size: 25px;">{{ product.name }}</h1>
         <div class="star-rating mb-2">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            (5 Reviews)
+            {% for _ in stars_representation.full_stars %}
+                <i class="fas fa-star"></i>
+            {% endfor %}
+            {% if stars_representation.half_star %}
+                <i class="fas fa-star-half-alt"></i>
+            {% endif %}
+            {% for _ in stars_representation.empty_stars %}
+                <i class="far fa-star"></i>
+            {% endfor %}
+            ({{ reviews.count }} Reviews)
         </div>
         <p class="price" id="price" data-base-price="{{ product.price }}">₹{{ product.price }}</p>
 
@@ -357,18 +371,20 @@ a:hover {
 <div class="container">
 
     <h2 style="color: #000B41;" class="text-center">Reviews</h2>
-    {% for review in reviews %}
-    <div class="review">
-        <h4 style="color: #000B41; font-size: 18px;">{{ review.user }}</h4>
-        <h4 style="color: #000B41; font-size: 18px;">{{ review.created_at }}</h4>
-        <h4 style="color: #000B41; font-size: 18px;">Rating: {{ review.rating }}
-
-            
-        </h4>
-        <h4 style="color: #0e0f0e ; font-size: 18px;">{{ review.comment }}</h4>
+    <div id="reviews-container">
+        {% for review in reviews %}
+            <div class="review">
+                <h4 style="color: #000B41; font-size: 18px;">{{ review.user }}</h4>
+                <h4 style="color: #000B41; font-size: 18px;">{{ review.created_at }}</h4>
+                <div class="rating-container">
+                    <h4 style="color: #000B41; font-size: 18px;">Rating: 
+                        <span class="stars-container" data-rating="{{ review.rating }}"></span>
+                    </h4>
+                </div>
+                <h4 style="color: #000B41; font-size: 18px;">{{ review.comment }}</h4>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
-</div>
         
     <!-- Additional Information Section -->
     <!-- ... -->
@@ -492,6 +508,29 @@ document.addEventListener('DOMContentLoaded', function () {
         quantityInput.value = document.getElementById('quantity').value;
     });
 });
+
+
+    // Loop through all elements with the 'stars-container' class
+    document.querySelectorAll('.stars-container').forEach(function(starsContainer) {
+        // Get the rating value from the data-rating attribute
+        var ratingValue = parseInt(starsContainer.getAttribute('data-rating'), 10);
+        
+        // Call the function to display stars based on the rating
+        displayStars(starsContainer, ratingValue);
+    });
+
+    function displayStars(starsContainer, rating) {
+        // Clear any previous content
+        starsContainer.innerHTML = '';
+        
+        // Create and append star elements based on the rating
+        for (var i = 0; i < rating; i++) {
+            var star = document.createElement('span');
+            star.innerHTML = '★'; // Use any star symbol or icon you prefer
+            starsContainer.appendChild(star);
+        }
+    }
+
     </script>
 </body>
 </html>

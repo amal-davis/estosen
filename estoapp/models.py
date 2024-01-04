@@ -38,6 +38,15 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def update_status(self):
+        if self.quantity == 0:
+            self.status = 'Out of stock'
+        elif self.quantity < 5:
+            self.status = 'Limited stock'
+        else:
+            self.status = 'In stock'
+        self.save()
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -149,6 +158,26 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
     
+
+
+class Order_sections(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,null=True)
+    name = models.CharField(max_length=255,blank=True,)
+    address = models.CharField(max_length=255,blank=True,)
+    pincode = models.CharField(max_length=255,blank=True,)
+    state = models.CharField(max_length=255,blank=True)
+    email = models.CharField(max_length=255,blank=True)
+    phone = models.CharField(max_length=255,blank=True)
+    product_name = models.CharField(max_length=255,blank=True)
+    quantity = models.CharField(max_length=255,blank=True)
+    size = models.CharField(max_length=255,blank=True)
+    total_price = models.CharField(max_length=255,blank=True)
+    product_image = models.URLField()
+    status = models.CharField(max_length=20, default='Pending') 
+
+
+
+        
 
 
 

@@ -125,7 +125,7 @@ a:hover {
                 <i class='bx bx-user'></i>
             </a>
             <div class="dropdown-menu" style="background-color: #000B41;">
-                <a href="#" class="dropdown-item">Orders</a>
+                <a href="{% url 'order_page' %}" class="dropdown-item">Orders</a>
                 <a href="#" class="dropdown-item">Wishlist</a>
                 <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
             </div>
@@ -179,6 +179,18 @@ a:hover {
                         <p class="card-text" style="color: #000B41; font-size: 18px;">
                             {{ product.description }}
                         </p>
+                        <div class="average-rating" style="color: #FFD700;">
+                            {% for _ in product.stars_representation.full_stars %}
+                            <i class="fas fa-star"></i>
+                        {% endfor %}
+                        {% if product.stars_representation.half_star %}
+                            <i class="fas fa-star-half-alt"></i>
+                        {% endif %}
+                        {% for _ in product.stars_representation.empty_stars %}
+                            <i class="far fa-star"></i>
+                        {% endfor %}
+                        ({{ product.reviews.count }} Reviews))
+                        </div>
 
                         <div class="buy d-flex justify-content-between align-items-center">
                             <div class="price text-success"><h5 class="mt-4">₹{{ product.price }}</h5></div>
