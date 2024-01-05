@@ -192,7 +192,6 @@ a:hover {
         <a href="{% url 'cart' %}" class="cart-link">
             <i class='bx bx-cart'></i>
             <span class="cart-quantity-badge">{% if cart_quantity is not None %}{{ cart_quantity }}{% else %}0{% endif %}</span>
-
         </a>
         <a href="#" class="dropdown-togglese">
             <i class='bx bx-user'></i>
@@ -208,55 +207,29 @@ a:hover {
 
 
 
-  <div class="swiper mySwiper" style="margin-top: 93px;">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="slide-content">
-            <video  autoplay muted loop playsinline>
-                <source src="{% static 'videos/River_Flowing_Aerial_shot.mp4' %}" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            <div class="centered-content">
-              <h1>Your Heading 1</h1>
-              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates iusto eaque animi magnam similique repudiandae hic eos aut ullam illum, incidunt temporibus deleniti eum, velit tempora saepe repellendus doloribus est.</p>
-              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
-            </div>
+<div class="swiper mySwiper" style="margin-top: 93px;">
+  <div class="swiper-wrapper">
+      {% for content in swiper_contents %}
+          <div class="swiper-slide">
+              <div class="slide-content">
+                  {% if content.video %}
+                      <video autoplay muted loop playsinline>
+                          <source src="{{ content.video.url }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                      </video>
+                  {% else %}
+                      <img src="{{ content.image.url }}" />
+                  {% endif %}
+                  <div class="centered-content">
+                      <h1>{{ content.heading }}</h1>
+                      <p class="mt-5">{{ content.description }}</p>
+                      <a href="{{ content.button_link }}" class="btn mt-5" style="background-color: #000B41; color: #fff;">{{ content.button_text }}</a>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="slide-content">
-            <img src="{% static 'images/Blurred_Traffic_second_image.png' %}" />
-            <div class="centered-content">
-              <h1>Your Heading 2</h1>
-              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta exercitationem harum, corrupti quibusdam, dicta quod labore optio eum molestias quasi saepe! Beatae id officiis sequi iure dolor illum odit aperiam.</p>
-              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="slide-content">
-            <img src="{% static 'images/Blurred_people_third_cover.png' %}" />
-            <div class="centered-content">
-              <h1>Your Heading 3</h1>
-              <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum sapiente dicta error earum labore, necessitatibus eligendi officiis optio vel! Praesentium commodi illo quasi culpa, doloremque quae illum incidunt recusandae perspiciatis.</p>
-              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="slide-content">
-            <img src="{% static 'images/Blurred_Traffic_second_image.png' %}" />
-            <div class="centered-content">
-              <h1>Your Heading 4</h1>
-              <p class="mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, maxime facere? Neque praesentium qui exercitationem quaerat, explicabo quis, suscipit incidunt dolorem amet ipsam ipsum quae hic. Porro maiores ab ullam!</p>
-              <a href="#" class="btn  mt-5" style="background-color: #000B41; color: #fff;">Your Button 4</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div> -->
-    </div>
+      {% endfor %}
+  </div>
+</div>
 
 <div class="container-fluid bg-custom-color py-3 mt-3" >
   <div class="row">
@@ -280,58 +253,25 @@ a:hover {
 
 <div class="container-fluid mt-4">
   <div class="row no-gutters">
-      <!-- Card 1 -->
-      <div class="col-lg-4 col-md-6 ">
-          <div class="item">
-              <img src="{% static 'images/demo_image.png' %}" alt="Placeholder Image">
-          </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="col-lg-4 col-md-6 ">
-          <div class="content-item" style="background-color: #000B41; padding: 20px; color: white; text-align: center;">
-              <div class="content-wrapper" style="margin-top: 70px;">
-                  <h1>Fashion Modeling Headings</h1>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-                  <a href="#" class="btn btn-light">Read More</a>
+      {% for item in fashion_contents %}
+          
+              <div class="col-lg-4 col-md-6">
+                  <div class="item">
+                      <img src="{{ item.image.url }}" alt="Placeholder Image">
+                  </div>
               </div>
-          </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="col-lg-4 col-md-6 ">
-          <div class="item">
-              <img src="{% static 'images/demo2_image.png' %}" alt="Placeholder Image">
-          </div>
-      </div>
-
-      <!-- Additional Cards... -->
-      <div class="col-lg-4 col-md-6">
-        <div class="content-item" style="background-color:#C6935E;padding: 20px; color: white; text-align: center;">
-            <div class="content-wrapper" style="margin-top: 70px;">
-                <h1>Fashion Modeling Headings</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-                <a href="#" class="btn btn-light">Read More</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-lg-4 col-md-6 ">
-        <div class="item">
-            <img src="{% static 'images/demo3_image.png' %}" alt="Placeholder Image">
-        </div>
-    </div>
-    
-    <div class="col-lg-4 col-md-6 ">
-        <div class="content-item" style="background-color: #8B5632;padding: 20px; color: white; text-align: center;">
-            <div class="content-wrapper" style="margin-top: 70px;">
-                <h1>Fashion Modeling Headings</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-                <a href="#" class="btn btn-light">Read More</a>
-            </div>
-        </div>
-    </div>
-
+          
+              <div class="col-lg-4 col-md-6">
+                  <div class="content-item" style="background-color:{{ item.background_color }}; padding: 20px; color: white; text-align: center;">
+                      <div class="content-wrapper" style="margin-top: 70px;">
+                          <h1>{{ item.heading }}</h1>
+                          <p>{{ item.title }}</p>
+                          <a href="{{ item.button_link }}" class="btn btn-light">{{ item.button_text }}</a>
+                      </div>
+                  </div>
+              </div>
+          
+      {% endfor %}
   </div>
 </div>
 
@@ -362,21 +302,20 @@ a:hover {
     </div>
 </div>
 
-<!-- Main Section 1 -->
 <div class="container-fluid" style="margin-top: 40px;">
-  <div class="row ">
-      <div class=" col-lg-12 main-section">
+  <div class="row">
+      <div class="col-lg-12 main-section">
           <div class="left-section">
               <div class="heading">
-                  <h1>Fashion Heading</h1>
+                  <h1>{{ section1.heading }}</h1>
               </div>
               <div class="paragraph">
-                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum commodi sequi magnam minima dicta laboriosam nobis, debitis distinctio? Earum laudantium incidunt, error doloribus accusantium nesciunt ipsum facilis quia sit. Iusto.</p>
+                  <p>{{ section1.paragraph }}</p>
               </div>
-              <a href="#" class="btn" style="background-color: #000B41;color: #fff;">Your Button</a>
+              <a href="{{ section1.button_link }}" class="btn" style="background-color: #000B41;color: #fff;">{{ section1.button_text }}</a>
           </div>
           <div class="right-section">
-              <img src="{% static 'images/right_section.png' %}" alt="Your_Image" class="image img-fluid" >
+              <img src="{{ section1.image.url }}" alt="Your_Image" class="image img-fluid" >
           </div>
       </div>
   </div>
@@ -387,16 +326,16 @@ a:hover {
   <div class="row">
       <div class="col-lg-12 main-sections">
           <div class="left-sections">
-              <img src="https://img.freepik.com/free-photo/interested-fashionable-woman-trendy-fluffy-outfit-looking-away-with-gently-smile_197531-7092.jpg" alt="Your Image" class="image img-fluid">
+              <img src="{{ section2.image.url }}" alt="Your Image" class="image img-fluid">
           </div>
           <div class="right-sections">
               <div class="heading">
-                  <h1>Fashion Heading</h1>
+                  <h1>{{ section2.heading }}</h1>
               </div>
               <div class="paragraph">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, officia repellendus amet rem esse magnam saepe at neque unde veritatis quisquam nulla possimus? Quos aliquid aperiam ea fugit, voluptates ab!</p>
+                  <p>{{ section2.paragraph }}</p>
               </div>
-              <a href="#" class="btn" style="background-color: #000B41;color: #fff;">Your Button</a>
+              <a href="{{ section2.button_link }}" class="btn" style="background-color: #000B41;color: #fff;">{{ section2.button_text }}</a>
           </div>
       </div>
   </div>

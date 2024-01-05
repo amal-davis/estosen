@@ -48,6 +48,10 @@ def index(request):
     # Fetch all categories (adjust based on your actual model)
     model_data = AnotherDatabaseModel.objects.all()
     models_with_images = ModelProfile.objects.all()
+    swiper_contents = SwiperContent.objects.all()
+    section1 = FashionSection.objects.first()
+    section2 = FashionSection2.objects.first()
+    fashion_contents = FashionContent.objects.all()
     
     blogs = Blog.objects.all()
 
@@ -59,6 +63,10 @@ def index(request):
         'models_with_images': models_with_images,
         'model_data': model_data,
         'blogs': blogs,
+        'swiper_contents': swiper_contents,
+        'section1': section1, 
+        'section2': section2,
+        'fashion_contents':fashion_contents,
     })
 
 
@@ -135,8 +143,10 @@ def star(value):
 
 def categories(request, category_name):
     categories = Category.objects.all()
+    reversed_orders = reversed(list(categories))
     category = get_object_or_404(Category, name=category_name)
     products = Product.objects.filter(category=category)
+    reversed_order = reversed(list(products))
 
     for product in products:
         product.reviews = Review.objects.filter(product=product)
@@ -146,7 +156,7 @@ def categories(request, category_name):
     user = request.user.id
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
-    context = {'category_name': category_name, 'cart_quantity': total_quantity, 'products': products, 'categories': categories}
+    context = {'category_name': category_name, 'cart_quantity': total_quantity, 'products': reversed_order, 'categories': reversed_orders}
     return render(request, 'category_page.html', context)
 
 
@@ -204,7 +214,8 @@ def productpage(request):
 
     categories = Category.objects.all()
     product_detail = Product.objects.all()
-    return render(request, 'ad_product.html', {'categories': categories, 'product': product_detail})
+    reversed_orders = reversed(list(product_detail))
+    return render(request, 'ad_product.html', {'categories': categories, 'product': reversed_orders})
 
 def p_delete_form(request,pk):
     edit=Product.objects.get(id=pk)
@@ -498,6 +509,7 @@ def delete_review(request, review_id):
 
 def allproducts(request):
     products = Product.objects.all()
+    reversed_order = reversed(list(products))
 
     for product in products:
         product.reviews = Review.objects.filter(product=product)
@@ -509,7 +521,7 @@ def allproducts(request):
     carts = Cart.objects.filter(user=user)
     total_quantity = sum(cart.quantity for cart in carts)
 
-    return render(request, 'all_products.html', {'products': products, 'cart_quantity': total_quantity, 'categories': categories})
+    return render(request, 'all_products.html', {'products': reversed_order, 'cart_quantity': total_quantity, 'categories': categories})
 
 
 @login_required(login_url='signin')
@@ -693,12 +705,18 @@ def payment_confirmation_page(request):
 
 
 def order_admin(request):
+    # Retrieve orders from your model (Order_sections)
     orders = Order_sections.objects.all()
-    return render(request,'order_admin.html',{'orders': orders})
+
+    # Reverse the order of the list
+    reversed_orders = reversed(list(orders))
+
+    return render(request, 'order_admin.html', {'orders': reversed_orders})
 
 def order_page(request):
     user_orders = Order_sections.objects.filter(user=request.user)
-    return render(request, 'user_order.html',{'user_orders':user_orders})
+    reversed_orders = reversed(list(user_orders))
+    return render(request, 'user_order.html',{'user_orders':reversed_orders})
 
 def update_order_status(request, order_id):
     if request.method == 'POST':
@@ -1076,7 +1094,8 @@ def update_password(request):
 
 def model_details(request):
     model_data = ModelProfile.objects.all()
-    context = {'model_data':model_data}
+    reversed_orders = reversed(list(model_data))
+    context = {'model_data':reversed_orders}
     return render(request, 'model_details.html',context)
 
 
@@ -1276,3 +1295,200 @@ def edit_blog(request, blog_id):
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, pk=blog_id)
     return render(request, 'blog_details.html', {'blog': blog})
+
+
+def web_image_section(request):
+    return render(request,'web_image_section.html')
+
+
+def slider_content_add(request):
+    swiper_contents = SwiperContent.objects.all()
+    return render(request,'slider_content_add.html',{'swiper_contents': swiper_contents})
+
+
+def save_slider_content(request):
+    if request.method == 'POST':
+        heading = request.POST.get('heading')
+        description = request.POST.get('description')
+        button_text = request.POST.get('button_text')
+        button_link = request.POST.get('button_link')
+        image = request.FILES.get('image')
+        video = request.FILES.get('video')
+
+        SwiperContent.objects.create(
+            heading=heading,
+            description=description,
+            button_text=button_text,
+            button_link=button_link,
+            image=image,
+            video=video
+        )
+        
+        return redirect('slider_content_add')  # Redirect to the same page after successful submission
+
+    return render(request, 'slider_content_add.html')
+
+
+def delete_slider_content(request, content_id):
+    content = get_object_or_404(SwiperContent, pk=content_id)
+    content.delete()
+
+    return redirect('slider_content_add')
+
+
+def edit_slider_content(request, content_id):
+    content = get_object_or_404(SwiperContent, pk=content_id)
+
+    if request.method == 'POST':
+        # Update the existing content
+        content.heading = request.POST.get('heading', '')
+        content.description = request.POST.get('description', '')
+        content.button_text = request.POST.get('button_text', '')
+        content.button_link = request.POST.get('button_link', '')
+
+        # Handle image and video fields separately, as they might not be present in every request
+        image = request.FILES.get('image')
+        if image:
+            content.image = image
+
+        video = request.FILES.get('video')
+        if video:
+            content.video = video
+
+        content.save()
+
+        return redirect('slider_content_add')  # Redirect to the same page after successful submission
+
+    return render(request, 'edit_slider_content.html', {'content': content})
+
+
+def fashion_section(request):
+    section_id = 1 
+    sections_id = 2 
+    section1_data = FashionSection.objects.all()
+    section2_data = FashionSection2.objects.all()
+    return render(request,'add_fashion_section.html', {'section_id': section_id,'sections_id': sections_id,'section1_data': section1_data, 'section2_data': section2_data})
+
+
+
+
+def add_fashion_section(request, section_id):
+    if request.method == 'POST':
+        heading = request.POST.get('heading', '')
+        paragraph = request.POST.get('paragraph', '')
+        button_text = request.POST.get('button_text', '')
+        button_link = request.POST.get('button_link', '')
+        image = request.FILES.get('image')
+
+        if section_id == 1:
+            FashionSection.objects.create(
+                heading=heading,
+                paragraph=paragraph,
+                button_text=button_text,
+                button_link=button_link,
+                image=image
+            )
+        elif section_id == 2:
+            FashionSection2.objects.create(
+                heading=heading,
+                paragraph=paragraph,
+                button_text=button_text,
+                button_link=button_link,
+                image=image
+            )
+
+        return redirect('fashion_section')
+
+    return render(request, 'add_fashion_section.html', {'section_id': section_id})
+
+
+
+
+
+def delete_fashion_entry(request, section_id, entry_id):
+    if section_id == 1:
+        entry = get_object_or_404(FashionSection, pk=entry_id)
+        entry.delete()
+    elif section_id == 2:
+        entry = get_object_or_404(FashionSection2, pk=entry_id)
+        entry.delete()
+
+    return redirect('fashion_section')
+
+
+
+def edit_fashion_entry(request, section_id, entry_id):
+    # Retrieve the entry based on the section_id
+    entry = FashionSection.objects.get(pk=entry_id) if section_id == 1 else FashionSection2.objects.get(pk=entry_id)
+
+    if request.method == 'POST':
+        # Update the entry based on the submitted data
+        entry.heading = request.POST.get('heading', '')
+        entry.paragraph = request.POST.get('paragraph', '')
+        entry.button_text = request.POST.get('button_text', '')
+        entry.button_link = request.POST.get('button_link', '')
+        entry.image = request.FILES.get('image')
+        entry.save()
+
+        # Redirect to the fashion_section view after successful update
+        return redirect('fashion_section')
+
+    return render(request, 'edit_fashion_entry.html', {'entry': entry, 'section_id': section_id})
+
+
+
+def fashion_check_section(request):
+    if request.method == 'POST':
+        # Process form submission
+        image = request.FILES.get('image')
+        heading = request.POST.get('heading', '')
+        title = request.POST.get('title', '')
+        button_text = request.POST.get('button_text', '')
+        button_link = request.POST.get('button_link', '')
+        background_color = request.POST.get('background_color', '')
+
+        # Save to the database
+        FashionContent.objects.create(
+            image=image,
+            heading=heading,
+            title=title,
+            button_text=button_text,
+            button_link=button_link,
+            background_color=background_color
+        )
+
+        return redirect('fashion_check_section')  # Redirect to the same page or another page after submission
+
+    # Fetch existing data
+    fashion_contents = FashionContent.objects.all()
+
+    return render(request, 'check_section.html', {'fashion_contents': fashion_contents})
+
+
+
+def edit_fashion_content(request, content_id):
+    item = get_object_or_404(FashionContent, pk=content_id)
+
+    if request.method == 'POST':
+        # Process the form submission for editing
+
+
+        # Update the existing item in the database
+        if 'image' in request.FILES:
+            item.image = request.FILES['image']
+        item.heading = request.POST.get('heading', '')
+        item.title = request.POST.get('title', '')
+        item.button_text = request.POST.get('button_text', '')
+        item.button_link =  request.POST.get('button_link', '')
+        item.background_color = request.POST.get('background_color', '')
+        item.save()
+
+        return redirect('fashion_check_section')  # Redirect to the same page or another page after editing
+
+    return render(request, 'edit_fashion_content.html', {'item': item})
+
+
+def delete_fashion_content(request, content_id):
+    item = get_object_or_404(FashionContent, pk=content_id)
+    item.delete()
+    return redirect('fashion_check_section')

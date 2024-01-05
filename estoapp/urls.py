@@ -60,6 +60,19 @@ urlpatterns = [
     path('order_admin',views.order_admin,name='order_admin'),
     path('order_page',views.order_page,name='order_page'),
     path('update_order_status/<int:order_id>/', views.update_order_status, name='update_order_status'),
+    path('web_image_section',views.web_image_section,name='web_image_section'),
+    path('slider_content_add',views.slider_content_add,name='slider_content_add'),
+    path('save_slider_content',views.save_slider_content,name='save_slider_content'),
+    path('delete_slider_content/<int:content_id>/', views.delete_slider_content, name='delete_slider_content'),
+    path('edit_slider_content/<int:content_id>/', views.edit_slider_content, name='edit_slider_content'),
+    path('fashion_section',views.fashion_section,name='fashion_section'),
+    path('add_fashion_section/<int:section_id>/', views.add_fashion_section, name='add_fashion_section'),
+    path('delete_fashion_entry/<int:section_id>/<int:entry_id>/', views.delete_fashion_entry, name='delete_fashion_entry'),
+    path('edit_fashion_entry/<int:section_id>/<int:entry_id>/', views.edit_fashion_entry, name='edit_fashion_entry'),
+    path('fashion_check_section',views.fashion_check_section,name='fashion_check_section'),
+    path('edit_fashion_content/<int:content_id>/', views.edit_fashion_content, name='edit_fashion_content'),
+    path('delete_fashion_content/<int:content_id>/', views.delete_fashion_content, name='delete_fashion_content'),
+
 
 
 

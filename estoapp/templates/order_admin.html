@@ -83,9 +83,11 @@
           </ul>
         </div>
       </nav>
+
+      
 <div class="container-fluid">
-    <h2 class="text-center">Order List</h2>
-    <table class="table">
+    <h2 class="text-center" style="margin-top: 40px;">Order List</h2>
+    <table class="table" id="order-table-body" style="margin-top: 20px;">
         <thead class="thead">
             <tr>
                 <th>Order ID</th>
@@ -106,7 +108,7 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            {% for order in orders %}
+          {% for order in orders %}
                 <tr>
                     <td>{{ order.id }}</td>
                     <td>{{ order.user }}</td>
@@ -142,5 +144,53 @@
 
 
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+         $(document).ready(function() {
+        // Initial load of orders
+        updateOrderList();
+
+        // Handle filter button click
+        $("#apply-filter-btn").click(function() {
+            updateOrderList();
+        });
+
+        // Handle sort A-Z button click
+        $("#sort-az-btn").click(function() {
+            sortTable(8, 'asc'); // Replace 8 with the column index you want to sort (e.g., product name)
+        });
+
+        // Handle sort Z-A button click
+        $("#sort-za-btn").click(function() {
+            sortTable(8, 'desc'); // Replace 8 with the column index you want to sort (e.g., product name)
+        });
+
+        // Function to update order list based on filters
+        function updateOrderList() {
+            // ... existing code for filtering ...
+        }
+
+        // Function to sort the table by a specific column
+        function sortTable(columnIndex, order) {
+            var $tableBody = $("#order-table-body");
+            var rows = $tableBody.find("tr").get();
+
+            rows.sort(function(a, b) {
+                var aValue = $(a).find("td:eq(" + columnIndex + ")").text().toUpperCase();
+                var bValue = $(b).find("td:eq(" + columnIndex + ")").text().toUpperCase();
+
+                if (order === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            });
+
+            $.each(rows, function(index, row) {
+                $tableBody.append(row);
+            });
+        }
+    });
+</script>
 </body>
 </html>

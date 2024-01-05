@@ -314,7 +314,9 @@ a:hover {
                 
                 <!-- Add to Cart Form -->
                 <div class="form-group" style="margin-top: 40px;">
-                
+                    {% if product.status == 'Out of stock' %}
+                    <h3 style="color: #D91212;">Out of Stock!</h3>
+                {% else %}
                     {% if available_sizes %}
                     <label for="size" style="color: #000B41;">Select Size:</label>
                     <div style="padding-bottom: 40px;">
@@ -330,6 +332,7 @@ a:hover {
                     
                     
                     <button type="submit" class="btn" style="background-color: #000B41; color: #fff;">Buy Now</button>
+                    {% endif %}
                 </form>
                 </div>
         </div>

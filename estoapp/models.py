@@ -177,7 +177,39 @@ class Order_sections(models.Model):
 
 
 
-        
+class SwiperContent(models.Model):
+    heading = models.CharField(max_length=255)
+    description = models.TextField()
+    button_text = models.CharField(max_length=50)
+    button_link = models.URLField()
+    image = models.ImageField(upload_to='swiper_images/')
+    video = models.FileField(upload_to='swiper_videos/', null=True, blank=True)
+
+
+class FashionSection(models.Model):
+    heading = models.CharField(max_length=255)
+    paragraph = models.TextField()
+    button_text = models.CharField(max_length=50)
+    button_link = models.URLField()
+    image = models.ImageField(upload_to='fashion_section/')
+
+class FashionSection2(models.Model):
+    heading = models.CharField(max_length=255)
+    paragraph = models.TextField()
+    button_text = models.CharField(max_length=50)
+    button_link = models.URLField()
+    image = models.ImageField(upload_to='fashion_section2/')
+
+class FashionContent(models.Model):
+    image = models.ImageField(upload_to='fashion_images/')
+    heading = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    button_text = models.CharField(max_length=50)
+    button_link = models.URLField()
+    background_color = models.CharField(max_length=20,blank=True)
+
+    def __str__(self):
+        return self.heading
 
 
 
